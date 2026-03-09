@@ -38,18 +38,23 @@ The first lecture video (~6:12 min) explains "What is a Language Model (LLM)?" �
 ```
 haifa_univ_1/
 ├── .env                          # ELEVENLABS_API_KEY
-├── .gitignore                    # excludes .env
+├── .gitignore
 ├── CLAUDE.md                     # this file
-├── טקסט לקריינות 1.docx          # narration text (Hebrew)
-├── תסריט לסרטון 1.docx           # original storyboard (AI video based)
-├── תסריט remotion.md             # adapted storyboard for Remotion
-├── output.mp3                    # TTS — intro segment
-├── output2.mp3                   # TTS — lecture part 1
-├── output3.mp3                   # TTS — lecture part 2
-├── fix.mp3                       # TTS — re-recorded sentences
-├── fix2.mp3                      # TTS — single re-recorded sentence
-├── GFX/
-│   └── Haifa_logo_official_apperence_dark_(cropped).png  # dark logo (PNG with transparency)
+├── docs/                         # Scripts & narration
+│   ├── טקסט לקריינות 1.docx      # narration text (Hebrew)
+│   ├── תסריט לסרטון 1.docx       # original storyboard (AI video based)
+│   └── תסריט remotion.md         # adapted storyboard for Remotion
+├── assets/                       # Images & logos
+│   └── haifa-logo.png            # dark logo (PNG with transparency)
+├── tts/                          # ElevenLabs API caches (gitignored)
+│   ├── models.json
+│   └── voices.json
+├── audio/                        # TTS output audio (gitignored)
+│   ├── output.mp3                # intro segment
+│   ├── output2.mp3               # lecture part 1
+│   ├── output3.mp3               # lecture part 2
+│   ├── fix.mp3                   # re-recorded sentences
+│   └── fix2.mp3                  # single re-recorded sentence
 └── remotion-video/               # Remotion project
     ├── package.json
     ├── tsconfig.json
@@ -108,4 +113,4 @@ npx remotion render src/index.ts shot1-1 out/shot1_1.mp4 --codec h264
 - Composition IDs must only contain `a-z, A-Z, 0-9, -` (no underscores)
 - Font loading: limit to specific weights/subsets to avoid excessive network requests
 - All Hebrew text uses `direction: "rtl"` and `text-align: "right"`
-- The script (`תסריט remotion.md`) contains 9 scenes / 29 shots with detailed animation descriptions per shot
+- The script (`docs/תסריט remotion.md`) contains 9 scenes / 29 shots with detailed animation descriptions per shot

@@ -100,11 +100,11 @@ export const Shot{S}_{N}: React.FC = () => {
 1. **Audio**: ElevenLabs TTS — model `eleven_v3`, voice Sarah (`EXAVITQu4vr4xnSDxMaL`), language `he`
 2. **Video**: Remotion scenes (this project)
 3. **Lip Sync**: Freepik Fabric 1.0 model (optional, for character animation)
-4. **Audio files**: Located at `D:\DEV\haifa_univ_1\` — output.mp3, output2.mp3, output3.mp3, fix.mp3, fix2.mp3
+4. **Audio files**: Located at `D:\DEV\haifa_univ_1\audio\` — output.mp3, output2.mp3, output3.mp3, fix.mp3, fix2.mp3
 
 ## Storyboard Reference
 
-Full storyboard: `D:\DEV\haifa_univ_1\תסריט remotion.md`
+Full storyboard: `D:\DEV\haifa_univ_1\docs\תסריט remotion.md`
 
 | Scene | Shots | Duration | Status |
 |-------|-------|----------|--------|
