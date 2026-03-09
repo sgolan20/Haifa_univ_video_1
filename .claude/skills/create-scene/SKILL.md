@@ -28,7 +28,6 @@ You are creating new shots for an educational video lecture about LLMs for Unive
 3. Read the design system files:
    - `src/design/theme.ts` — COLORS constant
    - `src/design/fonts.ts` — FONT_FAMILY constant
-   - `src/design/Logo.tsx` — Logo component
 
 4. Read existing shots for reference (to match style):
    - Pick 1-2 recent shot files from `src/scenes/` and read them
@@ -48,7 +47,6 @@ import {
 } from "remotion";
 import { COLORS } from "../design/theme";
 import { FONT_FAMILY } from "../design/fonts";
-import { Logo } from "../design/Logo";
 
 /**
  * Shot X.Y — [Title] ([duration] seconds)
@@ -67,8 +65,7 @@ export const ShotX_Y: React.FC = () => {
         background: `radial-gradient(ellipse at 50% 50%, ${COLORS.bgSecondary} 0%, ${COLORS.bgPrimary} 70%)`,
       }}
     >
-      {/* Scene content */}
-      <Logo />
+      {/* Scene content — NO Logo component */}
     </AbsoluteFill>
   );
 };

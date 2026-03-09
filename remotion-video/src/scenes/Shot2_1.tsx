@@ -8,7 +8,7 @@ import {
 } from "remotion";
 import { COLORS } from "../design/theme";
 import { FONT_FAMILY } from "../design/fonts";
-import { Logo } from "../design/Logo";
+
 
 /**
  * Shot 2.1 — "What is a Language Model?" definition (14 seconds)
@@ -243,7 +243,7 @@ export const Shot2_1: React.FC = () => {
         </div>
       </div>
 
-      <Logo />
+
     </AbsoluteFill>
   );
 };

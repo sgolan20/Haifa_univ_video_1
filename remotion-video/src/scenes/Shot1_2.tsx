@@ -8,7 +8,7 @@ import {
 } from "remotion";
 import { COLORS } from "../design/theme";
 import { FONT_FAMILY } from "../design/fonts";
-import { Logo } from "../design/Logo";
+
 
 /**
  * Shot 1.2 — LLM Breakdown Flowchart (12 seconds)
@@ -276,7 +276,7 @@ export const Shot1_2: React.FC = () => {
         />
       </div>
 
-      <Logo />
+
     </AbsoluteFill>
   );
 };

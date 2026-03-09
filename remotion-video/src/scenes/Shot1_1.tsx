@@ -8,7 +8,7 @@ import {
 } from "remotion";
 import { COLORS } from "../design/theme";
 import { FONT_FAMILY } from "../design/fonts";
-import { Logo } from "../design/Logo";
+
 
 /**
  * Shot 1.1 — Bold Opening (4 seconds)
@@ -118,7 +118,7 @@ export const Shot1_1: React.FC = () => {
         </div>
       </div>
 
-      <Logo />
+
     </AbsoluteFill>
   );
 };

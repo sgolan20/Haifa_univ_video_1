@@ -8,7 +8,7 @@ import {
 } from "remotion";
 import { COLORS } from "../design/theme";
 import { FONT_FAMILY } from "../design/fonts";
-import { Logo } from "../design/Logo";
+
 
 /**
  * Shot 1.3 — Chat Interface (15 seconds)
@@ -254,7 +254,7 @@ export const Shot1_3: React.FC = () => {
         אבל איך זה באמת עובד?
       </div>
 
-      <Logo />
+
     </AbsoluteFill>
   );
 };
