@@ -1,6 +1,20 @@
+# Dependencies
 node_modules/
+
+# Build output
 out/
 dist/
+
+# Environment
 .env
-*.mp4
+
+# Media files (large binaries)
 *.mp3
+*.mp4
+
+# API response caches
+voices.json
+models.json
+
+# Claude Code local settings
+.claude/settings.local.json
