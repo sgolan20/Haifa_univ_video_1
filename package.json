@@ -1,0 +1,26 @@
+{
+  "name": "remotion-video",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "studio": "npx remotion studio src/index.ts",
+    "render:shot1_1": "npx remotion render src/index.ts Shot1_1 out/shot1_1.mp4",
+    "render:shot1_2": "npx remotion render src/index.ts Shot1_2 out/shot1_2.mp4",
+    "render:shot1_3": "npx remotion render src/index.ts Shot1_3 out/shot1_3.mp4"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@remotion/cli": "^4.0.434",
+    "@remotion/google-fonts": "^4.0.434",
+    "@remotion/transitions": "^4.0.434",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "remotion": "^4.0.434",
+    "typescript": "^5.9.3"
+  }
+}
