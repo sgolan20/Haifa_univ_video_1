@@ -5,297 +5,365 @@ import {
   interpolate,
   spring,
   useVideoConfig,
-  Img,
-  staticFile,
 } from "remotion";
 import { COLORS } from "../design/theme";
 import { FONT_FAMILY } from "../design/fonts";
+import { Logo } from "../design/Logo";
 
 /**
- * Shot 5.2 — LLM Generates Text in Real-Time (15 seconds)
- * The AI side takes center stage. Robot hand image with neural network
- * as cinematic background. ChatGPT card scales up. Typewriter generates
- * new text with sparkle effects. Search side dims and recedes in 3D.
+ * Shot 5.2 — LLM Generates Text (15 seconds, 450 frames)
+ *
+ * Narration: "מודל שפה, לעומת זאת, מייצר תשובה חדשה בזמן אמת.
+ * על בסיס הדפוסים שלמד. הוא לא מחפש מידע ספציפי, או מצטט מקור מדויק.
+ * הוא יוצר טקסט חדש שנראה הגיוני, בהתאם לנתונים שלמד."
+ *
+ * Visual: Central neural network that "generates" text. Data streams
+ * flow between nodes. Words emerge one by one from the network output.
+ * Sparkles on new words. Contrast with search engine approach.
  */
 
-// Deterministic sparkle positions
-const seededRandom = (seed: number) => {
-  const x = Math.sin(seed * 9301 + 49297) * 49297;
-  return x - Math.floor(x);
-};
+// Neural network nodes
+const NODES = [
+  // Input layer (left)
+  { x: 260, y: 300, r: 14, layer: 0 },
+  { x: 260, y: 420, r: 14, layer: 0 },
+  { x: 260, y: 540, r: 14, layer: 0 },
+  { x: 260, y: 660, r: 14, layer: 0 },
+  // Hidden layer 1
+  { x: 480, y: 340, r: 16, layer: 1 },
+  { x: 480, y: 480, r: 18, layer: 1 },
+  { x: 480, y: 620, r: 16, layer: 1 },
+  // Hidden layer 2
+  { x: 700, y: 380, r: 18, layer: 2 },
+  { x: 700, y: 540, r: 20, layer: 2 },
+  // Output node
+  { x: 920, y: 460, r: 24, layer: 3 },
+];
 
-const SPARKLE_COUNT = 20;
-const sparkles = Array.from({ length: SPARKLE_COUNT }, (_, i) => ({
-  x: 200 + seededRandom(i * 11 + 1) * 1520,
-  y: 200 + seededRandom(i * 17 + 3) * 680,
-  size: 3 + seededRandom(i * 23 + 5) * 6,
-  delay: seededRandom(i * 31 + 7) * 120,
-  speed: 0.05 + seededRandom(i * 37 + 11) * 0.1,
-}));
+// Connections between layers
+const CONNECTIONS: Array<[number, number]> = [
+  // Input → Hidden 1
+  [0, 4], [0, 5], [1, 4], [1, 5], [1, 6],
+  [2, 5], [2, 6], [3, 5], [3, 6],
+  // Hidden 1 → Hidden 2
+  [4, 7], [4, 8], [5, 7], [5, 8], [6, 7], [6, 8],
+  // Hidden 2 → Output
+  [7, 9], [8, 9],
+];
+
+// Generated text words
+const OUTPUT_WORDS = [
+  "מודל", "שפה", "הוא", "מערכת", "שלומדת",
+  "דפוסים", "ומייצרת", "טקסט", "חדש", "בזמן", "אמת.",
+];
 
 export const Shot5_2: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Phase 1: Search side dims and pushes back in 3D (frames 0-90)
-  const searchDim = interpolate(frame, [0, 90], [0.6, 0.15], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  const searchPushBack = interpolate(frame, [0, 90], [0, -200], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  const searchScale = interpolate(frame, [0, 90], [0.7, 0.5], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
-  // Phase 2: AI side grows and centers (frames 20-120)
-  const aiGrowSpring = spring({
-    frame: frame - 20,
+  // Network appears
+  const networkIn = spring({
+    frame: frame - 10,
     fps,
     config: { damping: 16, stiffness: 80, mass: 0.8 },
   });
 
-  // Phase 3: Robot image fades in as background (frames 0-60)
-  const robotAppear = interpolate(frame, [0, 60], [0, 0.35], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
-  // Phase 4: Typewriter text (frames 100-350)
-  const aiText =
-    "מודל שפה מייצר טקסט חדש לגמרי בזמן אמת. הוא אינו מחפש מידע באינטרנט, אלא בונה תשובה מילה אחרי מילה על סמך הדפוסים שלמד.";
-  const words = aiText.split(" ");
-  const visibleWordCount = Math.min(
-    words.length,
-    Math.max(0, Math.floor((frame - 100) / 7))
-  );
-
-  // Phase 5: Glow effect on new words
-  const lastWordIndex = visibleWordCount - 1;
-
-  // Phase 6: "Creates new content" label (frames 200+)
-  const labelSpring = spring({
-    frame: frame - 200,
+  // Label "מודל שפה" above network
+  const labelIn = spring({
+    frame: frame - 40,
     fps,
     config: { damping: 16, stiffness: 90, mass: 0.8 },
   });
 
-  // Subtitle label bottom (frames 320+)
-  const subtitleSpring = spring({
-    frame: frame - 320,
+  // Network activation wave (pulses through layers)
+  const activationPhase = interpolate(frame, [60, 200], [0, 4], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  // Typewriter text starts at frame 140
+  const visibleWordCount = Math.min(
+    OUTPUT_WORDS.length,
+    Math.max(0, Math.floor((frame - 140) / 18))
+  );
+
+  // "Creates new text" badge
+  const badgeIn = spring({
+    frame: frame - 300,
+    fps,
+    config: { damping: 16, stiffness: 85, mass: 0.8 },
+  });
+
+  // Bottom subtitle
+  const subtitleIn = spring({
+    frame: frame - 360,
     fps,
     config: { damping: 16, stiffness: 80, mass: 0.8 },
   });
 
-  // 3D tilt on AI card
-  const cardTiltX = Math.sin(frame * 0.02) * 2;
-  const cardTiltY = Math.cos(frame * 0.015) * 2;
+  // Data input labels
+  const inputLabelIn = spring({
+    frame: frame - 80,
+    fps,
+    config: { damping: 16, stiffness: 80, mass: 0.8 },
+  });
 
   return (
     <AbsoluteFill
       style={{
-        background: `radial-gradient(ellipse at 50% 50%, ${COLORS.bgSecondary} 0%, ${COLORS.bgPrimary} 70%)`,
-        perspective: "1400px",
+        background: `radial-gradient(ellipse at 40% 50%, ${COLORS.bgSecondary} 0%, ${COLORS.bgPrimary} 70%)`,
       }}
     >
-      {/* Robot hand neural network — cinematic background */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          opacity: robotAppear,
-        }}
-      >
-        <Img
-          src={staticFile("images/ai-robot.jpg")}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            filter: "brightness(0.4) saturate(1.4) hue-rotate(-10deg)",
-          }}
-        />
-        {/* Gradient overlay to blend with dark theme */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            background: `radial-gradient(ellipse at 50% 50%, transparent 0%, ${COLORS.bgPrimary}dd 60%, ${COLORS.bgPrimary} 100%)`,
-          }}
-        />
-      </div>
+      <Logo />
 
-      {/* Dimmed search side (far right, pushed back in 3D) */}
+      {/* Label above network */}
       <div
         style={{
           position: "absolute",
-          right: 40,
-          top: 200,
-          width: 500,
-          opacity: searchDim,
-          transform: `translateZ(${searchPushBack}px) scale(${searchScale}) rotateY(15deg)`,
-          transformOrigin: "right center",
-          filter: "blur(2px) grayscale(0.5)",
+          top: 40,
+          left: 100,
+          width: 900,
+          textAlign: "center",
+          opacity: labelIn,
+          transform: `translateY(${(1 - labelIn) * 15}px)`,
         }}
       >
-        <div
+        <span
           style={{
-            borderRadius: 16,
-            overflow: "hidden",
-            border: `1px solid ${COLORS.textDim}33`,
-          }}
-        >
-          <Img
-            src={staticFile("images/google-search.jpg")}
-            style={{
-              width: "100%",
-              height: 200,
-              objectFit: "cover",
-            }}
-          />
-        </div>
-        <div
-          style={{
-            textAlign: "center",
-            marginTop: 10,
             fontFamily: FONT_FAMILY,
-            fontSize: 20,
-            color: COLORS.textDim,
+            fontSize: 42,
+            fontWeight: 800,
+            color: COLORS.secondary,
             direction: "rtl",
+            textShadow: `0 0 20px ${COLORS.secondary}44`,
           }}
         >
-          מנוע חיפוש
-        </div>
+          מודל שפה — יוצר תוכן חדש
+        </span>
       </div>
 
-      {/* Main AI card — center stage with 3D transforms */}
+      {/* Input data labels */}
       <div
         style={{
           position: "absolute",
-          left: interpolate(aiGrowSpring, [0, 1], [60, 140]),
-          top: interpolate(aiGrowSpring, [0, 1], [200, 100]),
-          width: interpolate(aiGrowSpring, [0, 1], [600, 900]),
-          transformStyle: "preserve-3d",
-          transform: `rotateX(${cardTiltX}deg) rotateY(${cardTiltY}deg)`,
-          opacity: interpolate(aiGrowSpring, [0, 0.3], [0, 1]),
+          left: 40,
+          top: 280,
+          opacity: inputLabelIn,
+          direction: "rtl",
         }}
       >
-        {/* Header with label */}
+        {["ספרים", "אינטרנט", "מאמרים", "שיחות"].map((label, i) => (
+          <div
+            key={i}
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 16,
+              color: COLORS.textMuted,
+              marginBottom: 85,
+              textAlign: "left",
+              opacity: 0.7,
+            }}
+          >
+            {label} ←
+          </div>
+        ))}
+      </div>
+
+      {/* Neural Network SVG */}
+      <svg
+        width={1920}
+        height={1080}
+        style={{ position: "absolute", top: 0, left: 0, pointerEvents: "none" }}
+      >
+        {/* Connections */}
+        {CONNECTIONS.map(([from, to], i) => {
+          const fromNode = NODES[from];
+          const toNode = NODES[to];
+
+          // Activation travels along connections
+          const connActive = interpolate(
+            activationPhase,
+            [fromNode.layer, fromNode.layer + 1],
+            [0, 1],
+            { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+          );
+
+          // Flowing dot position
+          const dotX = fromNode.x + (toNode.x - fromNode.x) * ((frame * 0.02 + i * 0.3) % 1);
+          const dotY = fromNode.y + (toNode.y - fromNode.y) * ((frame * 0.02 + i * 0.3) % 1);
+
+          return (
+            <React.Fragment key={i}>
+              <line
+                x1={fromNode.x}
+                y1={fromNode.y}
+                x2={fromNode.x + (toNode.x - fromNode.x) * networkIn}
+                y2={fromNode.y + (toNode.y - fromNode.y) * networkIn}
+                stroke={COLORS.secondary}
+                strokeWidth={1.5}
+                opacity={networkIn * (0.15 + connActive * 0.35)}
+              />
+              {/* Data flowing dot */}
+              {connActive > 0.3 && (
+                <circle
+                  cx={dotX}
+                  cy={dotY}
+                  r={3}
+                  fill={COLORS.primary}
+                  opacity={connActive * 0.7}
+                />
+              )}
+            </React.Fragment>
+          );
+        })}
+
+        {/* Nodes */}
+        {NODES.map((node, i) => {
+          const nodeActive = interpolate(
+            activationPhase,
+            [node.layer - 0.3, node.layer + 0.3],
+            [0, 1],
+            { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+          );
+
+          const pulse = node.layer === 3
+            ? 0.5 + Math.sin(frame * 0.08) * 0.5
+            : 0;
+
+          const nodeColor = node.layer === 3 ? COLORS.accent : COLORS.secondary;
+
+          return (
+            <React.Fragment key={i}>
+              {/* Glow */}
+              <circle
+                cx={node.x}
+                cy={node.y}
+                r={node.r + 8 + pulse * 6}
+                fill={nodeColor}
+                opacity={networkIn * nodeActive * 0.12}
+              />
+              {/* Node */}
+              <circle
+                cx={node.x}
+                cy={node.y}
+                r={node.r * networkIn}
+                fill={`${nodeColor}${Math.round(20 + nodeActive * 40).toString(16).padStart(2, "0")}`}
+                stroke={nodeColor}
+                strokeWidth={2}
+                opacity={networkIn * (0.4 + nodeActive * 0.6)}
+              />
+            </React.Fragment>
+          );
+        })}
+
+        {/* Output arrow from network to text area */}
+        {visibleWordCount > 0 && (
+          <>
+            <line
+              x1={944}
+              y1={460}
+              x2={1060}
+              y2={460}
+              stroke={COLORS.accent}
+              strokeWidth={3}
+              strokeDasharray="8,4"
+              opacity={0.6}
+            />
+            <polygon
+              points="1060,452 1080,460 1060,468"
+              fill={COLORS.accent}
+              opacity={0.6}
+            />
+          </>
+        )}
+      </svg>
+
+      {/* ========== Output text area (right side) ========== */}
+      <div
+        style={{
+          position: "absolute",
+          right: 80,
+          top: 200,
+          width: 680,
+        }}
+      >
+        {/* Output header */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 16,
-            marginBottom: 16,
-            opacity: labelSpring,
-            transform: `translateY(${(1 - labelSpring) * 15}px)`,
+            gap: 12,
+            marginBottom: 20,
+            opacity: badgeIn > 0.1 ? 1 : interpolate(frame, [130, 150], [0, 1], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            }),
           }}
         >
           <div
             style={{
-              width: 12,
-              height: 12,
+              width: 10,
+              height: 10,
               borderRadius: "50%",
-              background: COLORS.secondary,
-              boxShadow: `0 0 10px ${COLORS.secondary}88`,
+              background: COLORS.accent,
+              boxShadow: `0 0 8px ${COLORS.accent}88`,
             }}
           />
           <span
             style={{
               fontFamily: FONT_FAMILY,
-              fontSize: 32,
-              fontWeight: 700,
-              color: COLORS.secondary,
+              fontSize: 18,
+              fontWeight: 600,
+              color: COLORS.accent,
+              letterSpacing: 2,
             }}
           >
-            מודל שפה — יוצר תוכן חדש
+            OUTPUT — תשובה חדשה
           </span>
         </div>
 
-        {/* ChatGPT interface image */}
+        {/* Generated text box */}
         <div
           style={{
-            borderRadius: 20,
-            overflow: "hidden",
-            border: `2px solid ${COLORS.secondary}55`,
-            boxShadow: `0 15px 50px ${COLORS.bgPrimary}cc, 0 0 30px ${COLORS.secondary}33`,
-            marginBottom: 20,
-          }}
-        >
-          <Img
-            src={staticFile("images/chatgpt-interface.jpg")}
-            style={{
-              width: "100%",
-              height: interpolate(aiGrowSpring, [0, 1], [250, 320]),
-              objectFit: "cover",
-            }}
-          />
-        </div>
-
-        {/* Typewriter text area */}
-        <div
-          style={{
-            padding: "20px 24px",
-            borderRadius: 16,
+            padding: "28px 32px",
+            borderRadius: 18,
             background: `linear-gradient(135deg, ${COLORS.bgPrimary}ee, ${COLORS.bgSecondary}ee)`,
-            border: `1px solid ${COLORS.secondary}33`,
+            border: `1px solid ${COLORS.accent}33`,
+            boxShadow: `0 10px 40px ${COLORS.bgPrimary}88`,
+            minHeight: 200,
             direction: "rtl",
-            minHeight: 140,
-            backdropFilter: "blur(10px)",
           }}
         >
           <div
             style={{
               fontFamily: FONT_FAMILY,
-              fontSize: 14,
-              color: COLORS.secondary,
-              marginBottom: 10,
-              fontWeight: 600,
-              letterSpacing: 1,
-            }}
-          >
-            AI RESPONSE
-          </div>
-          <div
-            style={{
-              fontFamily: FONT_FAMILY,
-              fontSize: 26,
+              fontSize: 30,
               color: COLORS.text,
-              lineHeight: 1.7,
+              lineHeight: 2,
             }}
           >
-            {words.slice(0, visibleWordCount).map((word, i) => (
-              <span
-                key={i}
-                style={{
-                  color:
-                    i === lastWordIndex
-                      ? COLORS.accent
-                      : COLORS.text,
-                  textShadow:
-                    i === lastWordIndex
-                      ? `0 0 12px ${COLORS.accent}88`
-                      : "none",
-                }}
-              >
-                {word}{" "}
-              </span>
-            ))}
-            {visibleWordCount > 0 && visibleWordCount < words.length && (
+            {OUTPUT_WORDS.slice(0, visibleWordCount).map((word, i) => {
+              const isLast = i === visibleWordCount - 1;
+              return (
+                <span
+                  key={i}
+                  style={{
+                    color: isLast ? COLORS.accent : COLORS.text,
+                    textShadow: isLast ? `0 0 12px ${COLORS.accent}66` : "none",
+                    transition: "none",
+                  }}
+                >
+                  {word}{" "}
+                </span>
+              );
+            })}
+            {visibleWordCount > 0 && visibleWordCount < OUTPUT_WORDS.length && (
               <span
                 style={{
-                  color: COLORS.secondary,
+                  color: COLORS.accent,
                   opacity: Math.sin(frame * 0.15) > 0 ? 1 : 0,
                   fontWeight: 300,
+                  fontSize: 32,
                 }}
               >
                 |
@@ -303,43 +371,84 @@ export const Shot5_2: React.FC = () => {
             )}
           </div>
         </div>
+
+        {/* Sparkles around text when generating */}
+        {visibleWordCount > 2 && (
+          <svg
+            width={700}
+            height={300}
+            style={{ position: "absolute", top: 0, right: 0, pointerEvents: "none" }}
+          >
+            {Array.from({ length: 8 }, (_, i) => {
+              const sparkX = 100 + (Math.sin(i * 2.3 + 1) * 0.5 + 0.5) * 500;
+              const sparkY = 50 + (Math.cos(i * 1.7 + 2) * 0.5 + 0.5) * 200;
+              const sparkOpacity = Math.max(0, Math.sin((frame + i * 25) * 0.1) * 0.6);
+              const sparkSize = 3 + Math.sin(i * 3.1) * 2;
+              return (
+                <circle
+                  key={i}
+                  cx={sparkX}
+                  cy={sparkY + Math.sin(frame * 0.04 + i) * 6}
+                  r={sparkSize}
+                  fill={i % 2 === 0 ? COLORS.accent : COLORS.secondary}
+                  opacity={sparkOpacity}
+                />
+              );
+            })}
+          </svg>
+        )}
+
+        {/* "Creates new text" badge */}
+        <div
+          style={{
+            marginTop: 24,
+            textAlign: "center",
+            opacity: badgeIn,
+            transform: `translateY(${(1 - badgeIn) * 15}px)`,
+          }}
+        >
+          <span
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 26,
+              fontWeight: 700,
+              color: COLORS.accent,
+              direction: "rtl",
+              padding: "8px 24px",
+              borderRadius: 30,
+              background: `${COLORS.accent}15`,
+              border: `2px solid ${COLORS.accent}44`,
+            }}
+          >
+            ✨ יוצר — לא מחפש
+          </span>
+        </div>
       </div>
 
-      {/* Sparkle effects */}
-      <svg
-        width={1920}
-        height={1080}
+      {/* Comparison note */}
+      <div
         style={{
           position: "absolute",
-          top: 0,
-          left: 0,
-          pointerEvents: "none",
+          left: 180,
+          bottom: 160,
+          opacity: inputLabelIn * 0.6,
+          direction: "rtl",
         }}
       >
-        {sparkles.map((s, i) => {
-          const sparkleFrame = (frame + s.delay) * s.speed;
-          const sparkleOpacity =
-            visibleWordCount > 2
-              ? Math.max(0, Math.sin(sparkleFrame * Math.PI * 2) * 0.8)
-              : 0;
-          return (
-            <circle
-              key={i}
-              cx={s.x}
-              cy={s.y + Math.sin(frame * 0.04 + i) * 8}
-              r={s.size * sparkleOpacity}
-              fill={
-                i % 3 === 0
-                  ? COLORS.secondary
-                  : i % 3 === 1
-                  ? COLORS.primary
-                  : COLORS.accent
-              }
-              opacity={sparkleOpacity * 0.6}
-            />
-          );
-        })}
-      </svg>
+        <div
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: 20,
+            color: COLORS.textDim,
+            padding: "12px 20px",
+            borderRadius: 12,
+            background: `${COLORS.bgPrimary}aa`,
+            border: `1px solid ${COLORS.textDim}22`,
+          }}
+        >
+          דפוסים שנלמדו מהאימון →
+        </div>
+      </div>
 
       {/* Bottom subtitle */}
       <div
@@ -348,14 +457,14 @@ export const Shot5_2: React.FC = () => {
           bottom: 50,
           width: "100%",
           textAlign: "center",
-          opacity: subtitleSpring,
-          transform: `translateY(${(1 - subtitleSpring) * 20}px)`,
+          opacity: subtitleIn,
+          transform: `translateY(${(1 - subtitleIn) * 20}px)`,
         }}
       >
         <span
           style={{
             fontFamily: FONT_FAMILY,
-            fontSize: 30,
+            fontSize: 28,
             fontWeight: 600,
             color: COLORS.textMuted,
             direction: "rtl",
@@ -365,7 +474,7 @@ export const Shot5_2: React.FC = () => {
             border: `1px solid ${COLORS.secondary}33`,
           }}
         >
-          מייצר תשובה חדשה — לא מחפש מידע קיים
+          מייצר תשובה חדשה בזמן אמת — מילה אחרי מילה
         </span>
       </div>
     </AbsoluteFill>

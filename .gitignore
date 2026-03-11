@@ -12,6 +12,9 @@ dist/
 *.mp3
 *.mp4
 
+# Exception: narration audio needed for Remotion
+!remotion-video/public/audio/full_narration.mp3
+
 # TTS API caches
 tts/
 
