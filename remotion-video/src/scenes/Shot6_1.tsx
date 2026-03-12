@@ -1,9 +1,11 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Img,
   useCurrentFrame,
   interpolate,
   spring,
+  staticFile,
   useVideoConfig,
 } from "remotion";
 import { COLORS } from "../design/theme";
@@ -50,6 +52,23 @@ export const Shot6_1: React.FC = () => {
         background: `radial-gradient(ellipse at 50% 50%, #1a1040 0%, ${COLORS.bgPrimary} 70%)`,
       }}
     >
+      {/* Background image — semi-transparent */}
+      <Img
+        src={staticFile("images/shot6_1_thinking_bg.png")}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          opacity: interpolate(frame, [0, 40], [0, 0.35], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          }),
+        }}
+      />
+
       {/* Section title */}
       <div
         style={{

@@ -31,7 +31,9 @@ import { Shot7_7 } from "./scenes/Shot7_7";
 import { Shot8_1 } from "./scenes/Shot8_1";
 import { Shot8_2 } from "./scenes/Shot8_2";
 import { Shot8_3 } from "./scenes/Shot8_3";
+import { Shot8_4 } from "./scenes/Shot8_4";
 import { Shot9_1 } from "./scenes/Shot9_1";
+import { Shot9_2 } from "./scenes/Shot9_2";
 
 const SHOT_COMPONENTS: Record<string, React.FC> = {
   "shot1-1": Shot1_1,
@@ -62,7 +64,9 @@ const SHOT_COMPONENTS: Record<string, React.FC> = {
   "shot8-1": Shot8_1,
   "shot8-2": Shot8_2,
   "shot8-3": Shot8_3,
+  "shot8-4": Shot8_4,
   "shot9-1": Shot9_1,
+  "shot9-2": Shot9_2,
 };
 
 /**

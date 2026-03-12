@@ -27,7 +27,9 @@ import { Shot7_7 } from "./scenes/Shot7_7";
 import { Shot8_1 } from "./scenes/Shot8_1";
 import { Shot8_2 } from "./scenes/Shot8_2";
 import { Shot8_3 } from "./scenes/Shot8_3";
+import { Shot8_4 } from "./scenes/Shot8_4";
 import { Shot9_1 } from "./scenes/Shot9_1";
+import { Shot9_2 } from "./scenes/Shot9_2";
 import { FullVideo } from "./FullVideo";
 import { SHOT_TIMING, TOTAL_DURATION_FRAMES } from "./timing";
 
@@ -272,9 +274,25 @@ export const Root: React.FC = () => {
         height={1080}
       />
       <Composition
+        id="shot8-4"
+        component={Shot8_4}
+        durationInFrames={SHOT_TIMING["shot8-4"].durationInFrames}
+        fps={FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
         id="shot9-1"
         component={Shot9_1}
         durationInFrames={SHOT_TIMING["shot9-1"].durationInFrames}
+        fps={FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="shot9-2"
+        component={Shot9_2}
+        durationInFrames={SHOT_TIMING["shot9-2"].durationInFrames}
         fps={FPS}
         width={1920}
         height={1080}

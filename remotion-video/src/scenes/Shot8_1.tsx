@@ -1,44 +1,39 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Img,
   useCurrentFrame,
   interpolate,
   spring,
+  staticFile,
   useVideoConfig,
 } from "remotion";
 import { COLORS } from "../design/theme";
 import { FONT_FAMILY } from "../design/fonts";
 
 /**
- * Shot 8.1 — Summary Part 1 (15 seconds)
- * Title "סיכום". Two animated bullet points with icons.
- * 1. Brain icon + "למד דפוסי שפה"
- * 2. Target icon + "חיזוי מילים"
+ * Shot 8.1 — Summary Part 1 (15 seconds, 450 frames)
+ * Title "סיכום" + first 2 summary cards with generated images.
+ * Narration timing (shot starts at 335s):
+ *   f0   (335.0) — "נעבור לסכם את שלמדנו"
+ *   f105 (338.5) — "מודל שפה הוא מערכת שלמדה דפוסי שפה..."
+ *   f249 (343.3) — "הוא פועל על עיקרון חיזוי מילים..."
  */
 
-const POINTS = [
+const CARDS = [
   {
-    icon: (
-      <svg width="50" height="50" viewBox="0 0 50 50">
-        <ellipse cx="25" cy="22" rx="18" ry="20" fill="none" stroke={COLORS.primary} strokeWidth="2.5" />
-        <path d="M15 22 Q20 14 25 22 Q30 14 35 22" fill="none" stroke={COLORS.primary} strokeWidth="1.5" opacity="0.5" />
-      </svg>
-    ),
+    num: 1,
+    image: "shot8_brain_patterns.png",
     text: "למד דפוסי שפה מכמות עצומה של טקסטים",
     color: COLORS.primary,
-    delay: 60,
+    enterFrame: 90,
   },
   {
-    icon: (
-      <svg width="50" height="50" viewBox="0 0 50 50">
-        <circle cx="25" cy="25" r="18" fill="none" stroke={COLORS.accent} strokeWidth="2.5" />
-        <circle cx="25" cy="25" r="10" fill="none" stroke={COLORS.accent} strokeWidth="2" />
-        <circle cx="25" cy="25" r="3" fill={COLORS.accent} />
-      </svg>
-    ),
+    num: 2,
+    image: "shot8_prediction_orb.png",
     text: "חיזוי מילים — מילה אחר מילה",
     color: COLORS.accent,
-    delay: 150,
+    enterFrame: 240,
   },
 ];
 
@@ -46,7 +41,7 @@ export const Shot8_1: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Title
+  // Title "סיכום"
   const titleIn = spring({
     frame,
     fps,
@@ -63,7 +58,7 @@ export const Shot8_1: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 60,
+          top: 50,
           width: "100%",
           textAlign: "center",
           fontFamily: FONT_FAMILY,
@@ -73,90 +68,104 @@ export const Shot8_1: React.FC = () => {
           opacity: titleIn,
           transform: `scale(${titleIn})`,
           direction: "rtl",
+          textShadow: `0 0 30px ${COLORS.primary}33`,
         }}
       >
         סיכום
       </div>
 
-      {/* Bullet points */}
+      {/* Cards container — horizontal, centered */}
       <div
         style={{
           position: "absolute",
-          top: "28%",
-          right: "12%",
+          top: "22%",
+          left: "50%",
+          transform: "translateX(-50%)",
           display: "flex",
-          flexDirection: "column",
           gap: 60,
+          direction: "rtl",
         }}
       >
-        {POINTS.map((point, i) => {
-          const pointIn = spring({
-            frame: frame - point.delay,
+        {CARDS.map((card) => {
+          const cardIn = spring({
+            frame: frame - card.enterFrame,
             fps,
             config: { damping: 16, stiffness: 85, mass: 0.8 },
           });
 
-          // Highlight when point appears
-          const glowIntensity = interpolate(
-            frame,
-            [point.delay + 10, point.delay + 30, point.delay + 80],
-            [0, 1, 0.4],
-            { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+          const glowPulse = interpolate(
+            Math.sin((frame - card.enterFrame) * 0.05),
+            [-1, 1],
+            [0.4, 1]
           );
+          const showGlow = frame > card.enterFrame + 15;
 
           return (
             <div
-              key={i}
+              key={card.num}
               style={{
+                width: 520,
+                borderRadius: 24,
+                background: `${COLORS.bgPrimary}ee`,
+                border: `2px solid ${card.color}55`,
+                boxShadow: showGlow
+                  ? `0 0 ${25 * glowPulse}px ${card.color}22`
+                  : "none",
+                opacity: cardIn,
+                transform: `scale(${cardIn}) translateY(${(1 - cardIn) * 30}px)`,
+                padding: "30px 30px 35px",
                 display: "flex",
+                flexDirection: "column",
                 alignItems: "center",
-                gap: 30,
-                direction: "rtl",
-                opacity: pointIn,
-                transform: `translateX(${(1 - pointIn) * 100}px)`,
+                gap: 20,
               }}
             >
               {/* Number badge */}
               <div
                 style={{
-                  width: 60,
-                  height: 60,
+                  position: "absolute",
+                  top: -18,
+                  right: 30,
+                  width: 50,
+                  height: 50,
                   borderRadius: "50%",
-                  background: `${point.color}20`,
-                  border: `3px solid ${point.color}`,
+                  background: card.color,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   fontFamily: FONT_FAMILY,
-                  fontSize: 28,
+                  fontSize: 26,
                   fontWeight: 800,
-                  color: point.color,
-                  boxShadow: `0 0 ${glowIntensity * 25}px ${point.color}44`,
-                  flexShrink: 0,
+                  color: COLORS.bgPrimary,
+                  boxShadow: `0 0 15px ${card.color}66`,
                 }}
               >
-                {i + 1}
+                {card.num}
               </div>
 
-              {/* Icon */}
-              <div style={{ flexShrink: 0 }}>{point.icon}</div>
+              {/* Generated image */}
+              <Img
+                src={staticFile(`images/${card.image}`)}
+                style={{
+                  width: 180,
+                  height: 180,
+                  objectFit: "contain",
+                }}
+              />
 
               {/* Text */}
               <div
                 style={{
-                  padding: "20px 40px",
-                  borderRadius: 16,
-                  background: `${point.color}10`,
-                  border: `2px solid ${point.color}${glowIntensity > 0.5 ? "88" : "33"}`,
-                  boxShadow: `0 0 ${glowIntensity * 20}px ${point.color}22`,
                   fontFamily: FONT_FAMILY,
-                  fontSize: 36,
-                  fontWeight: 600,
+                  fontSize: 34,
+                  fontWeight: 700,
                   color: COLORS.text,
                   direction: "rtl",
+                  textAlign: "center",
+                  lineHeight: 1.5,
                 }}
               >
-                {point.text}
+                {card.text}
               </div>
             </div>
           );

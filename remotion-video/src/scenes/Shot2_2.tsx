@@ -1,97 +1,82 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Img,
   useCurrentFrame,
   interpolate,
   spring,
+  staticFile,
   useVideoConfig,
 } from "remotion";
 import { COLORS } from "../design/theme";
 import { FONT_FAMILY } from "../design/fonts";
 
-
 /**
- * Shot 2.2 — Knowledge Sources (18 seconds)
- * 4 big source blocks slam in from edges.
- * Animated dashed lines flow to center AI node.
- * Big counter animates: 0 → "5 מיליארד טקסטים"
- * Network pattern emerges in center.
+ * Shot 2.2 — Knowledge Sources (18 seconds, 540 frames)
+ * 4 glassmorphic source cards in corners with icons.
+ * Generated background with energy flows converging to center AI orb.
+ * SVG particle streams animate from cards to center.
+ * AI orb grows slowly as it "feeds" on the incoming data.
+ * Counter at bottom: 0 → "5 מיליארד טקסטים"
+ *
+ * Narration (46–64s): "המודל קרא מיליארדי משפטים, פסקאות וטקסטים
+ * מהאינטרנט, מספרים, ממאמרים אקדמיים ועוד..."
  */
 
-const SourceBlock: React.FC<{
-  icon: string;
-  label: string;
-  color: string;
-  delay: number;
-  fromDir: "left" | "right" | "top" | "bottom";
-  x: number;
-  y: number;
-}> = ({ icon, label, color, delay, fromDir, x, y }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+// Center orb position
+const ORB_X = 958;
+const ORB_Y = 498;
 
-  const slam = spring({
-    frame: frame - delay,
-    fps,
-    config: { damping: 16, stiffness: 90, mass: 0.8 },
-  });
+// Source card data — positions from drag tool
+const SOURCES = [
+  { icon: "📚", label: "ספרים", x: 208, y: 132, delay: 10 },
+  { icon: "🌐", label: "אינטרנט", x: 1712, y: 138, delay: 30 },
+  { icon: "📰", label: "מאמרים", x: 276, y: 926, delay: 50 },
+  { icon: "💾", label: "נתונים", x: 1690, y: 926, delay: 70 },
+];
 
-  const offsets = {
-    left: { x: -600, y: 0 },
-    right: { x: 600, y: 0 },
-    top: { x: 0, y: -400 },
-    bottom: { x: 0, y: 400 },
-  };
+// Bezier curves from each card toward center orb
+const STREAM_PATHS = [
+  `M 208,132 C 400,132 600,300 ${ORB_X},${ORB_Y}`,
+  `M 1712,138 C 1500,138 1200,300 ${ORB_X},${ORB_Y}`,
+  `M 276,926 C 400,926 600,700 ${ORB_X},${ORB_Y}`,
+  `M 1690,926 C 1500,926 1200,700 ${ORB_X},${ORB_Y}`,
+];
 
-  const translateX = interpolate(slam, [0, 1], [offsets[fromDir].x, 0]);
-  const translateY = interpolate(slam, [0, 1], [offsets[fromDir].y, 0]);
-
-  return (
-    <div
-      style={{
-        position: "absolute",
-        left: x,
-        top: y,
-        transform: `translate(${translateX}px, ${translateY}px)`,
-        opacity: slam,
-      }}
-    >
-      <div
-        style={{
-          padding: "20px 30px",
-          borderRadius: 18,
-          background: `${color}15`,
-          border: `2px solid ${color}88`,
-          boxShadow: `0 0 25px ${color}33`,
-          display: "flex",
-          alignItems: "center",
-          gap: 16,
-          minWidth: 220,
-        }}
-      >
-        <span style={{ fontSize: 44 }}>{icon}</span>
-        <span
-          style={{
-            fontFamily: FONT_FAMILY,
-            fontSize: 28,
-            fontWeight: 700,
-            color: COLORS.text,
-            direction: "rtl",
-          }}
-        >
-          {label}
-        </span>
-      </div>
-    </div>
-  );
-};
+const PARTICLES_PER_STREAM = 12;
 
 export const Shot2_2: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
+  // Background fade-in
+  const bgOpacity = interpolate(frame, [0, 50], [0, 0.55], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  // AI orb — starts small and grows as it "feeds" on data
+  const orbAppear = spring({
+    frame: frame - 90,
+    fps,
+    config: { damping: 20, stiffness: 60, mass: 1.2 },
+  });
+  // Slow continuous growth: from 0.6 to 1.2 over the entire shot
+  const orbGrowth = interpolate(frame, [90, 500], [0.6, 1.2], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  // Breathing pulse
+  const orbPulse = interpolate(Math.sin(frame * 0.06), [-1, 1], [0.97, 1.03]);
+  // Glow intensifies as orb grows
+  const orbGlow = interpolate(frame, [90, 500], [0.2, 0.7], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const orbScale = orbAppear * orbGrowth * orbPulse;
+
   // Counter
-  const counterProgress = interpolate(frame, [120, 450], [0, 1], {
+  const counterProgress = interpolate(frame, [140, 480], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -108,19 +93,7 @@ export const Shot2_2: React.FC = () => {
     return Math.floor(n).toString();
   };
 
-  // Center AI hexagon pulse
-  const centerPulse = interpolate(Math.sin(frame * 0.08), [-1, 1], [1, 1.08]);
-  const centerAppear = spring({
-    frame: frame - 80,
-    fps,
-    config: { damping: 16, stiffness: 80 },
-  });
-
-  // Dashed stream animation
-  const dashOffset = -frame * 3;
-
-  // Network nodes that emerge
-  const networkAppear = interpolate(frame, [300, 420], [0, 1], {
+  const counterOp = interpolate(frame, [130, 150], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -128,134 +101,256 @@ export const Shot2_2: React.FC = () => {
   return (
     <AbsoluteFill
       style={{
-        background: `radial-gradient(ellipse at 50% 50%, ${COLORS.bgSecondary} 0%, ${COLORS.bgPrimary} 70%)`,
+        background: `radial-gradient(ellipse at 50% 45%, ${COLORS.bgSecondary} 0%, ${COLORS.bgPrimary} 70%)`,
       }}
     >
-      {/* 4 Source blocks from edges */}
-      <SourceBlock icon="📚" label="ספרים" color="#3b82f6" delay={10} fromDir="left" x={60} y={120} />
-      <SourceBlock icon="🌐" label="אינטרנט" color={COLORS.secondary} delay={30} fromDir="right" x={1560} y={120} />
-      <SourceBlock icon="📰" label="מאמרים" color={COLORS.accent} delay={50} fromDir="left" x={60} y={780} />
-      <SourceBlock icon="💾" label="נתונים" color="#22d3ee" delay={70} fromDir="right" x={1560} y={780} />
+      {/* Generated background image */}
+      <Img
+        src={staticFile("images/shot2_2_bg.png")}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          opacity: bgOpacity,
+        }}
+      />
 
-      {/* Animated dashed streams to center */}
+      {/* Dark overlay to ensure text readability */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          background: `radial-gradient(ellipse at 50% 45%, transparent 0%, ${COLORS.bgPrimary}cc 60%)`,
+        }}
+      />
+
+      {/* SVG layer — particle streams + center orb */}
       <svg
         width={1920}
         height={1080}
         style={{ position: "absolute", top: 0, left: 0, pointerEvents: "none" }}
       >
-        {/* Streams from each source to center */}
-        {[
-          { x1: 330, y1: 160, d: 60 },
-          { x1: 1560, y1: 160, d: 80 },
-          { x1: 330, y1: 820, d: 100 },
-          { x1: 1560, y1: 820, d: 120 },
-        ].map((s, i) => {
-          const streamOp = interpolate(frame - s.d, [0, 30], [0, 0.5], {
+        <defs>
+          <filter id="particleGlow">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          <filter id="orbGlowFilter">
+            <feGaussianBlur stdDeviation="10" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        {/* Particle streams — flowing dots along bezier curves */}
+        {STREAM_PATHS.map((path, streamIdx) => {
+          const streamDelay = SOURCES[streamIdx].delay + 40;
+          const streamOp = interpolate(frame - streamDelay, [0, 30], [0, 1], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
           });
+
+          const colors = [COLORS.primary, "#3b82f6", COLORS.secondary, "#22d3ee"];
+          const color = colors[streamIdx];
+
           return (
-            <line
-              key={i}
-              x1={s.x1}
-              y1={s.y1}
-              x2={960}
-              y2={490}
-              stroke={COLORS.primary}
-              strokeWidth={3}
-              strokeDasharray="12 8"
-              strokeDashoffset={dashOffset}
-              opacity={streamOp}
-            />
+            <g key={streamIdx} opacity={streamOp} filter="url(#particleGlow)">
+              {/* Base path — faint line */}
+              <path
+                d={path}
+                fill="none"
+                stroke={color}
+                strokeWidth={1.5}
+                opacity={0.15}
+                strokeDasharray="6 10"
+                strokeDashoffset={-frame * 2}
+              />
+
+              {/* Animated particles */}
+              {Array.from({ length: PARTICLES_PER_STREAM }).map((_, pIdx) => {
+                const phase = pIdx / PARTICLES_PER_STREAM;
+                const size = 2 + Math.sin(pIdx * 1.7) * 1.5;
+                const particleOp = interpolate(
+                  ((frame * 0.008 + phase) % 1),
+                  [0, 0.05, 0.85, 1],
+                  [0, 0.9, 0.9, 0],
+                  { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+                );
+
+                return (
+                  <circle
+                    key={pIdx}
+                    r={size}
+                    fill={color}
+                    opacity={particleOp}
+                  >
+                    <animateMotion
+                      dur="4s"
+                      repeatCount="indefinite"
+                      begin={`${-phase * 4}s`}
+                      path={path}
+                    />
+                  </circle>
+                );
+              })}
+            </g>
           );
         })}
 
-        {/* Center AI hexagon */}
+        {/* Center AI orb — grows over time */}
         <g
-          transform={`translate(960, 490) scale(${centerPulse * centerAppear})`}
-          opacity={centerAppear}
+          transform={`translate(${ORB_X}, ${ORB_Y}) scale(${orbScale})`}
+          opacity={orbAppear}
+          filter="url(#orbGlowFilter)"
         >
-          <polygon
-            points="0,-70 61,-35 61,35 0,70 -61,35 -61,-35"
-            fill={`${COLORS.primary}22`}
-            stroke={COLORS.primary}
-            strokeWidth={3}
-          />
-          <text
-            x={0}
-            y={10}
-            textAnchor="middle"
-            fontFamily={FONT_FAMILY}
-            fontSize={32}
-            fontWeight={800}
-            fill={COLORS.primary}
-          >
-            AI
-          </text>
-          {/* Outer glow ring */}
+          {/* Outer rotating dashed ring */}
           <circle
-            cx={0}
-            cy={0}
-            r={90}
+            cx={0} cy={0} r={90}
             fill="none"
             stroke={COLORS.primary}
             strokeWidth={2}
-            opacity={0.15}
-            strokeDasharray="8 4"
-            strokeDashoffset={dashOffset / 2}
+            opacity={0.25}
+            strokeDasharray="8 6"
+            strokeDashoffset={-frame * 1.5}
           />
+          {/* Middle ring */}
+          <circle
+            cx={0} cy={0} r={68}
+            fill="none"
+            stroke={COLORS.primary}
+            strokeWidth={2.5}
+            opacity={0.4}
+          />
+          {/* Inner filled circle */}
+          <circle
+            cx={0} cy={0} r={52}
+            fill={`${COLORS.primary}18`}
+            stroke={COLORS.primary}
+            strokeWidth={3}
+          />
+          {/* Core glow — intensifies as orb grows */}
+          <circle
+            cx={0} cy={0} r={34}
+            fill={COLORS.primary}
+            opacity={orbGlow * 0.5}
+          />
+          <circle
+            cx={0} cy={0} r={20}
+            fill={COLORS.primary}
+            opacity={orbGlow * 0.3}
+          />
+          {/* AI text */}
+          <text
+            x={0} y={12}
+            textAnchor="middle"
+            fontFamily={FONT_FAMILY}
+            fontSize={38}
+            fontWeight={800}
+            fill={COLORS.text}
+          >
+            AI
+          </text>
         </g>
-
-        {/* Network nodes emerging from center */}
-        {[
-          { cx: 870, cy: 400, d: 300 },
-          { cx: 1050, cy: 400, d: 310 },
-          { cx: 900, cy: 580, d: 320 },
-          { cx: 1020, cy: 580, d: 330 },
-          { cx: 960, cy: 370, d: 340 },
-          { cx: 960, cy: 610, d: 350 },
-        ].map((n, i) => {
-          const nOp = interpolate(frame - n.d, [0, 15], [0, 0.7], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-          });
-          return (
-            <React.Fragment key={i}>
-              <line x1={960} y1={490} x2={n.cx} y2={n.cy} stroke={COLORS.primary} strokeWidth={1} opacity={nOp * 0.3} />
-              <circle cx={n.cx} cy={n.cy} r={5} fill={COLORS.primary} opacity={nOp} />
-            </React.Fragment>
-          );
-        })}
       </svg>
 
-      {/* BIG counter */}
+      {/* 4 Glassmorphic source cards */}
+      {SOURCES.map((src, i) => {
+        const cardIn = spring({
+          frame: frame - src.delay,
+          fps,
+          config: { damping: 16, stiffness: 90, mass: 0.8 },
+        });
+
+        const isRight = src.x > 960;
+        const slideX = (1 - cardIn) * (isRight ? 120 : -120);
+
+        return (
+          <div
+            key={i}
+            style={{
+              position: "absolute",
+              left: src.x,
+              top: src.y,
+              transform: `translate(-50%, -50%) translateX(${slideX}px) scale(${0.8 + cardIn * 0.2})`,
+              opacity: cardIn,
+            }}
+          >
+            <div
+              style={{
+                width: 220,
+                padding: "24px 20px",
+                borderRadius: 18,
+                background: "rgba(255,255,255,0.06)",
+                border: "1px solid rgba(255,255,255,0.12)",
+                boxShadow: `0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)`,
+                backdropFilter: "blur(12px)",
+                textAlign: "center",
+              }}
+            >
+              <div style={{ fontSize: 52, marginBottom: 10 }}>{src.icon}</div>
+              <div
+                style={{
+                  fontFamily: FONT_FAMILY,
+                  fontSize: 30,
+                  fontWeight: 700,
+                  color: COLORS.text,
+                  direction: "rtl",
+                  textShadow: "0 2px 8px rgba(0,0,0,0.5)",
+                }}
+              >
+                {src.label}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+
+      {/* Counter bar at bottom */}
       <div
         style={{
           position: "absolute",
-          bottom: 70,
-          width: "100%",
-          textAlign: "center",
-          opacity: interpolate(frame, [120, 140], [0, 1], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-          }),
+          bottom: 50,
+          left: "50%",
+          transform: "translateX(-50%)",
+          opacity: counterOp,
         }}
       >
         <div
           style={{
-            fontFamily: FONT_FAMILY,
-            fontSize: 56,
-            fontWeight: 800,
-            color: COLORS.accent,
-            direction: "rtl",
-            textShadow: `0 0 20px ${COLORS.accent}66`,
+            padding: "16px 60px",
+            borderRadius: 40,
+            background: "rgba(255,255,255,0.05)",
+            border: `1px solid ${COLORS.accent}44`,
+            boxShadow: `0 0 30px ${COLORS.accent}15, 0 4px 20px rgba(0,0,0,0.3)`,
+            backdropFilter: "blur(8px)",
+            textAlign: "center",
           }}
         >
-          {formatNumber(counterValue)} טקסטים
+          <span
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 52,
+              fontWeight: 800,
+              color: COLORS.accent,
+              direction: "rtl",
+              textShadow: `0 0 20px ${COLORS.accent}66`,
+            }}
+          >
+            {formatNumber(counterValue)} טקסטים
+          </span>
         </div>
       </div>
-
-
     </AbsoluteFill>
   );
 };

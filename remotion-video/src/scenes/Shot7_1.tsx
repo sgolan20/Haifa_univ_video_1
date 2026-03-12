@@ -44,8 +44,9 @@ export const Shot7_1: React.FC = () => {
   const barWidth = 140;
   const barGap = 50;
 
-  // Dice animation
-  const diceStart = 200;
+  // Dice animation — synced to narration "מודלי שפה משתמשים במנגנון שנקרא" at 260.04s
+  // Shot starts at 250s, so relative offset = 10.04s = frame 301
+  const diceStart = 301;
   const diceFallProgress = interpolate(frame, [diceStart, diceStart + 60], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",

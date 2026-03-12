@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Position Tool — Shot 2-2</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #111; display: flex; flex-direction: column; align-items: center; padding: 20px; font-family: 'Rubik', Arial, sans-serif; color: #fff; }
+  h2 { margin-bottom: 10px; font-size: 18px; color: #94a3b8; }
+  #coords { margin-bottom: 12px; font-size: 14px; color: #fbbf24; background: #1e293b; padding: 8px 16px; border-radius: 8px; direction: ltr; font-family: monospace; min-height: 24px; }
+  #canvas-wrapper {
+    position: relative;
+    width: 960px;
+    height: 540px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: default;
+  }
+  #bg-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.55;
+  }
+  #dark-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(ellipse at 50% 45%, transparent 0%, #0a0e1acc 60%);
+  }
+  .draggable {
+    position: absolute;
+    cursor: grab;
+    user-select: none;
+    transition: box-shadow 0.15s;
+    transform: translate(-50%, -50%);
+  }
+  .draggable:hover { box-shadow: 0 0 20px rgba(0,212,255,0.3); }
+  .draggable.dragging { cursor: grabbing; box-shadow: 0 0 25px rgba(0,212,255,0.5); z-index: 100; }
+  .card {
+    width: 110px;
+    padding: 12px 10px;
+    border-radius: 9px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(12px);
+    text-align: center;
+  }
+  .card-icon { font-size: 28px; margin-bottom: 4px; }
+  .card-label { font-size: 15px; font-weight: 700; text-shadow: 0 2px 6px rgba(0,0,0,0.5); }
+  .center-orb {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    border: 2px solid #00d4ff;
+    background: rgba(0,212,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 800; color: #fff;
+  }
+  #copy-btn { margin-top: 12px; padding: 8px 24px; background: #00d4ff; color: #0a0e1a; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
+  #copy-btn:hover { background: #22d3ee; }
+  .hint { margin-top: 8px; font-size: 12px; color: #64748b; }
+</style>
+</head>
+<body>
+
+<h2>גרור את הכרטיסים ואת ה-AI למיקום הרצוי (קנה מידה 50%)</h2>
+<div id="coords">מיקומים יופיעו כאן...</div>
+
+<div id="canvas-wrapper">
+  <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 50% 45%, #111827 0%, #0a0e1a 70%);"></div>
+  <img id="bg-img" src="images/shot2_2_bg.png" />
+  <div id="dark-overlay"></div>
+
+  <!-- AI orb — draggable -->
+  <div class="draggable" id="orb" style="left:480px;top:230px;" data-name="AI">
+    <div class="center-orb">AI</div>
+  </div>
+
+  <!-- Cards at user's chosen positions (÷2 for 50% scale) -->
+  <div class="draggable" id="card0" style="left:100px;top:62px;" data-name="ספרים">
+    <div class="card">
+      <div class="card-icon">📚</div>
+      <div class="card-label">ספרים</div>
+    </div>
+  </div>
+  <div class="draggable" id="card1" style="left:858px;top:59px;" data-name="אינטרנט">
+    <div class="card">
+      <div class="card-icon">🌐</div>
+      <div class="card-label">אינטרנט</div>
+    </div>
+  </div>
+  <div class="draggable" id="card2" style="left:135px;top:466px;" data-name="מאמרים">
+    <div class="card">
+      <div class="card-icon">📰</div>
+      <div class="card-label">מאמרים</div>
+    </div>
+  </div>
+  <div class="draggable" id="card3" style="left:853px;top:464px;" data-name="נתונים">
+    <div class="card">
+      <div class="card-icon">💾</div>
+      <div class="card-label">נתונים</div>
+    </div>
+  </div>
+</div>
+
+<button id="copy-btn">העתק קואורדינטות</button>
+<div class="hint">הקואורדינטות מוצגות ביחס ל-1920x1080 (הערכים מוכפלים x2)</div>
+
+<script>
+const items = document.querySelectorAll('.draggable');
+const coordsEl = document.getElementById('coords');
+const wrapper = document.getElementById('canvas-wrapper');
+let dragging = null;
+let offsetX = 0, offsetY = 0;
+
+function updateCoords() {
+  const parts = [];
+  items.forEach((item) => {
+    const rect = item.getBoundingClientRect();
+    const wrapRect = wrapper.getBoundingClientRect();
+    const cx = Math.round(((rect.left + rect.width/2) - wrapRect.left) * 2);
+    const cy = Math.round(((rect.top + rect.height/2) - wrapRect.top) * 2);
+    item.dataset.cx = cx;
+    item.dataset.cy = cy;
+    parts.push(`${item.dataset.name}: { x: ${cx}, y: ${cy} }`);
+  });
+  coordsEl.textContent = parts.join('  |  ');
+}
+
+items.forEach(item => {
+  item.addEventListener('mousedown', (e) => {
+    dragging = item;
+    item.classList.add('dragging');
+    const rect = item.getBoundingClientRect();
+    offsetX = e.clientX - rect.left - rect.width/2;
+    offsetY = e.clientY - rect.top - rect.height/2;
+    e.preventDefault();
+  });
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!dragging) return;
+  const wrapRect = wrapper.getBoundingClientRect();
+  let x = e.clientX - wrapRect.left - offsetX;
+  let y = e.clientY - wrapRect.top - offsetY;
+  x = Math.max(0, Math.min(960, x));
+  y = Math.max(0, Math.min(540, y));
+  dragging.style.left = x + 'px';
+  dragging.style.top = y + 'px';
+  updateCoords();
+});
+
+document.addEventListener('mouseup', () => {
+  if (dragging) dragging.classList.remove('dragging');
+  dragging = null;
+});
+
+document.getElementById('copy-btn').addEventListener('click', () => {
+  navigator.clipboard.writeText(coordsEl.textContent).then(() => {
+    document.getElementById('copy-btn').textContent = 'הועתק!';
+    setTimeout(() => document.getElementById('copy-btn').textContent = 'העתק קואורדינטות', 1500);
+  });
+});
+
+updateCoords();
+</script>
+</body>
+</html>

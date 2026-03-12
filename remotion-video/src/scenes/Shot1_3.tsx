@@ -1,9 +1,11 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Img,
   useCurrentFrame,
   interpolate,
   spring,
+  staticFile,
   useVideoConfig,
 } from "remotion";
 import { COLORS } from "../design/theme";
@@ -51,6 +53,11 @@ export const Shot1_3: React.FC = () => {
   });
   const badge2 = spring({
     frame: frame - 330,
+    fps,
+    config: { damping: 16, stiffness: 90 },
+  });
+  const badge3 = spring({
+    frame: frame - 360,
     fps,
     config: { damping: 16, stiffness: 90 },
   });
@@ -190,48 +197,89 @@ export const Shot1_3: React.FC = () => {
         </div>
       </div>
 
-      {/* Tool badges — big and bold */}
+      {/* Tool badges — logo images */}
       <div
         style={{
           position: "absolute",
-          bottom: 120,
+          bottom: 100,
           left: "50%",
           transform: "translateX(-50%)",
           display: "flex",
-          gap: 30,
+          gap: 50,
+          alignItems: "center",
         }}
       >
         <div
           style={{
             transform: `scale(${badge1})`,
-            padding: "16px 40px",
-            borderRadius: 40,
-            background: "#10a37f22",
-            border: "2px solid #10a37f",
-            fontFamily: FONT_FAMILY,
-            fontSize: 28,
-            fontWeight: 700,
-            color: "#10a37f",
-            letterSpacing: 1,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 10,
           }}
         >
-          ChatGPT
+          <Img
+            src={staticFile("images/logo_chatgpt.png")}
+            style={{ width: 80, height: 80 }}
+          />
+          <span
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 22,
+              fontWeight: 600,
+              color: "#10a37f",
+            }}
+          >
+            ChatGPT
+          </span>
         </div>
         <div
           style={{
             transform: `scale(${badge2})`,
-            padding: "16px 40px",
-            borderRadius: 40,
-            background: "#d9770622",
-            border: "2px solid #d97706",
-            fontFamily: FONT_FAMILY,
-            fontSize: 28,
-            fontWeight: 700,
-            color: "#d97706",
-            letterSpacing: 1,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 10,
           }}
         >
-          Claude
+          <Img
+            src={staticFile("images/logo_claude.png")}
+            style={{ width: 80, height: 80 }}
+          />
+          <span
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 22,
+              fontWeight: 600,
+              color: "#d4a574",
+            }}
+          >
+            Claude
+          </span>
+        </div>
+        <div
+          style={{
+            transform: `scale(${badge3})`,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 10,
+          }}
+        >
+          <Img
+            src={staticFile("images/logo_gemini.png")}
+            style={{ width: 80, height: 80 }}
+          />
+          <span
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 22,
+              fontWeight: 600,
+              color: "#6b8dd6",
+            }}
+          >
+            Gemini
+          </span>
         </div>
       </div>
 

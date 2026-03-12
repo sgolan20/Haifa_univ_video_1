@@ -113,19 +113,22 @@ export const Shot6_2: React.FC = () => {
         </g>
       </svg>
 
-      {/* Bottom text */}
+      {/* Center text */}
       <div
         style={{
           position: "absolute",
-          bottom: 80,
-          width: "100%",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "80%",
           textAlign: "center",
           fontFamily: FONT_FAMILY,
-          fontSize: 32,
-          fontWeight: 600,
-          color: COLORS.textMuted,
+          fontSize: 64,
+          fontWeight: 700,
+          color: COLORS.text,
           direction: "rtl",
-          opacity: interpolate(frame, [20, 50], [0, 0.8], {
+          lineHeight: 1.4,
+          opacity: interpolate(frame, [20, 50], [0, 1], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
           }),
