@@ -150,11 +150,11 @@ export const Shot2_1: React.FC = () => {
               style={{
                 padding: "30px 24px",
                 borderRadius: 20,
-                background: `linear-gradient(135deg, ${step.color}18 0%, ${step.color}08 100%)`,
-                border: `2px solid ${step.color}66`,
+                background: `linear-gradient(135deg, ${step.color}30 0%, rgba(10,14,26,0.75) 100%)`,
+                border: `2px solid ${step.color}88`,
                 boxShadow: `0 0 40px ${step.color}20, 0 8px 32px rgba(0,0,0,0.4)`,
                 textAlign: "center",
-                backdropFilter: "blur(8px)",
+                backdropFilter: "blur(20px)",
               }}
             >
               <div style={{ fontSize: 48, marginBottom: 12 }}>{step.icon}</div>
@@ -173,9 +173,9 @@ export const Shot2_1: React.FC = () => {
               <div
                 style={{
                   fontFamily: FONT_FAMILY,
-                  fontSize: 21,
-                  fontWeight: 400,
-                  color: COLORS.textMuted,
+                  fontSize: 24,
+                  fontWeight: 500,
+                  color: "#cbd5e1",
                   marginTop: 10,
                   direction: "rtl",
                   lineHeight: 1.6,

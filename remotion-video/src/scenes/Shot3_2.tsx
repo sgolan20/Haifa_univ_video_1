@@ -182,7 +182,7 @@ export const Shot3_2: React.FC = () => {
         })}
       </div>
 
-      {/* Connecting dashed lines from terminal to cards */}
+      {/* Connecting dashed lines from terminal bottom-center to card top-center */}
       <svg
         width={1920}
         height={1080}
@@ -193,14 +193,17 @@ export const Shot3_2: React.FC = () => {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
           });
-          const cardX = 510 + i * 340;
+          // Cards: 3 × 280px wide + 2 × 60px gap = 960px total
+          // Centered: starts at (1920-960)/2 = 480px
+          // Card centers: 480+140=620, 480+340+140=960, 480+680+140=1300
+          const cardCenterX = 480 + 140 + i * 340;
           return (
             <line
               key={i}
               x1={960}
-              y1={580}
-              x2={cardX}
-              y2={660}
+              y1={545}
+              x2={cardCenterX}
+              y2={670}
               stroke={COLORS.primary}
               strokeWidth={2}
               strokeDasharray="6 6"

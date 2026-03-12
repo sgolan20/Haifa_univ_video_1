@@ -45,29 +45,23 @@ export const Shot1_3: React.FC = () => {
     })
   );
 
-  // Tool badges
+  // Tool badges — appear when narrator mentions each name (~1.5-3s in)
   const badge1 = spring({
-    frame: frame - 300,
+    frame: frame - 45,
     fps,
     config: { damping: 16, stiffness: 90 },
   });
   const badge2 = spring({
-    frame: frame - 330,
+    frame: frame - 70,
     fps,
     config: { damping: 16, stiffness: 90 },
   });
   const badge3 = spring({
-    frame: frame - 360,
+    frame: frame - 95,
     fps,
     config: { damping: 16, stiffness: 90 },
   });
 
-  // Big question text
-  const questionSlam = spring({
-    frame: frame - 340,
-    fps,
-    config: { damping: 16, stiffness: 90 },
-  });
 
 
   return (
@@ -197,15 +191,15 @@ export const Shot1_3: React.FC = () => {
         </div>
       </div>
 
-      {/* Tool badges — logo images */}
+      {/* Tool badges — logo images, positioned below chat window */}
       <div
         style={{
           position: "absolute",
-          bottom: 100,
+          top: "76%",
           left: "50%",
           transform: "translateX(-50%)",
           display: "flex",
-          gap: 50,
+          gap: 60,
           alignItems: "center",
         }}
       >
@@ -220,12 +214,12 @@ export const Shot1_3: React.FC = () => {
         >
           <Img
             src={staticFile("images/logo_chatgpt.png")}
-            style={{ width: 80, height: 80 }}
+            style={{ width: 120, height: 120 }}
           />
           <span
             style={{
               fontFamily: FONT_FAMILY,
-              fontSize: 22,
+              fontSize: 28,
               fontWeight: 600,
               color: "#10a37f",
             }}
@@ -244,12 +238,12 @@ export const Shot1_3: React.FC = () => {
         >
           <Img
             src={staticFile("images/logo_claude.png")}
-            style={{ width: 80, height: 80 }}
+            style={{ width: 120, height: 120 }}
           />
           <span
             style={{
               fontFamily: FONT_FAMILY,
-              fontSize: 22,
+              fontSize: 28,
               fontWeight: 600,
               color: "#d4a574",
             }}
@@ -268,12 +262,12 @@ export const Shot1_3: React.FC = () => {
         >
           <Img
             src={staticFile("images/logo_gemini.png")}
-            style={{ width: 80, height: 80 }}
+            style={{ width: 120, height: 120 }}
           />
           <span
             style={{
               fontFamily: FONT_FAMILY,
-              fontSize: 22,
+              fontSize: 28,
               fontWeight: 600,
               color: "#6b8dd6",
             }}
@@ -283,24 +277,6 @@ export const Shot1_3: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom question */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 40,
-          width: "100%",
-          textAlign: "center",
-          fontFamily: FONT_FAMILY,
-          fontSize: 32,
-          fontWeight: 600,
-          color: COLORS.textMuted,
-          opacity: questionSlam,
-          transform: `scale(${questionSlam})`,
-          direction: "rtl",
-        }}
-      >
-        אבל איך זה באמת עובד?
-      </div>
 
 
     </AbsoluteFill>
