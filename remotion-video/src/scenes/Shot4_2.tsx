@@ -36,6 +36,16 @@ export const Shot4_2: React.FC = () => {
     config: { damping: 16, stiffness: 80, mass: 0.8 },
   });
 
+  // "Language" temporary highlight — scale up then back
+  const langScale = interpolate(frame, [0, 15, 50, 70], [1, 1.3, 1.3, 1], {
+    extrapolateLeft: "clamp" as const,
+    extrapolateRight: "clamp" as const,
+  });
+  const langGlow = interpolate(frame, [0, 15, 50, 70], [0, 30, 30, 0], {
+    extrapolateLeft: "clamp" as const,
+    extrapolateRight: "clamp" as const,
+  });
+
   // Globe rotation
   const globeRotation = frame * 0.8;
 
@@ -76,10 +86,10 @@ export const Shot4_2: React.FC = () => {
         <span
           style={{
             fontFamily: FONT_FAMILY,
-            fontSize: 80,
+            fontSize: 100,
             fontWeight: 800,
             color: "#3b82f6",
-            opacity: 0.3,
+            textShadow: "0 4px 20px rgba(0,0,0,0.8)",
           }}
         >
           Large
@@ -90,7 +100,8 @@ export const Shot4_2: React.FC = () => {
             fontSize: 100,
             fontWeight: 800,
             color: COLORS.primary,
-            textShadow: `0 0 30px ${COLORS.primary}88`,
+            transform: `scale(${langScale})`,
+            textShadow: `0 0 ${langGlow}px ${COLORS.primary}88, 0 4px 20px rgba(0,0,0,0.8)`,
           }}
         >
           Language
@@ -98,10 +109,10 @@ export const Shot4_2: React.FC = () => {
         <span
           style={{
             fontFamily: FONT_FAMILY,
-            fontSize: 80,
+            fontSize: 100,
             fontWeight: 800,
             color: COLORS.secondary,
-            opacity: 0.3,
+            textShadow: "0 4px 20px rgba(0,0,0,0.8)",
           }}
         >
           Model
@@ -112,7 +123,7 @@ export const Shot4_2: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 200,
+          top: 210,
           width: "100%",
           textAlign: "center",
           opacity: titleAppear,
