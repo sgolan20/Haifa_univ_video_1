@@ -9,116 +9,119 @@ import {
 import { COLORS } from "../design/theme";
 import { FONT_FAMILY } from "../design/fonts";
 
-
 /**
- * Shot 4.3 — "Model" in Large Language Model (14 seconds)
- * "Model" word highlighted. Mathematical network SVG with nodes
- * and edges. Data flows through edges (animated dashes).
- * Transitions to server room illustration with LED lights.
+ * Shot 4.3 — "Model" — Scale Revelation (15 seconds / 450 frames)
+ * Starts with a single neural connection, zooms out to progressively
+ * larger networks, ending with a massive constellation of nodes.
+ * Counters show 175B parameters / 1.8T training words.
+ * Narration (163-178s): "Model, מודל — זו מערכת מתמטית...
+ *   המודלים הגדולים ביותר כיום אומנו על טריליוני מילים..."
  */
 
-// Network nodes
-const NODES = [
-  // Input layer
-  { x: 300, y: 280, layer: 0 },
-  { x: 300, y: 440, layer: 0 },
-  { x: 300, y: 600, layer: 0 },
-  { x: 300, y: 760, layer: 0 },
-  // Hidden layer 1
-  { x: 620, y: 340, layer: 1 },
-  { x: 620, y: 500, layer: 1 },
-  { x: 620, y: 660, layer: 1 },
-  // Hidden layer 2
-  { x: 940, y: 380, layer: 2 },
-  { x: 940, y: 540, layer: 2 },
-  { x: 940, y: 700, layer: 2 },
-  // Output layer
-  { x: 1260, y: 440, layer: 3 },
-  { x: 1260, y: 600, layer: 3 },
+const CLAMP = {
+  extrapolateLeft: "clamp" as const,
+  extrapolateRight: "clamp" as const,
+};
+
+// Phase 2: Small network (4 layers)
+const SMALL_NODES = [
+  { x: 700, y: 340, layer: 0 },
+  { x: 700, y: 460, layer: 0 },
+  { x: 700, y: 580, layer: 0 },
+  { x: 700, y: 700, layer: 0 },
+  { x: 870, y: 380, layer: 1 },
+  { x: 870, y: 510, layer: 1 },
+  { x: 870, y: 640, layer: 1 },
+  { x: 1050, y: 380, layer: 2 },
+  { x: 1050, y: 510, layer: 2 },
+  { x: 1050, y: 640, layer: 2 },
+  { x: 1220, y: 430, layer: 3 },
+  { x: 1220, y: 570, layer: 3 },
 ];
 
-// Generate edges between adjacent layers
-const EDGES: { from: number; to: number }[] = [];
-for (let i = 0; i < NODES.length; i++) {
-  for (let j = 0; j < NODES.length; j++) {
-    if (NODES[j].layer === NODES[i].layer + 1) {
-      EDGES.push({ from: i, to: j });
+const SMALL_EDGES: { from: number; to: number }[] = [];
+for (let i = 0; i < SMALL_NODES.length; i++) {
+  for (let j = i + 1; j < SMALL_NODES.length; j++) {
+    if (SMALL_NODES[j].layer === SMALL_NODES[i].layer + 1) {
+      SMALL_EDGES.push({ from: i, to: j });
     }
   }
 }
 
-// Server rack positions
-const SERVERS = Array.from({ length: 5 }, (_, i) => ({
-  x: 1400 + (i % 3) * 160,
-  y: 350 + Math.floor(i / 3) * 260,
-  leds: Array.from({ length: 6 }, (_, j) => j),
-}));
+// Phase 3: Dense network (golden angle sunflower pattern)
+const GA = Math.PI * (3 - Math.sqrt(5));
+const DENSE_NODES: { x: number; y: number }[] = [];
+for (let i = 0; i < 100; i++) {
+  const angle = i * GA;
+  const r = Math.sqrt(i + 1) * 36;
+  const x = 960 + Math.cos(angle) * r * 1.35;
+  const y = 500 + Math.sin(angle) * r * 0.75;
+  if (x > 100 && x < 1820 && y > 220 && y < 820) {
+    DENSE_NODES.push({ x, y });
+  }
+}
+
+// Dense edges: connect nearby sequential nodes
+const DENSE_EDGES: { from: number; to: number }[] = [];
+for (let i = 0; i < DENSE_NODES.length; i++) {
+  for (let j = i + 1; j < Math.min(i + 7, DENSE_NODES.length); j++) {
+    const dx = DENSE_NODES[i].x - DENSE_NODES[j].x;
+    const dy = DENSE_NODES[i].y - DENSE_NODES[j].y;
+    if (Math.sqrt(dx * dx + dy * dy) < 110) {
+      DENSE_EDGES.push({ from: i, to: j });
+    }
+  }
+}
 
 export const Shot4_3: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Title appear
+  // Title
   const titleAppear = spring({
     frame,
     fps,
     config: { damping: 16, stiffness: 80, mass: 0.8 },
   });
 
-  // Network phase (frames 0-280)
-  const networkAppear = spring({
-    frame: frame - 15,
-    fps,
-    config: { damping: 18, stiffness: 80, mass: 0.8 },
-  });
+  // Phase 1: Single connection (frames 15-105)
+  const p1Opacity = interpolate(frame, [15, 30, 85, 105], [0, 1, 1, 0], CLAMP);
+  const p1Scale = interpolate(frame, [85, 105], [1, 0.6], CLAMP);
 
-  // Node appearance staggered by layer
-  const nodeAppear = (layer: number) =>
-    spring({
-      frame: frame - 15 - layer * 20,
-      fps,
-      config: { damping: 16, stiffness: 90, mass: 0.8 },
-    });
+  // Phase 2: Small network (frames 90-215)
+  const p2Opacity = interpolate(frame, [90, 115, 190, 215], [0, 1, 1, 0], CLAMP);
+  const p2Scale = interpolate(frame, [90, 115, 190, 215], [1.3, 1, 1, 0.5], CLAMP);
 
-  // Edge animation (dashes flowing)
-  const dashOffset = -frame * 4;
+  // Phase 3: Massive network (frames 200-450)
+  const p3Opacity = interpolate(frame, [200, 240], [0, 1], CLAMP);
+  const p3Scale = interpolate(frame, [200, 240], [1.15, 1], CLAMP);
 
-  // Pulse effect on nodes
-  const nodePulse = interpolate(
-    Math.sin(frame * 0.06),
-    [-1, 1],
-    [0.7, 1]
+  // Animated dashes
+  const dashOffset = -frame * 3;
+
+  // Node pulse
+  const pulse = interpolate(Math.sin(frame * 0.06), [-1, 1], [0.6, 1]);
+
+  // Counters
+  const paramCount = Math.floor(
+    interpolate(frame, [270, 370], [0, 175], CLAMP),
   );
-
-  // Server room transition (frames 250+)
-  const serverTransition = interpolate(frame, [250, 310], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
-  // Network shrinks and moves left
-  const networkScale = interpolate(frame, [250, 310], [1, 0.55], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  const networkTranslateX = interpolate(frame, [250, 310], [0, -250], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
-  // Server appear
-  const serverAppear = spring({
-    frame: frame - 280,
-    fps,
-    config: { damping: 16, stiffness: 80, mass: 0.8 },
-  });
+  const wordCount = interpolate(frame, [320, 400], [0, 1.8], CLAMP);
+  const counterOpacity = interpolate(frame, [260, 285], [0, 1], CLAMP);
 
   // Bottom label
   const labelAppear = spring({
-    frame: frame - 320,
+    frame: frame - 380,
     fps,
     config: { damping: 16, stiffness: 90 },
   });
+
+  const LAYER_COLORS = [
+    COLORS.primary,
+    COLORS.secondary,
+    "#3b82f6",
+    COLORS.accent,
+  ];
 
   return (
     <AbsoluteFill
@@ -126,7 +129,7 @@ export const Shot4_3: React.FC = () => {
         background: `radial-gradient(ellipse at 50% 50%, ${COLORS.bgSecondary} 0%, ${COLORS.bgPrimary} 70%)`,
       }}
     >
-      {/* Title row */}
+      {/* Title row — kept from original */}
       <div
         style={{
           position: "absolute",
@@ -196,7 +199,7 @@ export const Shot4_3: React.FC = () => {
         </span>
       </div>
 
-      {/* Neural network graph */}
+      {/* === PHASE 1: Single connection === */}
       <svg
         width={1920}
         height={1080}
@@ -205,209 +208,257 @@ export const Shot4_3: React.FC = () => {
           top: 0,
           left: 0,
           pointerEvents: "none",
-          transform: `scale(${networkScale}) translateX(${networkTranslateX}px)`,
-          transformOrigin: "480px 540px",
+          opacity: p1Opacity,
+          transform: `scale(${p1Scale})`,
+          transformOrigin: "960px 490px",
         }}
       >
-        {/* Edges */}
-        {EDGES.map((edge, i) => {
-          const fromNode = NODES[edge.from];
-          const toNode = NODES[edge.to];
-          const edgeOpacity =
-            networkAppear *
-            nodeAppear(fromNode.layer) *
-            nodeAppear(toNode.layer) *
-            0.3;
+        {/* Glow line */}
+        <line
+          x1={860}
+          y1={490}
+          x2={1060}
+          y2={490}
+          stroke={COLORS.primary}
+          strokeWidth={14}
+          opacity={0.08}
+        />
+        {/* Dashed line */}
+        <line
+          x1={860}
+          y1={490}
+          x2={1060}
+          y2={490}
+          stroke={COLORS.primary}
+          strokeWidth={4}
+          strokeDasharray="10 6"
+          strokeDashoffset={dashOffset}
+          opacity={0.6}
+        />
+        {/* Node 1 */}
+        <circle cx={860} cy={490} r={28} fill={COLORS.primary} opacity={0.15} />
+        <circle cx={860} cy={490} r={18} fill={COLORS.primary} opacity={0.9} />
+        <circle cx={860} cy={490} r={7} fill="#fff" opacity={0.6 * pulse} />
+        {/* Node 2 */}
+        <circle cx={1060} cy={490} r={28} fill={COLORS.secondary} opacity={0.15} />
+        <circle cx={1060} cy={490} r={18} fill={COLORS.secondary} opacity={0.9} />
+        <circle cx={1060} cy={490} r={7} fill="#fff" opacity={0.6 * pulse} />
+        {/* Label */}
+        <text
+          x={960}
+          y={575}
+          textAnchor="middle"
+          fontFamily={FONT_FAMILY}
+          fontSize={28}
+          fontWeight={600}
+          fill={COLORS.textMuted}
+        >
+          חיבור בודד בין 2 נוירונים
+        </text>
+      </svg>
 
+      {/* === PHASE 2: Small network === */}
+      <svg
+        width={1920}
+        height={1080}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          pointerEvents: "none",
+          opacity: p2Opacity,
+          transform: `scale(${p2Scale})`,
+          transformOrigin: "960px 510px",
+        }}
+      >
+        {SMALL_EDGES.map((e, i) => (
+          <line
+            key={`se${i}`}
+            x1={SMALL_NODES[e.from].x}
+            y1={SMALL_NODES[e.from].y}
+            x2={SMALL_NODES[e.to].x}
+            y2={SMALL_NODES[e.to].y}
+            stroke={COLORS.primary}
+            strokeWidth={1.5}
+            strokeDasharray="6 4"
+            strokeDashoffset={dashOffset}
+            opacity={0.25}
+          />
+        ))}
+        {SMALL_NODES.map((n, i) => {
+          const c = LAYER_COLORS[n.layer];
           return (
-            <line
-              key={`e${i}`}
-              x1={fromNode.x}
-              y1={fromNode.y}
-              x2={toNode.x}
-              y2={toNode.y}
-              stroke={COLORS.primary}
-              strokeWidth={1.5}
-              strokeDasharray="8 6"
-              strokeDashoffset={dashOffset}
-              opacity={edgeOpacity}
-            />
-          );
-        })}
-
-        {/* Nodes */}
-        {NODES.map((node, i) => {
-          const appear = nodeAppear(node.layer);
-          const layerColors = [
-            COLORS.primary,
-            COLORS.secondary,
-            "#3b82f6",
-            COLORS.accent,
-          ];
-          const color = layerColors[node.layer];
-
-          return (
-            <g key={`n${i}`} opacity={appear}>
-              {/* Glow */}
+            <g key={`sn${i}`}>
               <circle
-                cx={node.x}
-                cy={node.y}
-                r={18 * nodePulse}
+                cx={n.x}
+                cy={n.y}
+                r={16 * pulse}
                 fill="none"
-                stroke={color}
+                stroke={c}
                 strokeWidth={1}
                 opacity={0.2}
               />
-              {/* Node */}
+              <circle cx={n.x} cy={n.y} r={10} fill={c} opacity={0.85} />
               <circle
-                cx={node.x}
-                cy={node.y}
-                r={10}
-                fill={color}
-                opacity={0.9}
-              />
-              {/* Inner bright spot */}
-              <circle
-                cx={node.x}
-                cy={node.y}
+                cx={n.x}
+                cy={n.y}
                 r={4}
-                fill={COLORS.text}
-                opacity={0.6 * nodePulse}
+                fill="#fff"
+                opacity={0.5 * pulse}
               />
             </g>
           );
         })}
+        <text
+          x={960}
+          y={800}
+          textAnchor="middle"
+          fontFamily={FONT_FAMILY}
+          fontSize={26}
+          fontWeight={600}
+          fill={COLORS.textMuted}
+        >
+          רשת נוירונים פשוטה — 12 נוירונים
+        </text>
+      </svg>
 
-        {/* Layer labels */}
-        {[
-          { x: 300, label: "קלט" },
-          { x: 620, label: "שכבה 1" },
-          { x: 940, label: "שכבה 2" },
-          { x: 1260, label: "פלט" },
-        ].map((l, i) => (
-          <text
-            key={`label${i}`}
-            x={l.x}
-            y={870}
-            textAnchor="middle"
-            fontFamily={FONT_FAMILY}
-            fontSize={22}
-            fontWeight={600}
-            fill={COLORS.textMuted}
-            opacity={networkAppear * 0.7}
-          >
-            {l.label}
-          </text>
+      {/* === PHASE 3: Massive network === */}
+      <svg
+        width={1920}
+        height={1080}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          pointerEvents: "none",
+          opacity: p3Opacity,
+          transform: `scale(${p3Scale})`,
+          transformOrigin: "960px 500px",
+        }}
+      >
+        {DENSE_EDGES.map((e, i) => (
+          <line
+            key={`de${i}`}
+            x1={DENSE_NODES[e.from].x}
+            y1={DENSE_NODES[e.from].y}
+            x2={DENSE_NODES[e.to].x}
+            y2={DENSE_NODES[e.to].y}
+            stroke={COLORS.primary}
+            strokeWidth={1}
+            opacity={0.08}
+          />
         ))}
-
-        {/* Floating math formulas (background decoration) */}
-        {[
-          { text: "f(x) = Wx + b", x: 180, y: 200, delay: 40 },
-          { text: "softmax(z)", x: 1100, y: 230, delay: 60 },
-          { text: "∂L/∂w", x: 750, y: 900, delay: 80 },
-          { text: "σ(x) = 1/(1+e⁻ˣ)", x: 500, y: 180, delay: 100 },
-        ].map((f, i) => {
-          const fOpacity = interpolate(frame - f.delay, [0, 30], [0, 0.15], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-          });
-          const fY = f.y - (frame - f.delay) * 0.05;
+        {DENSE_NODES.map((n, i) => {
+          const c = LAYER_COLORS[i % LAYER_COLORS.length];
+          const np = interpolate(
+            Math.sin(frame * 0.08 + i * 0.7),
+            [-1, 1],
+            [0.5, 1],
+          );
           return (
-            <text
-              key={`f${i}`}
-              x={f.x}
-              y={fY}
-              fontFamily={FONT_FAMILY}
-              fontSize={20}
-              fill={COLORS.primary}
-              opacity={fOpacity}
-            >
-              {f.text}
-            </text>
+            <g key={`dn${i}`}>
+              <circle
+                cx={n.x}
+                cy={n.y}
+                r={8 * np}
+                fill="none"
+                stroke={c}
+                strokeWidth={0.5}
+                opacity={0.15}
+              />
+              <circle cx={n.x} cy={n.y} r={4} fill={c} opacity={0.7} />
+            </g>
           );
         })}
       </svg>
 
-      {/* Server room (appears after transition) */}
-      {serverTransition > 0 && (
+      {/* Counters */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 130,
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          gap: 80,
+          opacity: counterOpacity,
+        }}
+      >
+        {/* Parameter counter */}
         <div
           style={{
-            position: "absolute",
-            right: 60,
-            top: 260,
-            opacity: serverAppear,
-            transform: `scale(${serverAppear})`,
-            transformOrigin: "center center",
+            textAlign: "center",
+            padding: "14px 36px",
+            borderRadius: 14,
+            background: `${COLORS.secondary}15`,
+            border: `1px solid ${COLORS.secondary}44`,
           }}
         >
-          {SERVERS.map((server, si) => (
-            <div
-              key={si}
-              style={{
-                position: "absolute",
-                left: (si % 3) * 150,
-                top: Math.floor(si / 3) * 240,
-                width: 130,
-                height: 210,
-                borderRadius: 8,
-                background: `linear-gradient(180deg, #1a2332 0%, #0f172a 100%)`,
-                border: `1px solid ${COLORS.textDim}44`,
-                boxShadow: `0 0 15px ${COLORS.bgPrimary}`,
-                padding: 12,
-                display: "flex",
-                flexDirection: "column",
-                gap: 8,
-              }}
-            >
-              {/* Server slots */}
-              {server.leds.map((_, li) => {
-                // LED blink based on frame
-                const ledOn =
-                  Math.sin((frame * 0.15 + si * 2 + li * 1.7)) > 0;
-                return (
-                  <div
-                    key={li}
-                    style={{
-                      height: 22,
-                      borderRadius: 3,
-                      background: `${COLORS.bgPrimary}`,
-                      border: `1px solid ${COLORS.textDim}33`,
-                      display: "flex",
-                      alignItems: "center",
-                      padding: "0 6px",
-                      gap: 4,
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 6,
-                        height: 6,
-                        borderRadius: "50%",
-                        background: ledOn ? "#22c55e" : "#374151",
-                        boxShadow: ledOn ? "0 0 6px #22c55e88" : "none",
-                      }}
-                    />
-                    <div
-                      style={{
-                        flex: 1,
-                        height: 2,
-                        background: `${COLORS.textDim}33`,
-                        borderRadius: 1,
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          ))}
+          <div
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 44,
+              fontWeight: 800,
+              color: COLORS.secondary,
+              direction: "ltr",
+            }}
+          >
+            {paramCount}B
+          </div>
+          <div
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 22,
+              fontWeight: 500,
+              color: COLORS.textMuted,
+              direction: "rtl",
+            }}
+          >
+            פרמטרים
+          </div>
         </div>
-      )}
+
+        {/* Word counter */}
+        <div
+          style={{
+            textAlign: "center",
+            padding: "14px 36px",
+            borderRadius: 14,
+            background: `${COLORS.primary}15`,
+            border: `1px solid ${COLORS.primary}44`,
+            opacity: interpolate(frame, [310, 330], [0, 1], CLAMP),
+          }}
+        >
+          <div
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 44,
+              fontWeight: 800,
+              color: COLORS.primary,
+              direction: "ltr",
+            }}
+          >
+            {wordCount.toFixed(1)}T
+          </div>
+          <div
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 22,
+              fontWeight: 500,
+              color: COLORS.textMuted,
+              direction: "rtl",
+            }}
+          >
+            מילי אימון
+          </div>
+        </div>
+      </div>
 
       {/* Bottom label */}
       <div
         style={{
           position: "absolute",
-          bottom: 50,
+          bottom: 40,
           width: "100%",
           textAlign: "center",
           opacity: labelAppear,
@@ -432,8 +483,6 @@ export const Shot4_3: React.FC = () => {
           אומנו על טריליוני מילים
         </div>
       </div>
-
-
     </AbsoluteFill>
   );
 };

@@ -69,20 +69,20 @@ export const Shot6_1: React.FC = () => {
         }}
       />
 
-      {/* Section title */}
+      {/* Section title — large, centered on brain area */}
       <div
         style={{
           position: "absolute",
-          top: 50,
+          top: "18%",
           width: "100%",
           textAlign: "center",
           fontFamily: FONT_FAMILY,
-          fontSize: 52,
+          fontSize: 80,
           fontWeight: 800,
-          color: COLORS.secondary,
+          color: "#ffffff",
           opacity: titleIn,
-          transform: `scale(${titleIn})`,
-          textShadow: `0 0 30px ${COLORS.secondary}44`,
+          transform: `translate(0, -50%) scale(${titleIn})`,
+          textShadow: `0 0 30px rgba(255,255,255,0.6), 0 0 60px ${COLORS.secondary}aa, 0 0 100px ${COLORS.secondary}66, 0 4px 20px rgba(0,0,0,0.9)`,
           direction: "rtl",
         }}
       >
