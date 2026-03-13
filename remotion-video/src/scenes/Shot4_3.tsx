@@ -454,7 +454,7 @@ export const Shot4_3: React.FC = () => {
               direction: "rtl",
             }}
           >
-            מילי אימון
+            מילים
           </div>
         </div>
       </div>

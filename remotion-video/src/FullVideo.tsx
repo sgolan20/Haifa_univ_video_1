@@ -4,7 +4,6 @@ import { SHOT_TIMING, SHOT_ORDER } from "./timing";
 
 // Import all shot components
 import { Shot1_1 } from "./scenes/Shot1_1";
-import { Shot1_2 } from "./scenes/Shot1_2";
 import { Shot1_3 } from "./scenes/Shot1_3";
 import { Shot2_1 } from "./scenes/Shot2_1";
 import { Shot2_2 } from "./scenes/Shot2_2";
@@ -37,7 +36,6 @@ import { Shot9_2 } from "./scenes/Shot9_2";
 
 const SHOT_COMPONENTS: Record<string, React.FC> = {
   "shot1-1": Shot1_1,
-  "shot1-2": Shot1_2,
   "shot1-3": Shot1_3,
   "shot2-1": Shot2_1,
   "shot2-2": Shot2_2,
@@ -70,7 +68,7 @@ const SHOT_COMPONENTS: Record<string, React.FC> = {
 };
 
 /**
- * FullVideo — Master composition that sequences all 29 shots
+ * FullVideo — Master composition that sequences all shots
  * with the full narration audio playing continuously underneath.
  */
 export const FullVideo: React.FC = () => {
@@ -81,6 +79,9 @@ export const FullVideo: React.FC = () => {
     <AbsoluteFill>
       {/* Full narration audio — plays continuously */}
       <Audio src={staticFile("audio/full_narration.mp3")} volume={1} />
+
+      {/* Background music — ~20dB below narration */}
+      <Audio src={staticFile("audio/background_music.mp3")} volume={0.10} />
 
       {/* Sequence all shots */}
       {SHOT_ORDER.map((shotId) => {

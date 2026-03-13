@@ -335,6 +335,7 @@ export const Shot2_2: React.FC = () => {
             boxShadow: `0 0 30px ${COLORS.accent}15, 0 4px 20px rgba(0,0,0,0.3)`,
             backdropFilter: "blur(8px)",
             textAlign: "center",
+            direction: "rtl",
           }}
         >
           <span
@@ -343,7 +344,6 @@ export const Shot2_2: React.FC = () => {
               fontSize: 52,
               fontWeight: 800,
               color: COLORS.accent,
-              direction: "rtl",
               textShadow: `0 0 20px ${COLORS.accent}66`,
             }}
           >

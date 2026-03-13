@@ -1,6 +1,5 @@
 import { Composition } from "remotion";
 import { Shot1_1 } from "./scenes/Shot1_1";
-import { Shot1_2 } from "./scenes/Shot1_2";
 import { Shot1_3 } from "./scenes/Shot1_3";
 import { Shot2_1 } from "./scenes/Shot2_1";
 import { Shot2_2 } from "./scenes/Shot2_2";
@@ -53,14 +52,6 @@ export const Root: React.FC = () => {
         id="shot1-1"
         component={Shot1_1}
         durationInFrames={SHOT_TIMING["shot1-1"].durationInFrames}
-        fps={FPS}
-        width={1920}
-        height={1080}
-      />
-      <Composition
-        id="shot1-2"
-        component={Shot1_2}
-        durationInFrames={SHOT_TIMING["shot1-2"].durationInFrames}
         fps={FPS}
         width={1920}
         height={1080}

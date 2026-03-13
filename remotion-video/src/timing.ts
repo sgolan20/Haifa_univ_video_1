@@ -39,8 +39,7 @@ const shot = (audioStart: number, duration: number): ShotTiming => ({
 
 export const SHOT_TIMING: Record<string, ShotTiming> = {
   // Scene 1 — Opening (0–30s)
-  "shot1-1": shot(0, 4),
-  "shot1-2": shot(4, 10),
+  "shot1-1": shot(0, 14),   // narrator talking head video (was shot1-1 + shot1-2)
   "shot1-3": shot(14, 16),
 
   // Scene 2 — What is LLM? (30–82s)
@@ -93,7 +92,7 @@ export const SHOT_TIMING: Record<string, ShotTiming> = {
 
 /** Ordered list of shot IDs for sequencing */
 export const SHOT_ORDER = [
-  "shot1-1", "shot1-2", "shot1-3",
+  "shot1-1", "shot1-3",
   "shot2-1", "shot2-2", "shot2-3",
   "shot3-1", "shot3-2", "shot3-3", "shot3-4",
   "shot4-1", "shot4-2", "shot4-3",
