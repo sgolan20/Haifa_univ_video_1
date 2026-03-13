@@ -27,36 +27,36 @@ const shot = (audioStart: number, duration: number): ShotTiming => ({
 
 export const SHOT_TIMING: Record<string, ShotTiming> = {
   // Scene 1 — Opening
-  "shot1-1": shot(0.1, 20.6),    // Narrator talking head
+  "shot1-1": shot(0.1, 20.5),    // Narrator talking head
   "shot1-2": shot(20.6, 13.8),   // Title "Hallucinations — הזיות"
 
   // Scene 2 — What are Hallucinations?
   "shot2-1": shot(34.4, 12.2),   // Definition
   "shot2-2": shot(46.6, 44.2),   // 4 examples (quotes, sources, facts, stats)
-  "shot2-3": shot(90.8, 11.9),   // Danger — looks authentic
+  "shot2-3": shot(90.8, 9.6),    // Danger — looks authentic
 
   // Scene 3 — Why does it happen?
-  "shot3-1": shot(102.7, 16.2),  // Back to prediction principle
-  "shot3-2": shot(119.0, 36.8),  // Nobel Prize example
-  "shot3-3": shot(155.8, 23.2),  // Result — convincing but wrong
+  "shot3-1": shot(100.4, 18.4),  // Back to prediction principle
+  "shot3-2": shot(118.8, 36.8),  // Nobel Prize example
+  "shot3-3": shot(155.6, 20.9),  // Result — convincing but wrong
 
   // Scene 4 — Why is the model so confident?
-  "shot4-1": shot(178.9, 19.4),  // No self-awareness mechanism
-  "shot4-2": shot(198.4, 36.1),  // Learned writing style + memory analogy
+  "shot4-1": shot(176.5, 21.7),  // No self-awareness mechanism
+  "shot4-2": shot(198.2, 32.0),  // Learned writing style + memory analogy
 
   // Scene 5 — Do all models hallucinate?
-  "shot5-1": shot(234.5, 39.1),  // Scale of models, built-in issue
+  "shot5-1": shot(230.2, 43.0),  // Scale of models, built-in issue
 
   // Scene 6 — What it means for students
-  "shot6-1": shot(273.6, 36.5),  // 3 practical guidelines
-  "shot6-2": shot(310.1, 11.7),  // Convincing style ≠ correct info
+  "shot6-1": shot(273.2, 36.4),  // 3 practical guidelines
+  "shot6-2": shot(309.6, 11.7),  // Convincing style ≠ correct info
 
   // Scene 7 — Thought question
-  "shot7-1": shot(321.7, 21.2),  // Responsibility question
+  "shot7-1": shot(321.3, 21.1),  // Responsibility question
 
   // Scene 8 — Summary & closing
-  "shot8-1": shot(342.9, 35.8),  // 5 key points
-  "shot8-2": shot(378.7, 8.7),   // Teaser for next video + goodbye
+  "shot8-1": shot(342.4, 36.1),  // 5 key points
+  "shot8-2": shot(378.5, 8.9),   // Teaser for next video + goodbye
 };
 
 /** Ordered list of shot IDs for sequencing */
