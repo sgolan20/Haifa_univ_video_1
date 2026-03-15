@@ -8,8 +8,6 @@ import {
 } from "remotion";
 import { COLORS } from "../../design/theme";
 import { FONT_FAMILY } from "../../design/fonts";
-import { Logo } from "../../design/Logo";
-
 /**
  * Shot 5.3 — Hallucination Warning (17 seconds, 510 frames)
  *
@@ -116,8 +114,6 @@ export const Shot5_3: React.FC = () => {
         background: `radial-gradient(ellipse at 50% 50%, ${COLORS.bgSecondary} 0%, ${COLORS.bgPrimary} 70%)`,
       }}
     >
-      <Logo />
-
       {/* Red ambient glow when warning active */}
       {frame >= 250 && (
         <div

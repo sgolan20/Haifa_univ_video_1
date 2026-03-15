@@ -8,8 +8,6 @@ import {
 } from "remotion";
 import { COLORS } from "../../design/theme";
 import { FONT_FAMILY } from "../../design/fonts";
-import { Logo } from "../../design/Logo";
-
 /**
  * Shot 5.1 — Search Engine Side (17 seconds, 510 frames)
  *
@@ -101,8 +99,6 @@ export const Shot5_1: React.FC = () => {
         background: `radial-gradient(ellipse at 50% 50%, ${COLORS.bgSecondary} 0%, ${COLORS.bgPrimary} 70%)`,
       }}
     >
-      <Logo />
-
       {/* Section title */}
       <div
         style={{

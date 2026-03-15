@@ -9,7 +9,6 @@ import {
   useVideoConfig,
 } from "remotion";
 import { COLORS } from "../../design/theme";
-import { FONT_FAMILY } from "../../design/fonts";
 
 /**
  * Shot 9.2 — University Logo (3 seconds, 90 frames)
@@ -58,17 +57,6 @@ export const Shot9_2: React.FC = () => {
             filter: "brightness(0) invert(1)",
           }}
         />
-        <div
-          style={{
-            fontFamily: FONT_FAMILY,
-            fontSize: 30,
-            fontWeight: 600,
-            color: COLORS.textMuted,
-            direction: "rtl",
-          }}
-        >
-          אוניברסיטת חיפה
-        </div>
       </div>
     </AbsoluteFill>
   );

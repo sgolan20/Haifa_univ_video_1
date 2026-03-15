@@ -8,8 +8,6 @@ import {
 } from "remotion";
 import { COLORS } from "../../design/theme";
 import { FONT_FAMILY } from "../../design/fonts";
-import { Logo } from "../../design/Logo";
-
 /**
  * Shot 5.2 — LLM Generates Text (15 seconds, 450 frames)
  *
@@ -114,8 +112,6 @@ export const Shot5_2: React.FC = () => {
         background: `radial-gradient(ellipse at 40% 50%, ${COLORS.bgSecondary} 0%, ${COLORS.bgPrimary} 70%)`,
       }}
     >
-      <Logo />
-
       {/* Label above network */}
       <div
         style={{

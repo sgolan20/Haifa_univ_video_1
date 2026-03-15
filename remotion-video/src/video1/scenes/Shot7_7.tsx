@@ -233,7 +233,7 @@ export const Shot7_7: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            top: "48%",
+            top: "38%",
             left: "50%",
             transform: `translate(-50%, -50%) scale(${handshakeIn})`,
             opacity: handshakeIn,

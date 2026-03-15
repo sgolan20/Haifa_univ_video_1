@@ -70,6 +70,20 @@ export const Shot1_3: React.FC = () => {
         background: `radial-gradient(ellipse at 50% 50%, ${COLORS.bgSecondary} 0%, ${COLORS.bgPrimary} 70%)`,
       }}
     >
+      {/* Background image */}
+      <Img
+        src={staticFile("images/shot1_3_chat_bg.png")}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          opacity: 0.6,
+        }}
+      />
+
       {/* Chat window — big and centered */}
       <div
         style={{
