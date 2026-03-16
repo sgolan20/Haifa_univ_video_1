@@ -84,14 +84,100 @@ export const Shot1_3: React.FC = () => {
         }}
       />
 
-      {/* Chat window — big and centered */}
+      {/* Tool badges — logo images, positioned above chat window */}
       <div
         style={{
           position: "absolute",
-          top: "8%",
+          top: "4%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          display: "flex",
+          gap: 60,
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            transform: `scale(${badge1})`,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 10,
+          }}
+        >
+          <Img
+            src={staticFile("images/logo_chatgpt.png")}
+            style={{ width: 120, height: 120 }}
+          />
+          <span
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 28,
+              fontWeight: 600,
+              color: "#10a37f",
+            }}
+          >
+            ChatGPT
+          </span>
+        </div>
+        <div
+          style={{
+            transform: `scale(${badge2})`,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 10,
+          }}
+        >
+          <Img
+            src={staticFile("images/logo_claude.png")}
+            style={{ width: 120, height: 120 }}
+          />
+          <span
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 28,
+              fontWeight: 600,
+              color: "#d4a574",
+            }}
+          >
+            Claude
+          </span>
+        </div>
+        <div
+          style={{
+            transform: `scale(${badge3})`,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 10,
+          }}
+        >
+          <Img
+            src={staticFile("images/logo_gemini.png")}
+            style={{ width: 120, height: 120 }}
+          />
+          <span
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 28,
+              fontWeight: 600,
+              color: "#6b8dd6",
+            }}
+          >
+            Gemini
+          </span>
+        </div>
+      </div>
+
+      {/* Chat window — below badges */}
+      <div
+        style={{
+          position: "absolute",
+          top: "22%",
           left: "10%",
           width: "80%",
-          height: "65%",
+          height: "72%",
           borderRadius: 24,
           background: `${COLORS.bgPrimary}f0`,
           border: `2px solid ${COLORS.primary}44`,
@@ -204,93 +290,6 @@ export const Shot1_3: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Tool badges — logo images, positioned below chat window */}
-      <div
-        style={{
-          position: "absolute",
-          top: "76%",
-          left: "50%",
-          transform: "translateX(-50%)",
-          display: "flex",
-          gap: 60,
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            transform: `scale(${badge1})`,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 10,
-          }}
-        >
-          <Img
-            src={staticFile("images/logo_chatgpt.png")}
-            style={{ width: 120, height: 120 }}
-          />
-          <span
-            style={{
-              fontFamily: FONT_FAMILY,
-              fontSize: 28,
-              fontWeight: 600,
-              color: "#10a37f",
-            }}
-          >
-            ChatGPT
-          </span>
-        </div>
-        <div
-          style={{
-            transform: `scale(${badge2})`,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 10,
-          }}
-        >
-          <Img
-            src={staticFile("images/logo_claude.png")}
-            style={{ width: 120, height: 120 }}
-          />
-          <span
-            style={{
-              fontFamily: FONT_FAMILY,
-              fontSize: 28,
-              fontWeight: 600,
-              color: "#d4a574",
-            }}
-          >
-            Claude
-          </span>
-        </div>
-        <div
-          style={{
-            transform: `scale(${badge3})`,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 10,
-          }}
-        >
-          <Img
-            src={staticFile("images/logo_gemini.png")}
-            style={{ width: 120, height: 120 }}
-          />
-          <span
-            style={{
-              fontFamily: FONT_FAMILY,
-              fontSize: 28,
-              fontWeight: 600,
-              color: "#6b8dd6",
-            }}
-          >
-            Gemini
-          </span>
-        </div>
-      </div>
-
 
 
     </AbsoluteFill>

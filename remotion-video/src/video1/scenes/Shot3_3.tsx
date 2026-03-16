@@ -36,8 +36,8 @@ const FORMULAS = [
 // Chart dimensions
 const CHART_LEFT = 200;
 const CHART_RIGHT = 1720;
-const CHART_TOP = 200;
-const CHART_BOTTOM = 780;
+const CHART_TOP = 240;
+const CHART_BOTTOM = 800;
 const CHART_WIDTH = CHART_RIGHT - CHART_LEFT;
 const CHART_HEIGHT = CHART_BOTTOM - CHART_TOP;
 const BAR_GAP = 30;
@@ -321,11 +321,11 @@ export const Shot3_3: React.FC = () => {
         })}
       </svg>
 
-      {/* Bottom explanation */}
+      {/* Explanation — above chart, below title */}
       <div
         style={{
           position: "absolute",
-          bottom: 50,
+          top: 120,
           width: "100%",
           textAlign: "center",
           opacity: interpolate(frame, [300, 340], [0, 1], {

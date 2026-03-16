@@ -251,7 +251,7 @@ export const Shot2_1: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          bottom: 70,
+          top: 700,
           width: "100%",
           textAlign: "center",
           opacity: defOpacity,

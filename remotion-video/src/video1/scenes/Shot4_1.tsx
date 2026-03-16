@@ -157,7 +157,7 @@ export const Shot4_1: React.FC = () => {
             textShadow: `0 0 30px rgba(255,255,255,0.3), 0 4px 20px rgba(0,0,0,0.8)`,
           }}
         >
-          ?למה זה נקרא &quot;מודל שפה גדול&quot;
+          למה זה נקרא &quot;מודל שפה גדול&quot;?
         </div>
       </div>
 
@@ -314,7 +314,7 @@ export const Shot4_1: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          bottom: 60,
+          top: "60%",
           left: "50%",
           transform: `translateX(-50%) scale(${moreIn})`,
           opacity: moreIn,

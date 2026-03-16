@@ -20,19 +20,19 @@ import { FONT_FAMILY } from "../../design/fonts";
 const SENTENCES = [
   {
     words: ["הבוקר", "קמתי,", "שתיתי", "קפה,", "ואז", "יצאתי", "לעבודה."],
-    y: 340,
+    y: 400,
     startFrame: 10,
     wordGap: 12,
   },
   {
     words: ["בדרך", "שמעתי", "מוזיקה", "ברדיו", "ונהניתי", "מהנסיעה."],
-    y: 440,
+    y: 500,
     startFrame: 100,
     wordGap: 12,
   },
   {
     words: ["כשהגעתי", "למשרד,", "פתחתי", "את", "המחשב", "והתחלתי", "לעבוד."],
-    y: 540,
+    y: 600,
     startFrame: 180,
     wordGap: 12,
   },
@@ -113,7 +113,7 @@ export const Shot3_4: React.FC = () => {
           <div
             style={{
               position: "absolute",
-              top: 280,
+              top: 360,
               left: "12%",
               width: "76%",
               height: 340,
@@ -224,7 +224,7 @@ export const Shot3_4: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          bottom: 60,
+          top: 220,
           width: "100%",
           textAlign: "center",
           opacity: interpolate(frame, [250, 280], [0, 1], {

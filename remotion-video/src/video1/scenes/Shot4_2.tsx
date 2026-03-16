@@ -45,6 +45,11 @@ export const Shot4_2: React.FC = () => {
     extrapolateLeft: "clamp" as const,
     extrapolateRight: "clamp" as const,
   });
+  // Push siblings apart when Language grows
+  const sideShift = interpolate(frame, [0, 15, 50, 70], [0, 60, 60, 0], {
+    extrapolateLeft: "clamp" as const,
+    extrapolateRight: "clamp" as const,
+  });
 
   // Globe rotation
   const globeRotation = frame * 0.8;
@@ -80,7 +85,6 @@ export const Shot4_2: React.FC = () => {
           display: "flex",
           justifyContent: "center",
           gap: 40,
-          opacity: titleAppear,
         }}
       >
         <span
@@ -90,6 +94,7 @@ export const Shot4_2: React.FC = () => {
             fontWeight: 800,
             color: "#3b82f6",
             textShadow: "0 4px 20px rgba(0,0,0,0.8)",
+            transform: `translateX(${-sideShift}px)`,
           }}
         >
           Large
@@ -113,6 +118,7 @@ export const Shot4_2: React.FC = () => {
             fontWeight: 800,
             color: COLORS.secondary,
             textShadow: "0 4px 20px rgba(0,0,0,0.8)",
+            transform: `translateX(${sideShift}px)`,
           }}
         >
           Model
@@ -126,7 +132,6 @@ export const Shot4_2: React.FC = () => {
           top: 210,
           width: "100%",
           textAlign: "center",
-          opacity: titleAppear,
         }}
       >
         <span

@@ -294,7 +294,7 @@ export const Shot2_3: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: "68%",
+          top: "58%",
           width: "100%",
           display: "flex",
           justifyContent: "center",
@@ -382,7 +382,7 @@ export const Shot2_3: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            bottom: 60,
+            top: "68%",
             width: "100%",
             textAlign: "center",
             opacity: summaryIn,

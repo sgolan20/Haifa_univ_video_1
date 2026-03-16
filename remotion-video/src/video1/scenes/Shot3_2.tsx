@@ -42,7 +42,7 @@ export const Shot3_2: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: "28%",
+          top: "30%",
           left: "10%",
           width: "80%",
         }}
@@ -214,11 +214,11 @@ export const Shot3_2: React.FC = () => {
         })}
       </svg>
 
-      {/* Question text — same position and style as Shot 3.1 end */}
+      {/* Question text — same position as "במשפט הבא:" in Shot 3.1 */}
       <div
         style={{
           position: "absolute",
-          bottom: 80,
+          top: "18%",
           width: "100%",
           textAlign: "center",
         }}

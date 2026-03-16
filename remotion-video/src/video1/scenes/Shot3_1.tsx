@@ -221,7 +221,7 @@ export const Shot3_1: React.FC = () => {
           transform: `translateY(${(1 - labelIn) * 15}px)`,
         }}
       >
-        <span
+        <div
           style={{
             fontFamily: FONT_FAMILY,
             fontSize: 36,
@@ -230,8 +230,8 @@ export const Shot3_1: React.FC = () => {
             direction: "rtl",
           }}
         >
-במשפט הבא:
-        </span>
+          במשפט הבא:
+        </div>
       </div>
 
       {/* Terminal window */}
@@ -330,31 +330,6 @@ export const Shot3_1: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom hint — "מה המילה הבאה הסבירה ביותר?" */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 80,
-          width: "100%",
-          textAlign: "center",
-          opacity: interpolate(frame, [290, 315], [0, 1], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-          }),
-        }}
-      >
-        <div
-          style={{
-            fontFamily: FONT_FAMILY,
-            fontSize: 36,
-            fontWeight: 700,
-            color: COLORS.primary,
-            direction: "rtl",
-          }}
-        >
-מה המילה הבאה הסבירה ביותר?
-        </div>
-      </div>
     </AbsoluteFill>
   );
 };

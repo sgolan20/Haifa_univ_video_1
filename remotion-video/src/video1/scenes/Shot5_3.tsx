@@ -1,9 +1,11 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Img,
   useCurrentFrame,
   interpolate,
   spring,
+  staticFile,
   useVideoConfig,
 } from "remotion";
 import { COLORS } from "../../design/theme";
@@ -114,6 +116,23 @@ export const Shot5_3: React.FC = () => {
         background: `radial-gradient(ellipse at 50% 50%, ${COLORS.bgSecondary} 0%, ${COLORS.bgPrimary} 70%)`,
       }}
     >
+      {/* Warning background image */}
+      <Img
+        src={staticFile("video1/images/shot5_3_warning_bg.png")}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          opacity: interpolate(frame, [0, 30], [0, 0.4], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          }),
+        }}
+      />
+
       {/* Red ambient glow when warning active */}
       {frame >= 250 && (
         <div
@@ -365,7 +384,7 @@ export const Shot5_3: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          bottom: 50,
+          top: "72%",
           width: "100%",
           textAlign: "center",
           opacity: bottomIn,

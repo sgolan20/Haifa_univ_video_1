@@ -117,8 +117,7 @@ export const Shot5_2: React.FC = () => {
         style={{
           position: "absolute",
           top: 40,
-          left: 100,
-          width: 900,
+          width: "100%",
           textAlign: "center",
           opacity: labelIn,
           transform: `translateY(${(1 - labelIn) * 15}px)`,
@@ -127,7 +126,7 @@ export const Shot5_2: React.FC = () => {
         <span
           style={{
             fontFamily: FONT_FAMILY,
-            fontSize: 42,
+            fontSize: 56,
             fontWeight: 800,
             color: COLORS.secondary,
             direction: "rtl",
@@ -279,7 +278,7 @@ export const Shot5_2: React.FC = () => {
         style={{
           position: "absolute",
           right: 80,
-          top: 200,
+          top: 220,
           width: 680,
         }}
       >
@@ -289,7 +288,7 @@ export const Shot5_2: React.FC = () => {
             display: "flex",
             alignItems: "center",
             gap: 12,
-            marginBottom: 20,
+            marginBottom: 30,
             opacity: badgeIn > 0.1 ? 1 : interpolate(frame, [130, 150], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
@@ -394,31 +393,60 @@ export const Shot5_2: React.FC = () => {
           </svg>
         )}
 
-        {/* "Creates new text" badge */}
-        <div
+      </div>
+
+      {/* "Creates new text" badge */}
+      <div
+        style={{
+          position: "absolute",
+          right: 80,
+          top: 501,
+          width: 680,
+          textAlign: "center",
+          opacity: badgeIn,
+          transform: `translateY(${(1 - badgeIn) * 15}px)`,
+        }}
+      >
+        <span
           style={{
-            marginTop: 24,
-            textAlign: "center",
-            opacity: badgeIn,
-            transform: `translateY(${(1 - badgeIn) * 15}px)`,
+            fontFamily: FONT_FAMILY,
+            fontSize: 26,
+            fontWeight: 700,
+            color: COLORS.accent,
+            direction: "rtl",
+            padding: "8px 24px",
+            borderRadius: 30,
+            background: `${COLORS.accent}15`,
+            border: `2px solid ${COLORS.accent}44`,
           }}
         >
-          <span
-            style={{
-              fontFamily: FONT_FAMILY,
-              fontSize: 26,
-              fontWeight: 700,
-              color: COLORS.accent,
-              direction: "rtl",
-              padding: "8px 24px",
-              borderRadius: 30,
-              background: `${COLORS.accent}15`,
-              border: `2px solid ${COLORS.accent}44`,
-            }}
-          >
-            ✨ יוצר — לא מחפש
-          </span>
-        </div>
+          ✨ יוצר — לא מחפש
+        </span>
+      </div>
+
+      {/* Subtitle — below badge */}
+      <div
+        style={{
+          position: "absolute",
+          right: 80,
+          top: 633,
+          width: 680,
+          textAlign: "center",
+          opacity: subtitleIn,
+          transform: `translateY(${(1 - subtitleIn) * 15}px)`,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: 26,
+            fontWeight: 600,
+            color: COLORS.textMuted,
+            direction: "rtl",
+          }}
+        >
+          מייצר תשובה חדשה בזמן אמת — מילה אחרי מילה
+        </span>
       </div>
 
       {/* Comparison note */}
@@ -444,34 +472,6 @@ export const Shot5_2: React.FC = () => {
         >
           דפוסים שנלמדו מהאימון →
         </div>
-      </div>
-
-      {/* Bottom subtitle */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 50,
-          width: "100%",
-          textAlign: "center",
-          opacity: subtitleIn,
-          transform: `translateY(${(1 - subtitleIn) * 20}px)`,
-        }}
-      >
-        <span
-          style={{
-            fontFamily: FONT_FAMILY,
-            fontSize: 28,
-            fontWeight: 600,
-            color: COLORS.textMuted,
-            direction: "rtl",
-            padding: "10px 30px",
-            borderRadius: 12,
-            background: `${COLORS.bgPrimary}aa`,
-            border: `1px solid ${COLORS.secondary}33`,
-          }}
-        >
-          מייצר תשובה חדשה בזמן אמת — מילה אחרי מילה
-        </span>
       </div>
     </AbsoluteFill>
   );

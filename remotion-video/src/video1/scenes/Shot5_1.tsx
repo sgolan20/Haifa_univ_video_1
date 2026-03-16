@@ -15,16 +15,15 @@ import { FONT_FAMILY } from "../../design/fonts";
  * מנוע חיפוש, כמו גוגל, מחפש מידע קיים באינטרנט.
  * הוא מציג לכם קישורים למקורות. הוא מראה לכם איפה מצא מידע."
  *
- * Visual: Section title → animated divider → Search engine flow diagram
+ * Visual: Section title → full-screen search engine flow diagram
  * with search bar, crawling animation to source icons, result links.
- * LLM side shown dimmed as preview.
  */
 
 // Source icons for search engine
 const SOURCES = [
-  { label: "ויקיפדיה", icon: "W", color: "#4a9eff", delay: 140, x: 1200, y: 300 },
-  { label: "מאמרים", icon: "📄", color: COLORS.primary, delay: 180, x: 1350, y: 500 },
-  { label: "אתרי חדשות", icon: "🌐", color: "#4ade80", delay: 220, x: 1150, y: 680 },
+  { label: "ויקיפדיה", icon: "W", color: "#4a9eff", delay: 140, x: 500, y: 420 },
+  { label: "מאמרים", icon: "📄", color: COLORS.primary, delay: 180, x: 960, y: 520 },
+  { label: "אתרי חדשות", icon: "🌐", color: "#4ade80", delay: 220, x: 1420, y: 420 },
 ];
 
 // Search result items
@@ -46,17 +45,11 @@ export const Shot5_1: React.FC = () => {
   });
 
   // Title fades to top
-  const titleShrink = interpolate(frame, [80, 120], [1, 0.7], {
+  const titleShrink = interpolate(frame, [80, 120], [1, 0.75], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  const titleUp = interpolate(frame, [80, 120], [0, -60], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
-  // Dividing line grows
-  const lineGrow = interpolate(frame, [60, 140], [0, 1], {
+  const titleUp = interpolate(frame, [80, 120], [0, -80], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -76,12 +69,6 @@ export const Shot5_1: React.FC = () => {
 
   // Crawling dots progress
   const crawlProgress = interpolate(frame, [160, 300], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
-  // LLM side dim preview
-  const llmPreviewOpacity = interpolate(frame, [200, 280], [0, 0.25], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -121,30 +108,40 @@ export const Shot5_1: React.FC = () => {
           }}
         >
           מודל שפה{" "}
-          <span style={{ color: COLORS.accent }}>vs</span>{" "}
+          <span style={{ color: COLORS.accent }}>מול</span>{" "}
           מנוע חיפוש
         </span>
       </div>
 
-      {/* Center dividing line */}
+      {/* Subtitle: מנוע חיפוש */}
+      <div
+        style={{
+          position: "absolute",
+          top: 120,
+          width: "100%",
+          textAlign: "center",
+          opacity: searchBarIn,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: 44,
+            fontWeight: 700,
+            color: COLORS.primary,
+            direction: "rtl",
+          }}
+        >
+          🔍 מנוע חיפוש
+        </span>
+      </div>
+
+      {/* Crawling lines from search bar to sources */}
       <svg
         width={1920}
         height={1080}
         style={{ position: "absolute", top: 0, left: 0, pointerEvents: "none" }}
       >
-        {/* Vertical divider */}
-        <line
-          x1={960}
-          y1={140}
-          x2={960}
-          y2={140 + lineGrow * 800}
-          stroke={COLORS.primary}
-          strokeWidth={2}
-          opacity={0.4}
-          strokeDasharray="8,8"
-        />
-
-        {/* Crawling data dots from search bar to sources */}
         {SOURCES.map((src, i) => {
           const dotProgress = interpolate(
             crawlProgress,
@@ -152,15 +149,13 @@ export const Shot5_1: React.FC = () => {
             [0, 1],
             { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
           );
-          // Path from search bar area to source
-          const startX = 1280;
-          const startY = 260;
+          const startX = 960;
+          const startY = 310;
           const cx = startX + (src.x - startX) * dotProgress;
           const cy = startY + (src.y - startY) * dotProgress;
 
           return (
             <React.Fragment key={i}>
-              {/* Connection line */}
               <line
                 x1={startX}
                 y1={startY}
@@ -171,7 +166,6 @@ export const Shot5_1: React.FC = () => {
                 strokeDasharray="6,4"
                 opacity={dotProgress * 0.5}
               />
-              {/* Moving dot */}
               {dotProgress > 0 && dotProgress < 1 && (
                 <circle cx={cx} cy={cy} r={5} fill={src.color} opacity={0.9}>
                   <animate attributeName="r" values="4;7;4" dur="0.5s" repeatCount="indefinite" />
@@ -182,267 +176,179 @@ export const Shot5_1: React.FC = () => {
         })}
       </svg>
 
-      {/* ========== RIGHT SIDE — Search Engine (RTL) ========== */}
+      {/* Search bar — centered */}
       <div
         style={{
           position: "absolute",
-          right: 80,
-          top: 140,
-          width: 780,
+          top: 200,
+          left: "50%",
+          transform: `translateX(-50%) scale(${0.9 + searchBarIn * 0.1})`,
+          opacity: searchBarIn,
+          width: 700,
         }}
       >
-        {/* "Search Engine" label */}
         <div
           style={{
-            textAlign: "center",
-            marginBottom: 20,
-            opacity: searchBarIn,
+            display: "flex",
+            alignItems: "center",
+            gap: 14,
+            padding: "20px 32px",
+            borderRadius: 40,
+            background: `${COLORS.bgPrimary}ee`,
+            border: `2px solid ${COLORS.primary}44`,
+            boxShadow: `0 4px 30px ${COLORS.bgPrimary}88`,
+            direction: "rtl",
           }}
         >
+          <svg width={32} height={32} viewBox="0 0 28 28">
+            <circle
+              cx={12}
+              cy={12}
+              r={9}
+              fill="none"
+              stroke={COLORS.primary}
+              strokeWidth={2.5}
+              transform={`rotate(${magGlassRotate} 12 12)`}
+            />
+            <line
+              x1={19}
+              y1={19}
+              x2={26}
+              y2={26}
+              stroke={COLORS.primary}
+              strokeWidth={2.5}
+              strokeLinecap="round"
+            />
+          </svg>
           <span
             style={{
               fontFamily: FONT_FAMILY,
-              fontSize: 36,
-              fontWeight: 700,
-              color: COLORS.primary,
-              direction: "rtl",
+              fontSize: 28,
+              color: COLORS.textMuted,
+              flex: 1,
             }}
           >
-            🔍 מנוע חיפוש
+            מהו מודל שפה גדול?
           </span>
         </div>
+      </div>
 
-        {/* Animated search bar */}
-        <div
-          style={{
-            opacity: searchBarIn,
-            transform: `scale(${0.9 + searchBarIn * 0.1})`,
-          }}
-        >
+      {/* Source icons — spread across full width */}
+      {SOURCES.map((src, i) => {
+        const srcIn = spring({
+          frame: frame - src.delay,
+          fps,
+          config: { damping: 16, stiffness: 85, mass: 0.8 },
+        });
+        return (
           <div
+            key={i}
             style={{
+              position: "absolute",
+              left: src.x - 60,
+              top: src.y,
+              opacity: srcIn,
+              transform: `scale(${srcIn})`,
               display: "flex",
               alignItems: "center",
-              gap: 14,
-              padding: "16px 24px",
-              borderRadius: 40,
-              background: `${COLORS.bgPrimary}ee`,
-              border: `2px solid ${COLORS.primary}44`,
-              boxShadow: `0 4px 20px ${COLORS.bgPrimary}88`,
+              gap: 12,
               direction: "rtl",
             }}
           >
-            {/* Magnifying glass */}
-            <svg width={28} height={28} viewBox="0 0 28 28">
-              <circle
-                cx={12}
-                cy={12}
-                r={9}
-                fill="none"
-                stroke={COLORS.primary}
-                strokeWidth={2.5}
-                transform={`rotate(${magGlassRotate} 12 12)`}
-              />
-              <line
-                x1={19}
-                y1={19}
-                x2={26}
-                y2={26}
-                stroke={COLORS.primary}
-                strokeWidth={2.5}
-                strokeLinecap="round"
-              />
-            </svg>
+            <div
+              style={{
+                width: 56,
+                height: 56,
+                borderRadius: 14,
+                background: `${src.color}20`,
+                border: `2px solid ${src.color}55`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontFamily: FONT_FAMILY,
+                fontSize: 26,
+                fontWeight: 800,
+                color: src.color,
+              }}
+            >
+              {src.icon}
+            </div>
             <span
               style={{
                 fontFamily: FONT_FAMILY,
-                fontSize: 22,
-                color: COLORS.textMuted,
-                flex: 1,
+                fontSize: 24,
+                fontWeight: 600,
+                color: src.color,
               }}
             >
-              מהו מודל שפה גדול?
+              {src.label}
             </span>
           </div>
-        </div>
+        );
+      })}
 
-        {/* Source icons */}
-        {SOURCES.map((src, i) => {
-          const srcIn = spring({
-            frame: frame - src.delay,
+      {/* Search result cards — centered */}
+      <div
+        style={{
+          position: "absolute",
+          top: 600,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: 800,
+          direction: "rtl",
+        }}
+      >
+        {RESULTS.map((result, i) => {
+          const resultIn = spring({
+            frame: frame - result.delay,
             fps,
-            config: { damping: 16, stiffness: 85, mass: 0.8 },
+            config: { damping: 16, stiffness: 90, mass: 0.8 },
           });
           return (
             <div
               key={i}
               style={{
-                position: "absolute",
-                left: src.x - 1040,
-                top: src.y - 140,
-                opacity: srcIn,
-                transform: `scale(${srcIn})`,
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                direction: "rtl",
+                opacity: resultIn,
+                transform: `translateX(${(1 - resultIn) * 40}px)`,
+                marginBottom: 14,
+                padding: "16px 24px",
+                borderRadius: 14,
+                background: `${COLORS.bgPrimary}cc`,
+                border: `1px solid ${COLORS.primary}22`,
               }}
             >
               <div
                 style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: 12,
-                  background: `${src.color}20`,
-                  border: `2px solid ${src.color}55`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
                   fontFamily: FONT_FAMILY,
-                  fontSize: 22,
-                  fontWeight: 800,
-                  color: src.color,
+                  fontSize: 24,
+                  fontWeight: 600,
+                  color: "#4a9eff",
+                  marginBottom: 4,
+                  textDecoration: "underline",
+                  textDecorationColor: "#4a9eff44",
                 }}
               >
-                {src.icon}
+                {result.title}
               </div>
-              <span
+              <div
                 style={{
                   fontFamily: FONT_FAMILY,
-                  fontSize: 20,
-                  fontWeight: 600,
-                  color: src.color,
+                  fontSize: 16,
+                  color: "#4ade80",
                 }}
               >
-                {src.label}
-              </span>
+                {result.url}
+              </div>
             </div>
           );
         })}
-
-        {/* Search result cards */}
-        <div style={{ marginTop: 180, direction: "rtl" }}>
-          {RESULTS.map((result, i) => {
-            const resultIn = spring({
-              frame: frame - result.delay,
-              fps,
-              config: { damping: 16, stiffness: 90, mass: 0.8 },
-            });
-            return (
-              <div
-                key={i}
-                style={{
-                  opacity: resultIn,
-                  transform: `translateX(${(1 - resultIn) * 40}px)`,
-                  marginBottom: 10,
-                  padding: "12px 18px",
-                  borderRadius: 12,
-                  background: `${COLORS.bgPrimary}cc`,
-                  border: `1px solid ${COLORS.primary}22`,
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: FONT_FAMILY,
-                    fontSize: 20,
-                    fontWeight: 600,
-                    color: "#4a9eff",
-                    marginBottom: 3,
-                    textDecoration: "underline",
-                    textDecorationColor: "#4a9eff44",
-                  }}
-                >
-                  {result.title}
-                </div>
-                <div
-                  style={{
-                    fontFamily: FONT_FAMILY,
-                    fontSize: 14,
-                    color: "#4ade80",
-                  }}
-                >
-                  {result.url}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Key label */}
-        <div
-          style={{
-            textAlign: "center",
-            marginTop: 16,
-            opacity: interpolate(frame, [340, 380], [0, 1], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-            }),
-          }}
-        >
-          <span
-            style={{
-              fontFamily: FONT_FAMILY,
-              fontSize: 24,
-              fontWeight: 600,
-              color: COLORS.textMuted,
-              direction: "rtl",
-            }}
-          >
-            → מציג קישורים למידע קיים
-          </span>
-        </div>
-      </div>
-
-      {/* ========== LEFT SIDE — LLM (dimmed preview) ========== */}
-      <div
-        style={{
-          position: "absolute",
-          left: 100,
-          top: 300,
-          width: 700,
-          opacity: llmPreviewOpacity,
-          textAlign: "center",
-        }}
-      >
-        {/* Brain network icon */}
-        <svg width={120} height={120} viewBox="0 0 120 120">
-          <circle cx={60} cy={40} r={28} fill="none" stroke={COLORS.secondary} strokeWidth={2} opacity={0.6} />
-          <circle cx={40} cy={80} r={18} fill="none" stroke={COLORS.secondary} strokeWidth={2} opacity={0.4} />
-          <circle cx={80} cy={80} r={18} fill="none" stroke={COLORS.secondary} strokeWidth={2} opacity={0.4} />
-          <line x1={60} y1={68} x2={40} y2={62} stroke={COLORS.secondary} strokeWidth={1.5} opacity={0.3} />
-          <line x1={60} y1={68} x2={80} y2={62} stroke={COLORS.secondary} strokeWidth={1.5} opacity={0.3} />
-          <line x1={40} y1={80} x2={80} y2={80} stroke={COLORS.secondary} strokeWidth={1.5} opacity={0.3} />
-        </svg>
-        <div
-          style={{
-            fontFamily: FONT_FAMILY,
-            fontSize: 28,
-            fontWeight: 600,
-            color: COLORS.secondary,
-            marginTop: 16,
-            direction: "rtl",
-          }}
-        >
-          מודל שפה
-        </div>
-        <div
-          style={{
-            fontFamily: FONT_FAMILY,
-            fontSize: 40,
-            fontWeight: 300,
-            color: COLORS.textMuted,
-            marginTop: 10,
-          }}
-        >
-          ?
-        </div>
       </div>
 
       {/* Bottom label */}
       <div
         style={{
           position: "absolute",
-          bottom: 50,
+          top: "88%",
           width: "100%",
           textAlign: "center",
           opacity: bottomLabelIn,
