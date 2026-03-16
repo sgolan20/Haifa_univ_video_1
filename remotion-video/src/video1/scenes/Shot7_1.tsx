@@ -61,7 +61,7 @@ export const Shot7_1: React.FC = () => {
   const selectedBarTopY = chartBottom - (BARS[SELECTED_INDEX].pct / 100) * chartHeight;
 
   const diceX = interpolate(diceFallProgress, [0, 0.3, 1], [960, selectedBarX, selectedBarX]);
-  const diceY = interpolate(diceFallProgress, [0, 0.7, 0.9, 1], [80, 80, selectedBarTopY - 60, selectedBarTopY - 50]);
+  const diceY = interpolate(diceFallProgress, [0, 0.7, 0.9, 1], [230, 230, selectedBarTopY - 90, selectedBarTopY - 80]);
 
   // Selection highlight
   const selectionGlow = interpolate(frame, [diceStart + 60, diceStart + 80], [0, 1], {
@@ -171,7 +171,7 @@ export const Shot7_1: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          bottom: 50,
+          top: 140,
           width: "100%",
           textAlign: "center",
           opacity: labelIn,

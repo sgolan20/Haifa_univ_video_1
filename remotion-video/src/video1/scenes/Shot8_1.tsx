@@ -71,7 +71,17 @@ export const Shot8_1: React.FC = () => {
           textShadow: `0 0 30px ${COLORS.primary}33`,
         }}
       >
-        סיכום
+        מודל שפה
+        <div
+          style={{
+            fontSize: 36,
+            fontWeight: 600,
+            color: COLORS.textMuted,
+            marginTop: 8,
+          }}
+        >
+          סיכום
+        </div>
       </div>
 
       {/* Cards container — horizontal, centered */}

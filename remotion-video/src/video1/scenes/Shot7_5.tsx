@@ -111,7 +111,7 @@ export const Shot7_5: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: "22%",
+          top: "28%",
           left: "50%",
           transform: "translateX(-50%)",
           display: "flex",
@@ -255,7 +255,7 @@ export const Shot7_5: React.FC = () => {
           }}
         >
           <div style={{ fontFamily: FONT_FAMILY, fontSize: 28, fontWeight: 700, color: COLORS.primary, direction: "rtl", marginBottom: 10 }}>
-            יוריקה!
+            אאוריקה!
           </div>
           <div style={{ position: "relative", flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
             {/* Glow halo behind bulb — appears when lit */}
@@ -292,7 +292,7 @@ export const Shot7_5: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          bottom: 40,
+          top: 140,
           width: "100%",
           textAlign: "center",
           fontFamily: FONT_FAMILY,

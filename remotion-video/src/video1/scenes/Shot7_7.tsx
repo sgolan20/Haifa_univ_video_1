@@ -96,7 +96,7 @@ export const Shot7_7: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: "15%",
+          top: "25%",
           right: "5%",
           width: "42%",
           height: "65%",
@@ -145,7 +145,7 @@ export const Shot7_7: React.FC = () => {
           <line x1="230" y1="260" x2="230" y2="150" stroke={COLORS.textDim} strokeWidth="1" opacity="0.4" />
         </svg>
 
-        <div style={{ fontFamily: FONT_FAMILY, fontSize: 22, fontWeight: 500, color: COLORS.textMuted, direction: "rtl", textAlign: "center" }}>
+        <div style={{ fontFamily: FONT_FAMILY, fontSize: 30, fontWeight: 600, color: COLORS.textMuted, direction: "rtl", textAlign: "center" }}>
           ניסויים, תצפיות, גילויים
         </div>
       </div>
@@ -154,7 +154,7 @@ export const Shot7_7: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: "15%",
+          top: "25%",
           left: "5%",
           width: "42%",
           height: "65%",
@@ -192,7 +192,7 @@ export const Shot7_7: React.FC = () => {
           <rect x="250" y="220" width="70" height="40" rx="4" fill={`${COLORS.accent}22`} stroke={COLORS.accent} strokeWidth="1" opacity="0.5" />
         </svg>
 
-        <div style={{ fontFamily: FONT_FAMILY, fontSize: 22, fontWeight: 500, color: COLORS.textMuted, direction: "rtl", textAlign: "center" }}>
+        <div style={{ fontFamily: FONT_FAMILY, fontSize: 30, fontWeight: 600, color: COLORS.textMuted, direction: "rtl", textAlign: "center" }}>
           עיבוד, סיכום, חיזוי
         </div>
       </div>
@@ -202,9 +202,9 @@ export const Shot7_7: React.FC = () => {
         <svg width={1920} height={1080} style={{ position: "absolute", top: 0, left: 0, pointerEvents: "none" }}>
           <line
             x1={550}
-            y1={540}
+            y1={700}
             x2={550 + (1370 - 550) * connectionProgress}
-            y2={540}
+            y2={700}
             stroke={COLORS.accent}
             strokeWidth={2.5}
             strokeDasharray="10 6"
@@ -214,10 +214,10 @@ export const Shot7_7: React.FC = () => {
           {connectionProgress > 0.5 && (
             <text
               x={960}
-              y={525}
+              y={750}
               textAnchor="middle"
               fontFamily={FONT_FAMILY}
-              fontSize={24}
+              fontSize={36}
               fontWeight={700}
               fill={COLORS.accent}
               opacity={connectionProgress}
@@ -233,7 +233,7 @@ export const Shot7_7: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            top: "38%",
+            top: "58%",
             left: "50%",
             transform: `translate(-50%, -50%) scale(${handshakeIn})`,
             opacity: handshakeIn,
@@ -241,15 +241,15 @@ export const Shot7_7: React.FC = () => {
         >
           <div
             style={{
-              width: 80,
-              height: 80,
+              width: 120,
+              height: 120,
               borderRadius: "50%",
               background: `${COLORS.accent}25`,
               border: `3px solid ${COLORS.accent}`,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 40,
+              fontSize: 60,
               boxShadow: `0 0 30px ${COLORS.accent}44`,
             }}
           >
@@ -262,11 +262,11 @@ export const Shot7_7: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          bottom: 40,
+          bottom: 200,
           width: "100%",
           textAlign: "center",
           fontFamily: FONT_FAMILY,
-          fontSize: 30,
+          fontSize: 34,
           fontWeight: 700,
           color: COLORS.primary,
           direction: "rtl",

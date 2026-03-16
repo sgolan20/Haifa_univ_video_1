@@ -95,11 +95,35 @@ export const Shot7_6: React.FC = () => {
         }}
       />
 
+      {/* Title — "מודל שפה" */}
+      <div
+        style={{
+          position: "absolute",
+          top: 50,
+          width: "100%",
+          textAlign: "center",
+          fontFamily: FONT_FAMILY,
+          fontSize: 64,
+          fontWeight: 800,
+          color: COLORS.primary,
+          direction: "rtl",
+          textShadow: `0 0 20px ${COLORS.primary}66, 0 0 40px ${COLORS.primary}33`,
+          letterSpacing: 4,
+          opacity: spring({
+            frame,
+            fps,
+            config: { damping: 16, stiffness: 90, mass: 0.8 },
+          }),
+        }}
+      >
+        מודל שפה
+      </div>
+
       {/* Two columns container */}
       <div
         style={{
           position: "absolute",
-          top: "12%",
+          top: "25%",
           left: "50%",
           transform: "translateX(-50%)",
           display: "flex",
@@ -141,7 +165,7 @@ export const Shot7_6: React.FC = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
+                  justifyContent: "flex-start",
                   gap: 16,
                   direction: "rtl",
                   marginBottom: 18,
@@ -251,7 +275,7 @@ export const Shot7_6: React.FC = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
+                  justifyContent: "flex-start",
                   gap: 16,
                   direction: "rtl",
                   marginBottom: 18,
@@ -298,7 +322,7 @@ export const Shot7_6: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          bottom: 70,
+          top: "65%",
           width: "100%",
           textAlign: "center",
           opacity: conclusionIn,

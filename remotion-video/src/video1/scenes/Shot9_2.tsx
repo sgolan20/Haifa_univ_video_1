@@ -50,13 +50,20 @@ export const Shot9_2: React.FC = () => {
           gap: 24,
         }}
       >
-        <Img
-          src={staticFile("images/haifa-logo.png")}
+        <div
           style={{
-            height: 120,
-            filter: "brightness(0) invert(1)",
+            padding: "50px 70px",
+            borderRadius: 30,
+            background: "rgba(255, 255, 255, 0.95)",
           }}
-        />
+        >
+          <Img
+            src={staticFile("images/haifa-logo.png")}
+            style={{
+              height: 300,
+            }}
+          />
+        </div>
       </div>
     </AbsoluteFill>
   );

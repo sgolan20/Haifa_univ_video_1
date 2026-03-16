@@ -111,7 +111,7 @@ export const Shot7_2: React.FC = () => {
           transform: `translateY(${(1 - promptIn) * 15}px)`,
         }}
       >
-        <span
+        <div
           style={{
             fontFamily: FONT_FAMILY,
             fontSize: 36,
@@ -122,7 +122,7 @@ export const Shot7_2: React.FC = () => {
           }}
         >
           אותו Prompt — תשובות שונות בכל פעם
-        </span>
+        </div>
       </div>
 
       {/* SVG: Prompt box + branches + cards */}

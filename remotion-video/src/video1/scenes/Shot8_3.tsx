@@ -73,7 +73,7 @@ export const Shot8_3: React.FC = () => {
               textShadow: `0 0 25px ${COLORS.accent}44`,
             }}
           >
-            = הבסיס לשימוש מושכל
+            היא הבסיס לשימוש מושכל
           </div>
         </div>
       </div>

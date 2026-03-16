@@ -78,7 +78,7 @@ export const Shot7_4: React.FC = () => {
           opacity: bubbleIn,
         }}
       >
-        המגבלה: בועת הנתונים
+        מגבלת מודל השפה: בועת הנתונים
       </div>
 
       <svg width={1920} height={1080} style={{ position: "absolute", top: 0, left: 0 }}>

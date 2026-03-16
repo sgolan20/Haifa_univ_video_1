@@ -132,7 +132,7 @@ export const Shot8_4: React.FC = () => {
             direction: "rtl",
           }}
         >
-          כיצד להשתמש בכלים אלה בצורה אפקטיבית
+          נבחן כיצד להשתמש בכלים אלה בצורה אפקטיבית
         </div>
       </div>
     </AbsoluteFill>
