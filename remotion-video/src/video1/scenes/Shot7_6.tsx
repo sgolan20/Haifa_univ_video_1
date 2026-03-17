@@ -141,7 +141,7 @@ export const Shot7_6: React.FC = () => {
               fontWeight: 800,
               color: COLORS.primary,
               direction: "rtl",
-              textAlign: "center",
+              textAlign: "right",
               marginBottom: 30,
               opacity: spring({
                 frame,
@@ -247,7 +247,7 @@ export const Shot7_6: React.FC = () => {
         </div>
 
         {/* Left column (RTL second) — CANNOT do */}
-        <div style={{ width: 500 }}>
+        <div style={{ width: 500, transform: "translateX(-50px)" }}>
           <div
             style={{
               fontFamily: FONT_FAMILY,
@@ -255,7 +255,7 @@ export const Shot7_6: React.FC = () => {
               fontWeight: 800,
               color: COLORS.warning,
               direction: "rtl",
-              textAlign: "center",
+              textAlign: "right",
               marginBottom: 30,
               opacity: dividerIn,
             }}
