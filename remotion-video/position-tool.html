@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Position Tool — Shot 5-2 Right Panel</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0e1a; font-family: 'Rubik', sans-serif; overflow: hidden; }
+  @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700;800&display=swap');
+
+  #canvas {
+    width: 1920px; height: 1080px;
+    transform-origin: top left;
+    position: relative;
+    background: radial-gradient(ellipse at 40% 50%, #111827, #0a0e1a 70%);
+  }
+
+  .draggable {
+    position: absolute;
+    cursor: grab;
+    user-select: none;
+  }
+  .draggable:active { cursor: grabbing; }
+  .draggable:hover { outline: 2px dashed #00d4ff88; }
+
+  #output {
+    position: fixed;
+    bottom: 10px; left: 10px;
+    background: #1a1a2eee;
+    color: #00d4ff;
+    font-family: monospace;
+    font-size: 14px;
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: 1px solid #00d4ff44;
+    z-index: 999;
+    direction: ltr;
+    white-space: pre;
+  }
+
+  #title {
+    width: 100%; text-align: center;
+    font-size: 56px; font-weight: 800;
+    color: #8b5cf6;
+    text-shadow: 0 0 20px #8b5cf644;
+    top: 40px;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<div id="canvas">
+  <!-- Title (fixed) -->
+  <div id="title" style="position:absolute;top:40px;width:100%;text-align:center;font-size:56px;font-weight:800;color:#8b5cf6;">
+    מודל שפה — יוצר תוכן חדש
+  </div>
+
+  <!-- Draggable: Output header -->
+  <div class="draggable" id="el-header" style="right:80px;top:160px;width:680px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+      <div style="width:10px;height:10px;border-radius:50%;background:#fbbf24;box-shadow:0 0 8px #fbbf2488;"></div>
+      <span style="font-size:18px;font-weight:600;color:#fbbf24;letter-spacing:2px;direction:ltr;">OUTPUT — תשובה חדשה</span>
+    </div>
+    <div style="padding:28px 32px;border-radius:18px;background:linear-gradient(135deg,#0a0e1aee,#111827ee);border:1px solid #fbbf2433;min-height:140px;direction:rtl;">
+      <div style="font-size:30px;color:#fff;line-height:2;">
+        מודל שפה הוא מערכת שלומדת דפוסים ומייצרת טקסט חדש בזמן <span style="color:#fbbf24;">אמת.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Draggable: Badge -->
+  <div class="draggable" id="el-badge" style="right:80px;top:480px;width:680px;text-align:center;">
+    <span style="font-size:26px;font-weight:700;color:#fbbf24;padding:8px 24px;border-radius:30px;background:#fbbf2415;border:2px solid #fbbf2444;">
+      ✨ יוצר — לא מחפש
+    </span>
+  </div>
+
+  <!-- Draggable: Subtitle -->
+  <div class="draggable" id="el-subtitle" style="right:80px;top:560px;width:680px;text-align:center;">
+    <span style="font-size:26px;font-weight:600;color:#94a3b8;">
+      מייצר תשובה חדשה בזמן אמת — מילה אחרי מילה
+    </span>
+  </div>
+</div>
+
+<div id="output">Loading...</div>
+
+<script>
+  // Scale canvas to fit
+  function scaleCanvas() {
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    document.getElementById('canvas').style.transform = `scale(${s})`;
+  }
+  scaleCanvas();
+  window.addEventListener('resize', scaleCanvas);
+
+  // Dragging
+  const els = document.querySelectorAll('.draggable');
+  let dragEl = null, startY = 0, startTop = 0;
+
+  els.forEach(el => {
+    el.addEventListener('mousedown', e => {
+      dragEl = el;
+      const canvas = document.getElementById('canvas');
+      const s = parseFloat(canvas.style.transform.match(/scale\(([^)]+)\)/)?.[1] || 1);
+      startY = e.clientY / s;
+      startTop = parseInt(el.style.top) || 0;
+      e.preventDefault();
+    });
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!dragEl) return;
+    const canvas = document.getElementById('canvas');
+    const s = parseFloat(canvas.style.transform.match(/scale\(([^)]+)\)/)?.[1] || 1);
+    const dy = e.clientY / s - startY;
+    dragEl.style.top = Math.max(0, startTop + dy) + 'px';
+    updateOutput();
+  });
+
+  document.addEventListener('mouseup', () => { dragEl = null; });
+
+  function updateOutput() {
+    const header = parseInt(document.getElementById('el-header').style.top);
+    const badge = parseInt(document.getElementById('el-badge').style.top);
+    const subtitle = parseInt(document.getElementById('el-subtitle').style.top);
+    document.getElementById('output').textContent =
+      `Output header:  top: ${header}px\n` +
+      `Badge:          top: ${badge}px  (gap: ${badge - header}px)\n` +
+      `Subtitle:       top: ${subtitle}px  (gap: ${subtitle - badge}px)`;
+  }
+  updateOutput();
+</script>
+</body>
+</html>
