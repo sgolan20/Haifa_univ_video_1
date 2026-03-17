@@ -31,7 +31,7 @@ import { Shot9_1 } from "./video1/scenes/Shot9_1";
 import { Shot9_2 } from "./video1/scenes/Shot9_2";
 import { FullVideo } from "./video1/FullVideo";
 import { SHOT_TIMING, TOTAL_DURATION_FRAMES } from "./video1/timing";
-// Video 2
+// Video 2 (legacy — Hallucinations, full)
 import { FullVideo2 } from "./video2/FullVideo";
 import { TOTAL_DURATION_FRAMES as V2_TOTAL_FRAMES, SHOT_TIMING as V2_SHOT_TIMING } from "./video2/timing";
 import { Shot1_1 as V2_Shot1_1 } from "./video2/scenes/Shot1_1";
@@ -39,6 +39,26 @@ import { Shot1_2 as V2_Shot1_2 } from "./video2/scenes/Shot1_2";
 import { Shot2_1 as V2_Shot2_1 } from "./video2/scenes/Shot2_1";
 import { Shot2_2 as V2_Shot2_2 } from "./video2/scenes/Shot2_2";
 import { Shot2_3 as V2_Shot2_3 } from "./video2/scenes/Shot2_3";
+
+// Video 2A
+import { FullVideo2A } from "./video2a/FullVideo";
+import { TOTAL_DURATION_FRAMES as V2A_TOTAL_FRAMES, SHOT_TIMING as V2A_SHOT_TIMING } from "./video2a/timing";
+import { Shot1_1 as V2A_Shot1_1 } from "./video2a/scenes/Shot1_1";
+import { Shot2_1 as V2A_Shot2_1 } from "./video2a/scenes/Shot2_1";
+import { Shot3_1 as V2A_Shot3_1 } from "./video2a/scenes/Shot3_1";
+import { Shot4_1 as V2A_Shot4_1 } from "./video2a/scenes/Shot4_1";
+import { Shot5_1 as V2A_Shot5_1 } from "./video2a/scenes/Shot5_1";
+import { Shot5_2 as V2A_Shot5_2 } from "./video2a/scenes/Shot5_2";
+import { Shot6_1 as V2A_Shot6_1 } from "./video2a/scenes/Shot6_1";
+
+// Video 2B
+import { FullVideo2B } from "./video2b/FullVideo";
+import { TOTAL_DURATION_FRAMES as V2B_TOTAL_FRAMES, SHOT_TIMING as V2B_SHOT_TIMING } from "./video2b/timing";
+import { Shot1_1 as V2B_Shot1_1 } from "./video2b/scenes/Shot1_1";
+import { Shot2_1 as V2B_Shot2_1 } from "./video2b/scenes/Shot2_1";
+import { Shot3_1 as V2B_Shot3_1 } from "./video2b/scenes/Shot3_1";
+import { Shot4_1 as V2B_Shot4_1 } from "./video2b/scenes/Shot4_1";
+import { Shot5_1 as V2B_Shot5_1 } from "./video2b/scenes/Shot5_1";
 
 const FPS = 30;
 
@@ -350,6 +370,45 @@ export const Root: React.FC = () => {
             width={1920}
             height={1080}
           />
+        </Folder>
+      </Folder>
+      {/* ========== VIDEO 2A — Hallucinations (כשהמודל נשמע משכנע אבל טועה) ========== */}
+      <Folder name="Video-2A-Hallucinations">
+        <Composition
+          id="full-video-2a"
+          component={FullVideo2A}
+          durationInFrames={V2A_TOTAL_FRAMES}
+          fps={FPS}
+          width={1920}
+          height={1080}
+        />
+        <Folder name="Shots">
+          <Composition id="v2a-shot1-1" component={V2A_Shot1_1} durationInFrames={V2A_SHOT_TIMING["shot1-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="v2a-shot2-1" component={V2A_Shot2_1} durationInFrames={V2A_SHOT_TIMING["shot2-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="v2a-shot3-1" component={V2A_Shot3_1} durationInFrames={V2A_SHOT_TIMING["shot3-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="v2a-shot4-1" component={V2A_Shot4_1} durationInFrames={V2A_SHOT_TIMING["shot4-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="v2a-shot5-1" component={V2A_Shot5_1} durationInFrames={V2A_SHOT_TIMING["shot5-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="v2a-shot5-2" component={V2A_Shot5_2} durationInFrames={V2A_SHOT_TIMING["shot5-2"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="v2a-shot6-1" component={V2A_Shot6_1} durationInFrames={V2A_SHOT_TIMING["shot6-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+        </Folder>
+      </Folder>
+
+      {/* ========== VIDEO 2B — למה מודלי שפה טועים לפעמים? ========== */}
+      <Folder name="Video-2B-Why-Models-Err">
+        <Composition
+          id="full-video-2b"
+          component={FullVideo2B}
+          durationInFrames={V2B_TOTAL_FRAMES}
+          fps={FPS}
+          width={1920}
+          height={1080}
+        />
+        <Folder name="Shots">
+          <Composition id="v2b-shot1-1" component={V2B_Shot1_1} durationInFrames={V2B_SHOT_TIMING["shot1-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="v2b-shot2-1" component={V2B_Shot2_1} durationInFrames={V2B_SHOT_TIMING["shot2-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="v2b-shot3-1" component={V2B_Shot3_1} durationInFrames={V2B_SHOT_TIMING["shot3-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="v2b-shot4-1" component={V2B_Shot4_1} durationInFrames={V2B_SHOT_TIMING["shot4-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="v2b-shot5-1" component={V2B_Shot5_1} durationInFrames={V2B_SHOT_TIMING["shot5-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
         </Folder>
       </Folder>
     </>
