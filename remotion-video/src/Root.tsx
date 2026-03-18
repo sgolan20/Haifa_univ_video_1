@@ -59,6 +59,7 @@ import { Shot2_1 as V2B_Shot2_1 } from "./video2b/scenes/Shot2_1";
 import { Shot3_1 as V2B_Shot3_1 } from "./video2b/scenes/Shot3_1";
 import { Shot4_1 as V2B_Shot4_1 } from "./video2b/scenes/Shot4_1";
 import { Shot5_1 as V2B_Shot5_1 } from "./video2b/scenes/Shot5_1";
+import { Shot5_2 as V2B_Shot5_2 } from "./video2b/scenes/Shot5_2";
 
 const FPS = 30;
 
@@ -409,6 +410,7 @@ export const Root: React.FC = () => {
           <Composition id="v2b-shot3-1" component={V2B_Shot3_1} durationInFrames={V2B_SHOT_TIMING["shot3-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="v2b-shot4-1" component={V2B_Shot4_1} durationInFrames={V2B_SHOT_TIMING["shot4-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="v2b-shot5-1" component={V2B_Shot5_1} durationInFrames={V2B_SHOT_TIMING["shot5-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="v2b-shot5-2" component={V2B_Shot5_2} durationInFrames={V2B_SHOT_TIMING["shot5-2"].durationInFrames} fps={FPS} width={1920} height={1080} />
         </Folder>
       </Folder>
     </>
