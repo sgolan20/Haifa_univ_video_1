@@ -7,8 +7,11 @@ dist/
 # Environment
 .env
 
-# Media files in root audio/ folder (TTS drafts, not needed in repo)
-audio/*.mp3
+# TTS drafts in root audio/ folder (work in progress, not final)
+/audio/
+
+# Temporary files
+_tmp_*
 
 # TTS API caches
 tts/
