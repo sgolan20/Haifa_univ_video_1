@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
+import { AbsoluteFill, Audio, Img, Sequence, staticFile, useCurrentFrame, interpolate } from "remotion";
 import { SHOT_TIMING, SHOT_ORDER } from "./timing";
 
 // Import all shot components
@@ -71,9 +71,23 @@ const SHOT_COMPONENTS: Record<string, React.FC> = {
  * FullVideo — Master composition that sequences all shots
  * with the full narration audio playing continuously underneath.
  */
+// Calculate the frame where the last shot starts
+const LAST_SHOT_START = SHOT_ORDER.slice(0, -1).reduce(
+  (sum, id) => sum + SHOT_TIMING[id].durationInFrames,
+  0
+);
+
 export const FullVideo: React.FC = () => {
+  const frame = useCurrentFrame();
+
   // Calculate cumulative frame offsets for each shot
   let cumulativeFrame = 0;
+
+  // Logo fades out 30 frames before the last shot
+  const logoOpacity = interpolate(frame, [LAST_SHOT_START - 30, LAST_SHOT_START], [0.5, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
   return (
     <AbsoluteFill>
@@ -101,6 +115,20 @@ export const FullVideo: React.FC = () => {
           </Sequence>
         );
       })}
+
+      {/* University logo — persistent top-left overlay, fades out before last shot */}
+      {logoOpacity > 0 && (
+        <Img
+          src={staticFile("images/haifa-logo-white.png")}
+          style={{
+            position: "absolute",
+            top: 30,
+            left: 30,
+            height: 60,
+            opacity: logoOpacity,
+          }}
+        />
+      )}
     </AbsoluteFill>
   );
 };

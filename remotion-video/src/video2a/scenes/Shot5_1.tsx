@@ -106,7 +106,7 @@ export const Shot5_1: React.FC = () => {
   // Card layout constants
   const CARD_WIDTH = 660;
   const CARD_GAP = 50;
-  const CARDS_TOP = 280;
+  const CARDS_TOP = 430;
 
   return (
     <AbsoluteFill
@@ -126,11 +126,59 @@ export const Shot5_1: React.FC = () => {
         }}
       />
 
+      {/* ── Persistent title: "Hallucinations / הזיות" ── */}
+      <div
+        style={{
+          position: "absolute",
+          top: 100,
+          width: "100%",
+          textAlign: "center",
+          zIndex: 10,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: 104,
+            fontWeight: 800,
+            color: COLORS.primary,
+            direction: "ltr",
+            letterSpacing: 4,
+            textShadow: `0 0 30px ${COLORS.primary}44`,
+          }}
+        >
+          Hallucinations
+        </span>
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: 80,
+            fontWeight: 700,
+            color: COLORS.text,
+            marginRight: 30,
+            marginLeft: 30,
+          }}
+        >
+          /
+        </span>
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: 88,
+            fontWeight: 700,
+            color: COLORS.text,
+            direction: "rtl",
+          }}
+        >
+          הזיות
+        </span>
+      </div>
+
       {/* Phase 1: Badge + Title */}
       <div
         style={{
           position: "absolute",
-          top: 60,
+          top: 250,
           width: "100%",
           display: "flex",
           flexDirection: "column",
@@ -389,7 +437,7 @@ export const Shot5_1: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            top: 680,
+            top: 830,
             width: "100%",
             display: "flex",
             flexDirection: "column",
@@ -454,7 +502,6 @@ export const Shot5_1: React.FC = () => {
           </div>
         </div>
       )}
-
     </AbsoluteFill>
   );
 };

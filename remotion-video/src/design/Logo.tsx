@@ -18,10 +18,9 @@ export const Logo: React.FC<{ opacity?: number }> = ({ opacity = 0.5 }) => {
       }}
     >
       <Img
-        src={staticFile("images/haifa-logo.png")}
+        src={staticFile("images/haifa-logo-white.png")}
         style={{
           height: 60,
-          filter: "brightness(0) invert(1)",
         }}
       />
     </div>

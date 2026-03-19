@@ -122,8 +122,9 @@ export const Shot5_2: React.FC = () => {
             fill="none"
             stroke={COLORS.warning}
             strokeWidth="2"
-            strokeDasharray={60}
-            strokeDashoffset={60 * (1 - triangleDraw)}
+            strokeLinejoin="round"
+            strokeDasharray={80}
+            strokeDashoffset={80 * (1 - triangleDraw)}
           />
           <text
             x="12"
@@ -185,7 +186,6 @@ export const Shot5_2: React.FC = () => {
           ולכן קל לפספס אותן
         </div>
       </div>
-
     </AbsoluteFill>
   );
 };

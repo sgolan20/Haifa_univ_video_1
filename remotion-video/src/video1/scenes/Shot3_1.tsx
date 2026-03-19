@@ -329,7 +329,6 @@ export const Shot3_1: React.FC = () => {
           </div>
         </div>
       </div>
-
     </AbsoluteFill>
   );
 };

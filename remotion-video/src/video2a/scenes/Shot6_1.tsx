@@ -11,6 +11,7 @@ import {
 import { COLORS } from "../../design/theme";
 import { FONT_FAMILY } from "../../design/fonts";
 
+
 /**
  * Shot 6.1 — Summary + Teaser (405 frames, 13.5s)
  *
@@ -70,11 +71,6 @@ export const Shot6_1: React.FC = () => {
     extrapolateRight: "clamp",
   });
 
-  // Arrow line grows from left to right
-  const arrowProgress = interpolate(frame, [325, 375], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
   const teaserTextIn = spring({
     frame: frame - 340,
     fps,
@@ -216,63 +212,31 @@ export const Shot6_1: React.FC = () => {
         </div>
       </div>
 
-      {/* Phase 3: Teaser arrow + text */}
+      {/* Phase 3: Teaser text */}
       {frame >= 325 && (
-        <>
-          {/* Arrow SVG with proper arrowhead */}
-          <svg
-            width="400"
-            height="60"
-            viewBox="0 0 400 60"
+        <div
+          style={{
+            position: "absolute",
+            bottom: 220,
+            width: "100%",
+            textAlign: "center",
+            opacity: teaserTextIn,
+            transform: `scale(${0.9 + teaserTextIn * 0.1})`,
+          }}
+        >
+          <span
             style={{
-              position: "absolute",
-              bottom: 200,
-              left: "50%",
-              transform: "translateX(-50%)",
-              pointerEvents: "none",
+              fontFamily: FONT_FAMILY,
+              fontSize: 42,
+              fontWeight: 700,
+              color: COLORS.primary,
+              direction: "rtl",
+              textShadow: `0 0 20px ${COLORS.primary}44, 0 0 40px ${COLORS.primary}22`,
             }}
           >
-            <line
-              x1={0}
-              y1={30}
-              x2={arrowProgress * 380}
-              y2={30}
-              stroke={COLORS.primary}
-              strokeWidth={3}
-              strokeLinecap="round"
-            />
-            <polygon
-              points={`${arrowProgress * 380 - 10},20 ${arrowProgress * 380},30 ${arrowProgress * 380 - 10},40`}
-              fill={COLORS.primary}
-              opacity={arrowProgress > 0.85 ? interpolate(arrowProgress, [0.85, 1], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) : 0}
-            />
-          </svg>
-
-          {/* Teaser text */}
-          <div
-            style={{
-              position: "absolute",
-              top: 680,
-              width: "100%",
-              textAlign: "center",
-              opacity: teaserTextIn,
-              transform: `scale(${0.9 + teaserTextIn * 0.1})`,
-            }}
-          >
-            <span
-              style={{
-                fontFamily: FONT_FAMILY,
-                fontSize: 42,
-                fontWeight: 700,
-                color: COLORS.primary,
-                direction: "rtl",
-                textShadow: `0 0 20px ${COLORS.primary}44, 0 0 40px ${COLORS.primary}22`,
-              }}
-            >
-              בסרטון הבא ←
-            </span>
-          </div>
-        </>
+            ← בסרטון הבא
+          </span>
+        </div>
       )}
 
       </AbsoluteFill>

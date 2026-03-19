@@ -258,6 +258,54 @@ export const Shot2_1: React.FC = () => {
         }}
       />
 
+      {/* ── Persistent title: always visible, not affected by phase transitions ── */}
+      <div
+        style={{
+          position: "absolute",
+          top: 100,
+          width: "100%",
+          textAlign: "center",
+          zIndex: 10,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: 104,
+            fontWeight: 800,
+            color: COLORS.primary,
+            direction: "ltr",
+            letterSpacing: 4,
+            textShadow: `0 0 30px ${COLORS.primary}44`,
+          }}
+        >
+          Hallucinations
+        </span>
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: 80,
+            fontWeight: 700,
+            color: COLORS.text,
+            marginRight: 30,
+            marginLeft: 30,
+          }}
+        >
+          /
+        </span>
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: 88,
+            fontWeight: 700,
+            color: COLORS.text,
+            direction: "rtl",
+          }}
+        >
+          הזיות
+        </span>
+      </div>
+
       {/* ===== Phase 1: Definition with mask reveal ===== */}
       {frame < 390 && (
         <div
@@ -270,36 +318,12 @@ export const Shot2_1: React.FC = () => {
             opacity: phase1FadeOut,
           }}
         >
-          {/* Section title */}
-          <div
-            style={{
-              position: "absolute",
-              top: 120,
-              width: "100%",
-              textAlign: "center",
-              opacity: sectionTitleOpacity,
-              transform: `scale(${sectionTitleScale})`,
-            }}
-          >
-            <div
-              style={{
-                fontFamily: FONT_FAMILY,
-                fontSize: 56,
-                fontWeight: 700,
-                color: COLORS.primary,
-                direction: "rtl",
-                textShadow: `0 0 40px ${COLORS.primary}55, 0 0 80px ${COLORS.primary}22`,
-              }}
-            >
-              מהן Hallucinations?
-            </div>
-          </div>
 
           {/* Overlapping rectangles container */}
           <div
             style={{
               position: "absolute",
-              top: "42%",
+              top: "52%",
               left: "50%",
               transform: "translate(-50%, -50%)",
               width: 740,
@@ -472,54 +496,7 @@ export const Shot2_1: React.FC = () => {
             );
           })}
 
-          {/* ── Note title: "חשוב לציין" with decorative lines ── */}
-          <div
-            style={{
-              position: "absolute",
-              top: 75,
-              width: "100%",
-              opacity: noteTitleOpacity,
-              transform: `scale(${noteTitleScale})`,
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 24,
-              }}
-            >
-              <div
-                style={{
-                  width: 70,
-                  height: 1.5,
-                  background: `linear-gradient(to right, transparent, ${COLORS.primary}55)`,
-                  borderRadius: 1,
-                }}
-              />
-              <div
-                style={{
-                  fontFamily: FONT_FAMILY,
-                  fontSize: 46,
-                  fontWeight: 700,
-                  color: COLORS.primary,
-                  direction: "rtl",
-                  textShadow: `0 0 35px ${COLORS.primary}44, 0 0 70px ${COLORS.primary}18`,
-                }}
-              >
-                חשוב לציין
-              </div>
-              <div
-                style={{
-                  width: 70,
-                  height: 1.5,
-                  background: `linear-gradient(to left, transparent, ${COLORS.primary}55)`,
-                  borderRadius: 1,
-                }}
-              />
-            </div>
-          </div>
+          {/* Title is now rendered persistently outside phase blocks */}
 
           {/* ════════════════════════════════════════════════ */}
           {/* ── Right panel — Early models                ── */}
@@ -527,7 +504,7 @@ export const Shot2_1: React.FC = () => {
           <div
             style={{
               position: "absolute",
-              top: 195,
+              top: 295,
               left: earlyPanelLeft,
               width: 520,
               background: `linear-gradient(145deg, ${COLORS.bgPrimary}dd 0%, ${COLORS.bgPrimary}c4 100%)`,
@@ -768,7 +745,7 @@ export const Shot2_1: React.FC = () => {
           <div
             style={{
               position: "absolute",
-              top: 195,
+              top: 295,
               left: 380,
               width: 520,
               background: `linear-gradient(145deg, ${COLORS.bgPrimary}dd 0%, ${COLORS.bgPrimary}c4 100%)`,

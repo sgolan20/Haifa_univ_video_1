@@ -9,6 +9,7 @@ import {
 import { COLORS } from "../../design/theme";
 import { FONT_FAMILY } from "../../design/fonts";
 
+
 /**
  * Shot 4.1 — Example 2: Plausible Numerical Data (885 frames, 29.5s)
  *
@@ -207,11 +208,59 @@ export const Shot4_1: React.FC = () => {
         fontFamily: FONT_FAMILY,
       }}
     >
+      {/* ── Persistent title: "Hallucinations / הזיות" ── */}
+      <div
+        style={{
+          position: "absolute",
+          top: 100,
+          width: "100%",
+          textAlign: "center",
+          zIndex: 10,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: 104,
+            fontWeight: 800,
+            color: COLORS.primary,
+            direction: "ltr",
+            letterSpacing: 4,
+            textShadow: `0 0 30px ${COLORS.primary}44`,
+          }}
+        >
+          Hallucinations
+        </span>
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: 80,
+            fontWeight: 700,
+            color: COLORS.text,
+            marginRight: 30,
+            marginLeft: 30,
+          }}
+        >
+          /
+        </span>
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: 88,
+            fontWeight: 700,
+            color: COLORS.text,
+            direction: "rtl",
+          }}
+        >
+          הזיות
+        </span>
+      </div>
+
       {/* ── Badge + Title (centered) ── */}
       <div
         style={{
           position: "absolute",
-          top: 40,
+          top: 250,
           left: 0,
           right: 0,
           display: "flex",
@@ -273,7 +322,7 @@ export const Shot4_1: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 190,
+          top: 390,
           left: "50%",
           transform: `translateX(-50%) ${
             isExpandPhase
@@ -460,7 +509,7 @@ export const Shot4_1: React.FC = () => {
           <div
             style={{
               position: "absolute",
-              top: "68%",
+              top: "75%",
               left: "50%",
               transform: "translate(-50%, -50%)",
               pointerEvents: "none",
@@ -480,7 +529,7 @@ export const Shot4_1: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            top: "68%",
+            top: "75%",
             left: "50%",
             transform: `translate(-50%, -50%) scale(${bigPercentScale}) translateX(${glitchX}px)`,
             fontSize: 120,
@@ -530,7 +579,7 @@ export const Shot4_1: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            top: "82%",
+            top: "89%",
             left: "50%",
             transform: "translateX(-50%)",
             display: "flex",

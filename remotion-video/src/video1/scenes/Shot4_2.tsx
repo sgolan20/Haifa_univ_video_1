@@ -249,8 +249,6 @@ export const Shot4_2: React.FC = () => {
           );
         })}
       </svg>
-
-
     </AbsoluteFill>
   );
 };

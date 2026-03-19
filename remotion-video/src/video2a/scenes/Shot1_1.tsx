@@ -16,18 +16,18 @@ import { FONT_FAMILY } from "../../design/fonts";
  *
  * Narration sync (frames relative to shot start):
  *   f0-26:    "שלום לכולם"
- *   f40-148:  "בסרטון הקודם למדנו כיצד מודלי שפה עובדים"
- *   f160-321: "הם חוזים מילים על בסיס דפוסים סטטיסטיים שלמדו מכמות עצומה של טקסטים"
- *   f338-427: "היום נדבר על אחת ההשלכות של עקרון הפעולה הזה"
- *   f443-506: "תופעה שנקראת Hallucinations,"
- *   f525-566: "או בעברית, הזיות." — word "הזיות" at f554
+ *   f38-145:  "בסרטון הקודם למדנו כיצד מודלי שפה עובדים"
+ *   f156-318: "הם חוזים מילים על בסיס דפוסים סטטיסטיים שלמדו מכמות עצומה של טקסטים"
+ *   f338-424: "היום נדבר על אחת ההשלכות של עקרון הפעולה הזה"
+ *   f442-503: "תופעה שנקראת Hallucinations," — word at f474
+ *   f517-565: "או בעברית, הזיות." — word "הזיות" at f551
  *   f590-802: "זו תופעה חשובה להבנה במיוחד כאשר משתמשים בבינה מלאכותית לצרכים אקדמיים ומקצועיים"
  *
  * Animation phases:
- *   Phase 1 (0-80):    Background image + Title "Hallucinations" + subtitle
- *   Phase 2 (80-350):  Title moves up, 3 icon badges appear staggered
- *   Phase 3 (350-570): Badges fade, glitch "Hallucinations" + "הזיות"
- *   Phase 4 (570-810): Glassmorphic card with summary text
+ *   Phase 1 (0-80):    Background image + Title "מודלי שפה" + subtitle recap
+ *   Phase 2 (80-430):  Title moves up, 3 icon badges + neural network (matching narration recap)
+ *   Phase 3 (440-590): "Hallucinations" reveals at f470 (synced to narration) + "הזיות" at f551
+ *   Phase 4 (590-810): Glassmorphic card with summary text
  */
 
 // Badge data
@@ -51,7 +51,7 @@ export const Shot1_1: React.FC = () => {
     extrapolateRight: "clamp",
   });
 
-  // Title "Hallucinations" spring entrance
+  // Title spring entrance
   const titleScale = spring({
     frame,
     fps,
@@ -92,41 +92,41 @@ export const Shot1_1: React.FC = () => {
     extrapolateRight: "clamp",
   });
 
-  // Title fades out for phase 3 reappearance
-  const titleFadeForPhase3 = interpolate(frame, [320, 350], [1, 0], {
+  // Title fades out before phase 3
+  const titleFadeForPhase3 = interpolate(frame, [400, 430], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  // Badge section visibility
-  const badgesFadeOut = interpolate(frame, [350, 380], [1, 0], {
+  // Badge section visibility (extended to match narration recap)
+  const badgesFadeOut = interpolate(frame, [400, 430], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
   // =====================
-  // Phase 3 (350-550): Glitch "Hallucinations" + "הזיות"
+  // Phase 3 (440-590): "Hallucinations" reveal synced to narration
   // =====================
 
-  const phase3Active = frame >= 350 && frame < 605;
+  const phase3Active = frame >= 440 && frame < 605;
 
-  // Phase 3 title fade in
-  const phase3TitleOpacity = interpolate(frame, [350, 380], [0, 1], {
+  // Phase 3 title fade in (synced: narrator says "Hallucinations" at f474)
+  const phase3TitleOpacity = interpolate(frame, [455, 475], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  // Glitch effect: horizontal jitter between frames 380-480
+  // Glitch effect: horizontal jitter after "Hallucinations" appears
   const glitchX =
-    frame > 443 && frame < 525 ? Math.sin(frame * 2.5) * 2 : 0;
+    frame > 474 && frame < 545 ? Math.sin(frame * 2.5) * 2 : 0;
 
   // Color flicker: alternate between primary and warning
   const flickerColor =
     Math.sin(frame * 0.15) > 0 ? COLORS.primary : COLORS.warning;
 
-  // "הזיות" spring entrance at frame 515
+  // "הזיות" spring entrance synced to narrator (f551)
   const hazayotScale = spring({
-    frame: frame - 550,
+    frame: frame - 548,
     fps,
     config: { damping: 16, stiffness: 90, mass: 0.8 },
   });
@@ -136,9 +136,21 @@ export const Shot1_1: React.FC = () => {
     extrapolateRight: "clamp",
   });
 
-  // Red ambient glow pulsing
+  // Background hue shift: blue brain → red brain when "Hallucinations" appears
+  const bgHueRotate = interpolate(frame, [440, 480], [0, 160], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  // Boost saturation slightly during red phase for vividness
+  const bgSaturate = interpolate(frame, [440, 480], [1, 1.4], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  // Red ambient glow pulsing (starts when "Hallucinations" appears)
   const redGlowOpacity =
-    frame >= 443
+    frame >= 470
       ? interpolate(Math.sin(frame * 0.06), [-1, 1], [0.05, 0.2], {
           extrapolateLeft: "clamp",
           extrapolateRight: "clamp",
@@ -187,7 +199,7 @@ export const Shot1_1: React.FC = () => {
         background: `radial-gradient(ellipse at 50% 50%, ${COLORS.bgSecondary} 0%, ${COLORS.bgPrimary} 70%)`,
       }}
     >
-      {/* AI-generated background image */}
+      {/* AI-generated background image — hue shifts blue→red during Hallucinations phase */}
       <Img
         src={staticFile("video2a/images/shot1_1_brain_glitch.png")}
         style={{
@@ -198,6 +210,7 @@ export const Shot1_1: React.FC = () => {
           height: "100%",
           objectFit: "cover",
           opacity: bgOpacity,
+          filter: `hue-rotate(${bgHueRotate}deg) saturate(${bgSaturate})`,
         }}
       />
 
@@ -218,8 +231,8 @@ export const Shot1_1: React.FC = () => {
         />
       )}
 
-      {/* ===== Phase 1 & 2: Main title "Hallucinations" ===== */}
-      {frame < 350 && (
+      {/* ===== Phase 1 & 2: Recap title "מודלי שפה" ===== */}
+      {frame < 440 && (
         <div
           style={{
             position: "absolute",
@@ -236,12 +249,11 @@ export const Shot1_1: React.FC = () => {
               fontSize: 80,
               fontWeight: 800,
               color: COLORS.text,
-              direction: "ltr",
-              letterSpacing: 3,
+              direction: "rtl",
               textShadow: `0 0 ${20 * glowPulse}px ${COLORS.primary}88, 0 0 ${40 * glowPulse}px ${COLORS.primary}44`,
             }}
           >
-            Hallucinations
+            מודלי שפה
           </div>
 
           {/* Subtitle — Phase 1 only */}
@@ -256,13 +268,13 @@ export const Shot1_1: React.FC = () => {
               opacity: subtitleOpacity * subtitleFadeOut,
             }}
           >
-            כשהמודל נשמע משכנע אבל טועה
+            חזרה על העקרונות
           </div>
         </div>
       )}
 
       {/* ===== Phase 2: SVG Neural Network decoration ===== */}
-      {frame >= 80 && frame < 400 && (
+      {frame >= 80 && frame < 440 && (
         <svg
           style={{
             position: "absolute",
@@ -340,7 +352,7 @@ export const Shot1_1: React.FC = () => {
       )}
 
       {/* ===== Phase 2: Icon badges ===== */}
-      {frame >= 80 && frame < 400 && (
+      {frame >= 80 && frame < 440 && (
         <div
           style={{
             position: "absolute",
@@ -348,7 +360,8 @@ export const Shot1_1: React.FC = () => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             display: "flex",
-            gap: 80,
+            flexDirection: "row-reverse",
+            gap: 100,
             opacity: badgesFadeOut,
           }}
         >
@@ -384,16 +397,16 @@ export const Shot1_1: React.FC = () => {
                 {/* Circle with emoji */}
                 <div
                   style={{
-                    width: 90,
-                    height: 90,
+                    width: 180,
+                    height: 180,
                     borderRadius: "50%",
                     background: `${badge.color}18`,
-                    border: `2px solid ${badge.color}66`,
+                    border: `3px solid ${badge.color}66`,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: 44,
-                    boxShadow: `0 0 20px ${badge.color}33`,
+                    fontSize: 88,
+                    boxShadow: `0 0 30px ${badge.color}33`,
                   }}
                 >
                   {badge.emoji}
@@ -402,7 +415,7 @@ export const Shot1_1: React.FC = () => {
                 <div
                   style={{
                     fontFamily: FONT_FAMILY,
-                    fontSize: 30,
+                    fontSize: 56,
                     fontWeight: 600,
                     color: badge.color,
                     direction: "rtl",
@@ -480,12 +493,12 @@ export const Shot1_1: React.FC = () => {
             <span
               style={{
                 fontFamily: FONT_FAMILY,
-                fontSize: 52,
+                fontSize: 104,
                 fontWeight: 800,
                 color: COLORS.primary,
                 direction: "ltr",
-                letterSpacing: 2,
-                textShadow: `0 0 20px ${COLORS.primary}44`,
+                letterSpacing: 4,
+                textShadow: `0 0 30px ${COLORS.primary}44`,
               }}
             >
               Hallucinations
@@ -493,11 +506,11 @@ export const Shot1_1: React.FC = () => {
             <span
               style={{
                 fontFamily: FONT_FAMILY,
-                fontSize: 40,
+                fontSize: 80,
                 fontWeight: 700,
                 color: COLORS.text,
-                marginRight: 20,
-                marginLeft: 20,
+                marginRight: 30,
+                marginLeft: 30,
               }}
             >
               /
@@ -505,7 +518,7 @@ export const Shot1_1: React.FC = () => {
             <span
               style={{
                 fontFamily: FONT_FAMILY,
-                fontSize: 44,
+                fontSize: 88,
                 fontWeight: 700,
                 color: COLORS.text,
                 direction: "rtl",
@@ -536,7 +549,7 @@ export const Shot1_1: React.FC = () => {
             <div
               style={{
                 direction: "rtl",
-                textAlign: "right",
+                textAlign: "center",
               }}
             >
               <div
@@ -549,7 +562,7 @@ export const Shot1_1: React.FC = () => {
                   lineHeight: 1.5,
                 }}
               >
-                תופעה חשובה להבנה
+                תופעה חשובה להבנה ב-AI
               </div>
               <div
                 style={{

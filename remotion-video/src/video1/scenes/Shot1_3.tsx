@@ -290,8 +290,6 @@ export const Shot1_3: React.FC = () => {
           </div>
         </div>
       </div>
-
-
     </AbsoluteFill>
   );
 };

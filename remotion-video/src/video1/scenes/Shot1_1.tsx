@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Video, staticFile, useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
+import { AbsoluteFill, OffthreadVideo, staticFile, useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
 import { FONT_FAMILY } from "../../design/fonts";
 
 /**
@@ -49,7 +49,7 @@ export const Shot1_1: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
-      <Video
+      <OffthreadVideo
         src={staticFile("video1/video/narrator.mp4")}
         volume={0}
         style={{

@@ -9,6 +9,7 @@ import {
 import { COLORS } from "../../design/theme";
 import { FONT_FAMILY } from "../../design/fonts";
 
+
 /**
  * Shot 3.1 — Example 1: Research Attribution (1005 frames, 33.5s)
  *
@@ -266,16 +267,6 @@ export const Shot3_1: React.FC = () => {
     return <>{parts}</>;
   };
 
-  // Summary card (frame 975)
-  const summaryOpacity = interpolate(frame, [975, 995], [0, 1], CLAMP);
-  const summaryScale =
-    frame >= 975
-      ? spring({
-          frame: frame - 975,
-          fps,
-          config: { damping: 16, stiffness: 90, mass: 0.8 },
-        })
-      : 0;
 
   return (
     <AbsoluteFill
@@ -284,11 +275,58 @@ export const Shot3_1: React.FC = () => {
         fontFamily: FONT_FAMILY,
       }}
     >
+      {/* ── Persistent title: "Hallucinations / הזיות" ── */}
+      <div
+        style={{
+          position: "absolute",
+          top: 100,
+          width: "100%",
+          textAlign: "center",
+        }}
+      >
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: 104,
+            fontWeight: 800,
+            color: COLORS.primary,
+            direction: "ltr",
+            letterSpacing: 4,
+            textShadow: `0 0 30px ${COLORS.primary}44`,
+          }}
+        >
+          Hallucinations
+        </span>
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: 80,
+            fontWeight: 700,
+            color: COLORS.text,
+            marginRight: 30,
+            marginLeft: 30,
+          }}
+        >
+          /
+        </span>
+        <span
+          style={{
+            fontFamily: FONT_FAMILY,
+            fontSize: 88,
+            fontWeight: 700,
+            color: COLORS.text,
+            direction: "rtl",
+          }}
+        >
+          הזיות
+        </span>
+      </div>
+
       {/* ── Badge + Title (centered) ── */}
       <div
         style={{
           position: "absolute",
-          top: 40,
+          top: 250,
           left: 0,
           right: 0,
           display: "flex",
@@ -350,7 +388,7 @@ export const Shot3_1: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 190,
+          top: 390,
           left: "50%",
           transform: `translateX(calc(-50% + ${shakeX}px))`,
           width: 850,
@@ -541,7 +579,7 @@ export const Shot3_1: React.FC = () => {
           <div
             style={{
               position: "absolute",
-              top: 540,
+              top: 700,
               left: "50%",
               transform: `translate(-50%, 0) scale(${checkScale})`,
               display: "flex",
@@ -586,7 +624,7 @@ export const Shot3_1: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            bottom: 160,
+            bottom: 40,
             left: 0,
             right: 0,
             display: "flex",
@@ -659,35 +697,6 @@ export const Shot3_1: React.FC = () => {
         </div>
       )}
 
-      {/* ── Phase 4: Summary card ── */}
-      {frame >= 975 && (
-        <div
-          style={{
-            position: "absolute",
-            bottom: 60,
-            left: "50%",
-            transform: `translateX(-50%) scale(${summaryScale})`,
-            opacity: summaryOpacity,
-            background: "rgba(239,68,68,0.1)",
-            border: `2px solid ${COLORS.warning}`,
-            borderRadius: 16,
-            padding: "16px 32px",
-            direction: "rtl",
-            textAlign: "center",
-          }}
-        >
-          <div
-            style={{
-              fontSize: 32,
-              fontWeight: 600,
-              color: COLORS.warning,
-              lineHeight: 1.6,
-            }}
-          >
-            המודל חיבר חלקים אמיתיים לתשובה שלא קיימת
-          </div>
-        </div>
-      )}
 
     </AbsoluteFill>
   );
