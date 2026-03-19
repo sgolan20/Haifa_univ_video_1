@@ -234,29 +234,31 @@ export const Shot5_2: React.FC = () => {
           >
             איך הנתונים שעליהם המודל אומן
             <br />
-            משפיעים על התשובות שהוא מייצר
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 14 }}>
+              משפיעים על התשובות שהוא מייצר
+              {/* Animated left-pointing arrow */}
+              <svg
+                width="70"
+                height="36"
+                viewBox="0 0 50 26"
+                style={{
+                  opacity: 0.7,
+                  transform: `translateX(${Math.sin(frame * 0.05) * -5}px)`,
+                  flexShrink: 0,
+                }}
+              >
+                <path
+                  d="M45 13 L12 13 M20 5 L12 13 L20 21"
+                  stroke={COLORS.secondary}
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none"
+                  opacity={0.6}
+                />
+              </svg>
+            </span>
           </div>
-
-          {/* Animated arrow */}
-          <svg
-            width="50"
-            height="26"
-            viewBox="0 0 50 26"
-            style={{
-              opacity: supportOpacity * 0.7,
-              transform: `translateX(${Math.sin(frame * 0.05) * 5}px)`,
-            }}
-          >
-            <path
-              d="M5 13 L38 13 M30 5 L38 13 L30 21"
-              stroke={COLORS.secondary}
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              fill="none"
-              opacity={0.6}
-            />
-          </svg>
         </div>
       )}
 

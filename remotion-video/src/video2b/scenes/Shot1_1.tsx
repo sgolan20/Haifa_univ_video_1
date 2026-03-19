@@ -15,7 +15,7 @@ import { FONT_FAMILY } from "../../design/fonts";
  *
  * Duration: 327 frames (10.9s)
  *
- * Phase 1 (f0-120):  Big centered title + "חלק 2" subtitle
+ * Phase 1 (f0-120):  Big centered title
  * Phase 2 (f120-327): Title moves up, Hallucinations card + "למה זה קורה?"
  *
  * Narration timecodes:
@@ -42,12 +42,6 @@ export const Shot1_1: React.FC = () => {
     config: { damping: 20, stiffness: 60, mass: 1 },
   });
   const titleY = titleMoveProgress * -160;
-
-  // Subtitle "חלק 2"
-  const subtitleOpacity = interpolate(frame, [30, 50], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
 
   // Glow pulse on title
   const glowIntensity = 0.4 + 0.3 * Math.sin(frame * 0.06);
@@ -140,20 +134,6 @@ export const Shot1_1: React.FC = () => {
           <span style={{ color: COLORS.primary }}>טועים לפעמים?</span>
         </div>
 
-        {/* Subtitle */}
-        <div
-          style={{
-            fontFamily: FONT_FAMILY,
-            fontSize: 28,
-            fontWeight: 500,
-            color: COLORS.textMuted,
-            marginTop: 20,
-            opacity: subtitleOpacity,
-            letterSpacing: "2px",
-          }}
-        >
-          חלק 2
-        </div>
       </div>
 
       {/* ══════════════ PHASE 2: HALLUCINATIONS CARD + QUESTION ══════════════ */}

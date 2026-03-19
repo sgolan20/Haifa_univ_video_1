@@ -20,11 +20,12 @@ import { FONT_FAMILY } from "../../design/fonts";
  * Phase 1 (f0-400):   "שאלה למחשבה" + two rhetorical questions
  * Phase 2 (f400-510): Contemplative pause — questions stay, particles float, fade out
  *
- * Narration timecodes (relative to shot start at 116.15s):
- *   0.5s  "ולסיום שאלה למחשבה"
- *   2.6s  "אם כלי בינה מלאכותית יכולים לייצר מידע משכנע אך לא תמיד מדויק"
- *   7.6s  "מהי האחריות של המשתמש בכלי כזה?"
- *  10.7s  "והאם השימוש בהם משנה את האופן שבו אנו חושבים על אמינות מחקרית"
+ * Whisper by_shot aligned (audioStart=116.15s):
+ *   f14   (0.47s)  "ולסיום שאלה למחשבה"
+ *   f78   (2.61s)  "אם כלי בינה מלאכותית יכולים לייצר מידע משכנע"
+ *   f228  (7.61s)  "מהי האחריות של המשתמש בכלי כזה?"
+ *   f320  (10.67s) "והאם השימוש בהם משנה את האופן..."
+ *   f509  (16.97s) "אקדמית" — narration ends
  */
 
 /* ─── Floating Particle ────────────────────────────────────── */
@@ -66,19 +67,19 @@ export const Shot5_1: React.FC = () => {
 
   /* ── Phase 1: Questions ── */
   const sectionTitle = spring({
-    frame: frame - 10,
+    frame: frame - 14,
     fps,
     config: { damping: 16, stiffness: 90, mass: 0.8 },
   });
 
   const question1 = spring({
-    frame: frame - 70,
+    frame: frame - 228,
     fps,
     config: { damping: 16, stiffness: 80, mass: 0.8 },
   });
 
   const question2 = spring({
-    frame: frame - 200,
+    frame: frame - 320,
     fps,
     config: { damping: 16, stiffness: 80, mass: 0.8 },
   });
@@ -111,20 +112,21 @@ export const Shot5_1: React.FC = () => {
           width: "100%",
           height: "100%",
           objectFit: "cover",
-          opacity: interpolate(frame, [0, 30], [0, 0.25], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
+          opacity: 0.3,
         }}
       />
-      {/* Gradient overlay — shifts from blue to warm purple */}
+      {/* Gradient overlay — smooth shift from cool to warm */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           background: `radial-gradient(ellipse at center,
-            ${interpolate(gradientShift, [0, 1], [0, 0.15]) > 0.1
-              ? `${COLORS.secondary}30`
-              : `${COLORS.bgSecondary}aa`
-            } 0%,
+            ${COLORS.bgSecondary}99 0%,
             ${COLORS.bgPrimary}f0 70%)`,
+          opacity: interpolate(gradientShift, [0, 1], [1, 0.75], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          }),
         }}
       />
 
@@ -150,21 +152,50 @@ export const Shot5_1: React.FC = () => {
           padding: "0 100px",
         }}
       >
-        {/* Section title */}
+        {/* Section title — large and prominent */}
         <div
           style={{
-            fontFamily: FONT_FAMILY,
-            fontSize: 48,
-            fontWeight: 700,
-            color: COLORS.accent,
-            direction: "rtl",
-            textAlign: "center",
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             transform: `scale(${sectionTitle})`,
-            textShadow: `0 0 30px ${COLORS.accent}55`,
-            letterSpacing: "-0.5px",
           }}
         >
-          שאלה למחשבה
+          {/* Title text */}
+          <div
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 72,
+              fontWeight: 800,
+              color: COLORS.accent,
+              direction: "rtl",
+              textAlign: "center",
+              textShadow: `0 0 60px ${COLORS.accent}88, 0 0 120px ${COLORS.accent}33, 0 2px 12px rgba(0,0,0,0.6)`,
+              letterSpacing: "2px",
+              position: "relative",
+            }}
+          >
+            שאלה למחשבה
+            {/* Decorative underline */}
+            <div
+              style={{
+                position: "absolute",
+                bottom: -16,
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: interpolate(frame, [14, 60], [0, 100], {
+                  extrapolateLeft: "clamp",
+                  extrapolateRight: "clamp",
+                }),
+                maxWidth: 400,
+                height: 3,
+                background: `linear-gradient(90deg, transparent, ${COLORS.accent}, transparent)`,
+                borderRadius: 2,
+                opacity: 0.7,
+              }}
+            />
+          </div>
         </div>
 
         {/* Question 1 */}

@@ -11,415 +11,122 @@ import {
 import { COLORS } from "../../design/theme";
 import { FONT_FAMILY } from "../../design/fonts";
 
-
 /**
  * Shot 3.1 — "למה המודל נשמע כל כך בטוח?"
  *
- * Duration: 919 frames (30.63s)
+ * Duration: 922 frames (30.72s)
  *
- * Phase 1 (f0-290):    Chat bubbles — the model SOUNDS confident
- * Phase 2 (f280-520):  Confidence gauge stuck at 100% — no doubt mechanism
- * Phase 3 (f500-750):  Writing styles (academic, journalistic, encyclopedic)
- * Phase 4 (f730-919):  Conclusion — "professional phrasing ≠ accurate info"
+ * Phase 1 (f0-258):   Big question + dramatic reformulation
+ * Phase 2 (f244-482): Missing sensors dashboard — no inner compass
+ * Phase 3 (f470-728): Style explanation — learned from text sources
+ * Phase 4 (f716-922): Punchline — identical packaging, different accuracy
  *
- * Narration timecodes (relative to shot start at 56.34s):
- *   0.0s  "למה המודל נשמע כל כך בטוח?"
- *   3.1s  "שאלה שמבלבלת הרבה משתמשים היא"
- *   5.6s  "אם המודל לא בטוח – למה הוא נשמע כל כך בטוח?"
- *   9.8s  "התשובה היא שלמודל אין תחושת ביטחון או ספק"
- *  13.4s  "הוא לא יודע שהוא טועה – והוא גם לא יודע כשהוא צודק"
- *  17.1s  "מה שאנחנו מפרשים כביטחון הוא פשוט סגנון הכתיבה"
- *  21.1s  "שהמודל למד מטקסטים אקדמיים, עיתונאיים ואנציקלופדיים"
- *  24.9s  "לכן גם מידע לא מדויק"
- *  27.2s  "יכול להופיע באותו ניסוח מקצועי ומשכנע"
+ * Whisper-aligned timecodes (relative to shot start 56.34s):
+ *   f0    (0.00s)  "למה המודל נשמע כל כך בטוח?" (starts before shot)
+ *   f56   (1.88s)  "שאלה שמבלבלת הרבה משתמשים היא"
+ *   f130  (4.34s)  "אם המודל לא בטוח, למה הוא נשמע כל כך בטוח?"
+ *   f241  (8.02s)  ↑ ends — transition to Phase 2
+ *   f256  (8.52s)  "התשובה היא שלמודל אין תחושת ביטחון או ספק"
+ *   f360  (12.0s)  "הוא לא יודע שהוא טועה"
+ *   f413  (13.78s) "והוא גם לא יודע כשהוא צודק"
+ *   f475  (15.84s) "מה שאנחנו מפרשים כביטחון" — transition to Phase 3
+ *   f548  (18.28s) "הוא פשוט סגנון הכתיבה שהמודל למד..."
+ *   f640  (21.34s) "אקדמיים" → pillar 1
+ *   f664  (22.12s) "עיתונאיים" → pillar 2
+ *   f679  (22.64s) "ואנציקלופדיים" → pillar 3
+ *   f712  (23.72s) ↑ ends — transition to Phase 4
+ *   f726  (24.20s) "לכן גם מידע לא מדויק"
+ *   f778  (25.94s) "יכול להופיע באותו ניסוח מקצועי ומשכנע"
+ *   f872  (29.08s) ↑ ends
  */
-
-/* ─── Glassmorphic Card ────────────────────────────────────── */
-
-const GlassCard: React.FC<{
-  children: React.ReactNode;
-  borderColor?: string;
-  style?: React.CSSProperties;
-}> = ({ children, borderColor = "rgba(255,255,255,0.1)", style }) => (
-  <div
-    style={{
-      background: "rgba(255,255,255,0.06)",
-      backdropFilter: "blur(16px)",
-      border: `1.5px solid ${borderColor}`,
-      borderRadius: 20,
-      padding: "28px 36px",
-      ...style,
-    }}
-  >
-    {children}
-  </div>
-);
-
-/* ─── Chat Bubble ──────────────────────────────────────────── */
-
-const ChatBubble: React.FC<{
-  text: string;
-  scale: number;
-  opacity: number;
-}> = ({ text, scale, opacity }) => (
-  <div
-    style={{
-      opacity,
-      transform: `scale(${scale})`,
-      display: "flex",
-      alignItems: "flex-start",
-      gap: 16,
-      direction: "rtl",
-    }}
-  >
-    {/* AI avatar */}
-    <div
-      style={{
-        width: 52,
-        height: 52,
-        borderRadius: "50%",
-        background: `linear-gradient(135deg, ${COLORS.primary}44, ${COLORS.secondary}44)`,
-        border: `2px solid ${COLORS.primary}55`,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexShrink: 0,
-      }}
-    >
-      <span
-        style={{
-          fontFamily: FONT_FAMILY,
-          fontSize: 22,
-          fontWeight: 700,
-          color: COLORS.primary,
-        }}
-      >
-        AI
-      </span>
-    </div>
-    {/* Bubble */}
-    <div
-      style={{
-        background: "rgba(255,255,255,0.07)",
-        border: `1.5px solid ${COLORS.primary}33`,
-        borderRadius: "20px 4px 20px 20px",
-        padding: "20px 28px",
-        maxWidth: 700,
-      }}
-    >
-      <div
-        style={{
-          fontFamily: FONT_FAMILY,
-          fontSize: 28,
-          fontWeight: 500,
-          color: COLORS.text,
-          direction: "rtl",
-          textAlign: "right",
-          lineHeight: 1.6,
-        }}
-      >
-        {text}
-      </div>
-      {/* Confidence indicator */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          marginTop: 12,
-          justifyContent: "flex-end",
-        }}
-      >
-        <span
-          style={{
-            fontFamily: FONT_FAMILY,
-            fontSize: 18,
-            color: "#22c55e",
-            fontWeight: 600,
-          }}
-        >
-          ✓ תשובה בטוחה
-        </span>
-      </div>
-    </div>
-  </div>
-);
-
-/* ─── SVG Confidence Gauge ─────────────────────────────────── */
-
-const ConfidenceGauge: React.FC<{
-  drawProgress: number;
-  showX: number;
-}> = ({ drawProgress, showX }) => {
-  const radius = 110;
-  const cx = 140;
-  const cy = 140;
-  const circumference = Math.PI * radius; // half circle
-  const dashOffset = circumference * (1 - drawProgress);
-
-  return (
-    <svg width={280} height={170} viewBox="0 0 280 170">
-      {/* Background arc */}
-      <path
-        d={`M ${cx - radius} ${cy} A ${radius} ${radius} 0 0 1 ${cx + radius} ${cy}`}
-        fill="none"
-        stroke="rgba(255,255,255,0.08)"
-        strokeWidth={20}
-        strokeLinecap="round"
-      />
-      {/* Filled arc — always at 100% */}
-      <path
-        d={`M ${cx - radius} ${cy} A ${radius} ${radius} 0 0 1 ${cx + radius} ${cy}`}
-        fill="none"
-        stroke={`url(#gaugeGrad)`}
-        strokeWidth={20}
-        strokeLinecap="round"
-        strokeDasharray={circumference}
-        strokeDashoffset={dashOffset}
-      />
-      {/* Gradient */}
-      <defs>
-        <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#22c55e" />
-          <stop offset="50%" stopColor={COLORS.accent} />
-          <stop offset="100%" stopColor={COLORS.warning} />
-        </linearGradient>
-      </defs>
-      {/* Needle — stuck at 100% (right end) */}
-      <line
-        x1={cx}
-        y1={cy}
-        x2={cx + radius * Math.cos(Math.PI * (1 - drawProgress))}
-        y2={cy - radius * Math.sin(Math.PI * (1 - drawProgress))}
-        stroke={COLORS.text}
-        strokeWidth={4}
-        strokeLinecap="round"
-        opacity={drawProgress}
-      />
-      {/* Center dot */}
-      <circle cx={cx} cy={cy} r={8} fill={COLORS.text} opacity={drawProgress} />
-      {/* 100% label */}
-      <text
-        x={cx + radius + 20}
-        y={cy + 6}
-        fontFamily={FONT_FAMILY}
-        fontSize={24}
-        fontWeight={700}
-        fill={COLORS.warning}
-        opacity={drawProgress}
-      >
-        100%
-      </text>
-      {/* 0% label */}
-      <text
-        x={cx - radius - 40}
-        y={cy + 6}
-        fontFamily={FONT_FAMILY}
-        fontSize={24}
-        fontWeight={700}
-        fill="#22c55e"
-        opacity={drawProgress}
-      >
-        0%
-      </text>
-      {/* X mark */}
-      <g opacity={showX}>
-        <circle cx={cx} cy={cy - 40} r={22} fill={`${COLORS.warning}33`} stroke={`${COLORS.warning}66`} strokeWidth={2} />
-        <text
-          x={cx}
-          y={cy - 32}
-          fontFamily={FONT_FAMILY}
-          fontSize={28}
-          fontWeight={800}
-          fill={COLORS.warning}
-          textAnchor="middle"
-          dominantBaseline="middle"
-        >
-          ✗
-        </text>
-      </g>
-    </svg>
-  );
-};
-
-/* ─── Style Card ───────────────────────────────────────────── */
-
-const StyleCard: React.FC<{
-  icon: string;
-  title: string;
-  example: string;
-  borderColor: string;
-  scale: number;
-  opacity: number;
-}> = ({ icon, title, example, borderColor, scale, opacity }) => (
-  <div
-    style={{
-      opacity,
-      transform: `scale(${scale})`,
-      flex: 1,
-    }}
-  >
-    <GlassCard
-      borderColor={`${borderColor}66`}
-      style={{
-        textAlign: "center",
-        padding: "24px 28px",
-        boxShadow: `0 0 25px ${borderColor}0c`,
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 14,
-      }}
-    >
-      <div style={{ fontSize: 42 }}>{icon}</div>
-      <div
-        style={{
-          fontFamily: FONT_FAMILY,
-          fontSize: 26,
-          fontWeight: 700,
-          color: borderColor,
-          direction: "rtl",
-        }}
-      >
-        {title}
-      </div>
-      <div
-        style={{
-          fontFamily: FONT_FAMILY,
-          fontSize: 24,
-          fontWeight: 400,
-          color: COLORS.textMuted,
-          direction: "rtl",
-          lineHeight: 1.5,
-          fontStyle: "italic",
-        }}
-      >
-        &quot;{example}&quot;
-      </div>
-    </GlassCard>
-  </div>
-);
-
-/* ─── Main Shot Component ──────────────────────────────────── */
 
 export const Shot3_1: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  /* ── Title ── */
-  const titleOpacity = interpolate(frame, [0, 20], [0, 1], {
+  /* ── Phase transitions (Whisper-aligned) ── */
+  const phase1Opacity = interpolate(frame, [242, 258], [1, 0], {
+    extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  const titleY = interpolate(frame, [0, 20], [20, 0], {
+  const phase2Opacity = interpolate(
+    frame,
+    [244, 260, 525, 548],
+    [0, 1, 1, 0],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+  );
+  const interpOpacity = interpolate(
+    frame,
+    [525, 548, 600, 618],
+    [0, 1, 1, 0],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+  );
+  const phase3Opacity = interpolate(
+    frame,
+    [602, 618, 748, 764],
+    [0, 1, 1, 0],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+  );
+  const phase4Opacity = interpolate(frame, [750, 766], [0, 1], {
+    extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  /* ── Phase visibility ── */
-  const phase1Opacity = interpolate(frame, [260, 290], [1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  const phase2Opacity = interpolate(frame, [260, 290, 570, 600], [0, 1, 1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  const phase3Opacity = interpolate(frame, [570, 600, 760, 790], [0, 1, 1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  const phase4Opacity = interpolate(frame, [770, 800], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
-  /* ── Phase 1: Chat Bubbles ── */
-  const bubble1Scale = spring({
-    frame: frame - 80,
+  /* ── Phase 1: Big Question ── */
+  const titleScale = spring({
+    frame,
     fps,
     config: { damping: 16, stiffness: 90, mass: 0.8 },
   });
-  const bubble2Scale = spring({
-    frame: frame - 140,
-    fps,
-    config: { damping: 16, stiffness: 90, mass: 0.8 },
-  });
-
-  /* ── Phase 2: Gauge ── */
-  const gaugeDrawProgress = spring({
-    frame: frame - 310,
-    fps,
-    config: { damping: 30, stiffness: 40, mass: 1.2 },
-  });
-  const gaugeXMark = interpolate(frame, [370, 390], [0, 1], {
+  const subtitleOpacity = interpolate(frame, [56, 80], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  const noDoubtText = interpolate(frame, [380, 400], [0, 1], {
+  const bigQuestionScale = spring({
+    frame: frame - 130,
+    fps,
+    config: { damping: 14, stiffness: 80, mass: 0.8 },
+  });
+  const qPulse = 0.5 + 0.5 * Math.sin(frame * 0.08);
+
+  /* ── Phase 2: Missing Sensors ── */
+  const sensors = [
+    { label: "תחושת ביטחון", icon: "🎯", startFrame: 270 },
+    { label: "זיהוי טעויות", icon: "🔍", startFrame: 360 },
+    { label: "תחושת ספק", icon: "⚖️", startFrame: 413 },
+  ];
+
+  /* ── Phase 3: Text Sources ── */
+  const sources = [
+    { label: "טקסטים אקדמיים", color: COLORS.primary, startFrame: 625 },
+    { label: "טקסטים עיתונאיים", color: COLORS.secondary, startFrame: 650 },
+    {
+      label: "טקסטים אנציקלופדיים",
+      color: COLORS.accent,
+      startFrame: 665,
+    },
+  ];
+  const outputArrowOpacity = interpolate(frame, [698, 714], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  // Split text: "doesn't know it's wrong" / "doesn't know it's right"
-  const wrongTextOpacity = spring({
-    frame: frame - 410,
+  /* ── Phase 4: Identical Packaging ── */
+  const cardsScale = spring({
+    frame: frame - 768,
     fps,
     config: { damping: 16, stiffness: 80, mass: 0.8 },
   });
   const equalsScale = spring({
-    frame: frame - 440,
-    fps,
-    config: { damping: 12, stiffness: 120, mass: 0.6 },
-  });
-  const rightTextOpacity = spring({
-    frame: frame - 460,
-    fps,
-    config: { damping: 16, stiffness: 80, mass: 0.8 },
-  });
-
-  /* ── Phase 3: Style Cards ── */
-  const card1Scale = spring({
-    frame: frame - 610,
-    fps,
-    config: { damping: 16, stiffness: 80, mass: 0.8 },
-  });
-  const card2Scale = spring({
-    frame: frame - 650,
-    fps,
-    config: { damping: 16, stiffness: 80, mass: 0.8 },
-  });
-  const card3Scale = spring({
-    frame: frame - 690,
-    fps,
-    config: { damping: 16, stiffness: 80, mass: 0.8 },
-  });
-  const styleConclusion = interpolate(frame, [720, 750], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
-  /* ── Phase 4: Final Conclusion ── */
-  const conclusionScale1 = spring({
-    frame: frame - 800,
-    fps,
-    config: { damping: 16, stiffness: 80, mass: 0.8 },
-  });
-  const neqScale = spring({
     frame: frame - 830,
     fps,
-    config: { damping: 10, stiffness: 120, mass: 0.5 },
-  });
-  const conclusionScale2 = spring({
-    frame: frame - 855,
-    fps,
     config: { damping: 16, stiffness: 80, mass: 0.8 },
   });
-  // Pulsing red glow
-  const glowPulse = frame > 870 ? 0.5 + 0.5 * Math.sin((frame - 870) * 0.08) : 0;
+
 
   return (
     <AbsoluteFill>
-      {/* Background image — theatrical mask */}
+      {/* Background image */}
       <Img
         src={staticFile("video2b/images/shot3_1_bg.png")}
         style={{
@@ -427,152 +134,409 @@ export const Shot3_1: React.FC = () => {
           width: "100%",
           height: "100%",
           objectFit: "cover",
-          opacity: 0.3,
+          opacity: 0.25,
         }}
       />
-      {/* Dark overlay for readability */}
+      {/* Dark overlay */}
       <div
         style={{
           position: "absolute",
           inset: 0,
-          background: `radial-gradient(ellipse at center, ${COLORS.bgSecondary}aa 0%, ${COLORS.bgPrimary}f0 70%)`,
+          background: `radial-gradient(ellipse at center, ${COLORS.bgSecondary}bb 0%, ${COLORS.bgPrimary}f5 70%)`,
         }}
       />
 
-      {/* ══════════════ SECTION TITLE ══════════════ */}
-      <div
-        style={{
-          position: "absolute",
-          top: 50,
-          right: 80,
-          left: 80,
-          direction: "rtl",
-          textAlign: "right",
-          opacity: titleOpacity,
-          transform: `translateY(${titleY}px)`,
-        }}
-      >
-        <div
-          style={{
-            fontFamily: FONT_FAMILY,
-            fontSize: 54,
-            fontWeight: 700,
-            color: COLORS.primary,
-            textShadow: `0 0 40px ${COLORS.primary}55, 0 2px 8px rgba(0,0,0,0.5)`,
-            letterSpacing: "-0.5px",
-          }}
-        >
-          למה המודל נשמע כל כך בטוח?
-        </div>
-        <div
-          style={{
-            marginTop: 12,
-            height: 3,
-            width: 200,
-            background: `linear-gradient(to left, ${COLORS.primary}, transparent)`,
-            borderRadius: 2,
-          }}
-        />
-      </div>
-
-      {/* ══════════════ PHASE 1: CHAT BUBBLES ══════════════ */}
-      {frame < 300 && (
+      {/* ══════════════ PHASE 1: BIG QUESTION ══════════════ */}
+      {frame < 276 && (
         <div
           style={{
             position: "absolute",
-            top: 170,
-            right: 100,
-            left: 100,
+            inset: 0,
             display: "flex",
             flexDirection: "column",
-            gap: 28,
+            alignItems: "center",
+            justifyContent: "center",
             opacity: phase1Opacity,
+            gap: 32,
           }}
         >
-          <ChatBubble
-            text="התשובה היא שהמחקר מראה בבירור כי מוטיבציה פנימית היא הגורם המרכזי..."
-            scale={bubble1Scale}
-            opacity={bubble1Scale}
-          />
-          <ChatBubble
-            text="מחקרים הוכיחו ש-87% מהסטודנטים מציגים שיפור משמעותי כאשר..."
-            scale={bubble2Scale}
-            opacity={bubble2Scale}
-          />
-          {/* Subtitle text */}
           <div
             style={{
               fontFamily: FONT_FAMILY,
-              fontSize: 28,
+              fontSize: 64,
+              fontWeight: 800,
+              color: COLORS.primary,
+              direction: "rtl",
+              textAlign: "center",
+              transform: `scale(${titleScale})`,
+              textShadow: `0 0 50px ${COLORS.primary}66, 0 2px 12px rgba(0,0,0,0.6)`,
+              letterSpacing: "-1px",
+            }}
+          >
+            למה המודל נשמע כל כך בטוח?
+          </div>
+
+          <div
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 30,
+              fontWeight: 400,
+              color: COLORS.textMuted,
+              direction: "rtl",
+              opacity: subtitleOpacity,
+            }}
+          >
+            שאלה שמבלבלת הרבה משתמשים
+          </div>
+
+          <div
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 44,
+              fontWeight: 700,
+              color: COLORS.accent,
+              direction: "rtl",
+              textAlign: "center",
+              transform: `scale(${bigQuestionScale})`,
+              opacity: bigQuestionScale,
+              textShadow: `0 0 40px ${COLORS.accent}55`,
+              lineHeight: 1.6,
+              maxWidth: 900,
+            }}
+          >
+            אם המודל{" "}
+            <span style={{ color: COLORS.warning }}>לא בטוח</span>,
+            <br />
+            למה הוא <span style={{ color: COLORS.primary }}>נשמע</span> כל כך
+            בטוח?
+          </div>
+
+          {/* Background pulsing question mark */}
+          <div
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 120,
+              fontWeight: 800,
+              color: COLORS.secondary,
+              opacity: bigQuestionScale * qPulse * 0.12,
+              position: "absolute",
+              bottom: 40,
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
+          >
+            ?
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════ PHASE 2: MISSING SENSORS ══════════════ */}
+      {frame >= 244 && frame < 566 && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            opacity: phase2Opacity,
+            gap: 40,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 38,
+              fontWeight: 700,
+              color: COLORS.text,
+              direction: "rtl",
+              textAlign: "center",
+              lineHeight: 1.6,
+            }}
+          >
+            למודל <span style={{ color: COLORS.warning }}>אין</span> תחושת
+            ביטחון או ספק
+          </div>
+
+          <div style={{ display: "flex", gap: 40, direction: "rtl" }}>
+            {sensors.map((sensor, i) => {
+              const cardProgress = spring({
+                frame: frame - sensor.startFrame,
+                fps,
+                config: { damping: 16, stiffness: 90, mass: 0.8 },
+              });
+              const strikeProgress = interpolate(
+                frame,
+                [sensor.startFrame + 20, sensor.startFrame + 35],
+                [0, 1],
+                { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+              );
+
+              return (
+                <div
+                  key={i}
+                  style={{
+                    transform: `scale(${cardProgress})`,
+                    opacity: cardProgress,
+                    background: "rgba(255,255,255,0.05)",
+                    backdropFilter: "blur(12px)",
+                    border: `1.5px solid ${
+                      strikeProgress > 0.5
+                        ? COLORS.warning + "44"
+                        : "rgba(255,255,255,0.1)"
+                    }`,
+                    borderRadius: 20,
+                    padding: "36px 32px",
+                    width: 280,
+                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 16,
+                    position: "relative",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div style={{ fontSize: 48 }}>{sensor.icon}</div>
+                  <div
+                    style={{
+                      fontFamily: FONT_FAMILY,
+                      fontSize: 28,
+                      fontWeight: 600,
+                      color: COLORS.text,
+                      direction: "rtl",
+                    }}
+                  >
+                    {sensor.label}
+                  </div>
+
+                  {/* Diagonal red strike line */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      width: `${strikeProgress * 130}%`,
+                      height: 3,
+                      background: COLORS.warning,
+                      transform: "translate(-50%, -50%) rotate(-25deg)",
+                      borderRadius: 2,
+                      boxShadow: `0 0 12px ${COLORS.warning}66`,
+                      opacity: strikeProgress,
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Bottom summary */}
+          <div
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 30,
               fontWeight: 500,
               color: COLORS.textMuted,
               direction: "rtl",
               textAlign: "center",
-              marginTop: 20,
-              opacity: interpolate(frame, [180, 210], [0, 1], {
+              lineHeight: 1.6,
+              opacity: interpolate(frame, [440, 458], [0, 1], {
                 extrapolateLeft: "clamp",
                 extrapolateRight: "clamp",
               }),
             }}
           >
-            שתי התשובות נשמעות <span style={{ color: COLORS.primary, fontWeight: 700 }}>בטוחות</span> באותה מידה — אבל האם הן <span style={{ color: COLORS.accent, fontWeight: 700 }}>מדויקות</span>?
+            לא יודע שהוא{" "}
+            <span style={{ color: COLORS.warning }}>טועה</span>
+            {" — "}
+            לא יודע שהוא{" "}
+            <span style={{ color: "#22c55e" }}>צודק</span>
           </div>
         </div>
       )}
 
-      {/* ══════════════ PHASE 2: CONFIDENCE GAUGE ══════════════ */}
-      {frame >= 260 && frame < 610 && (
+      {/* ══════════════ INTERPRETATION TEXT (crossfades with cards) ══════════════ */}
+      {frame >= 525 && frame < 636 && (
         <div
           style={{
             position: "absolute",
-            top: 150,
-            right: 80,
-            left: 80,
+            inset: 0,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: 24,
-            opacity: phase2Opacity,
+            justifyContent: "center",
+            opacity: interpOpacity,
+            gap: 16,
           }}
         >
-          {/* Gauge */}
-          <ConfidenceGauge drawProgress={gaugeDrawProgress} showX={gaugeXMark} />
-
-          {/* "No doubt mechanism" text */}
           <div
             style={{
               fontFamily: FONT_FAMILY,
-              fontSize: 34,
-              fontWeight: 700,
-              color: COLORS.accent,
+              fontSize: 42,
+              fontWeight: 600,
+              color: COLORS.text,
               direction: "rtl",
               textAlign: "center",
-              opacity: noDoubtText,
-              textShadow: `0 0 20px ${COLORS.accent}44`,
+              lineHeight: 1.6,
             }}
           >
-            אין מנגנון ספק — תמיד אותו טון
+            מה שאנחנו מפרשים כ
+            <span style={{ color: COLORS.primary }}>ביטחון</span>
           </div>
+          <div
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 42,
+              fontWeight: 600,
+              color: COLORS.text,
+              direction: "rtl",
+              textAlign: "center",
+              lineHeight: 1.6,
+            }}
+          >
+            הוא פשוט{" "}
+            <span style={{ color: COLORS.accent }}>סגנון כתיבה נלמד</span>
+          </div>
+        </div>
+      )}
 
-          {/* Split: "doesn't know wrong" = "doesn't know right" */}
+      {/* ══════════════ PHASE 3: SOURCE PILLARS ══════════════ */}
+      {frame >= 602 && frame < 782 && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            opacity: phase3Opacity,
+            gap: 36,
+          }}
+        >
+          {/* Source pillars */}
           <div
             style={{
               display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
               gap: 30,
-              marginTop: 16,
+              alignItems: "flex-end",
               direction: "rtl",
             }}
           >
-            {/* Right side — doesn't know it's wrong */}
-            <GlassCard
-              borderColor={`${COLORS.warning}55`}
+            {sources.map((source, i) => {
+              const pillarGrowth = spring({
+                frame: frame - source.startFrame,
+                fps,
+                config: { damping: 18, stiffness: 70, mass: 0.8 },
+              });
+              return (
+                <div
+                  key={i}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 16,
+                    transform: `translateY(${(1 - pillarGrowth) * 30}px)`,
+                    opacity: pillarGrowth,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 200,
+                      height: 130 * pillarGrowth,
+                      background: `linear-gradient(to top, ${source.color}33, ${source.color}11)`,
+                      border: `1.5px solid ${source.color}55`,
+                      borderRadius: 16,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backdropFilter: "blur(8px)",
+                      boxShadow: `0 0 30px ${source.color}15, inset 0 0 20px ${source.color}08`,
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 8,
+                        width: "70%",
+                      }}
+                    >
+                      {[0, 1, 2, 3].map((j) => {
+                        const lineWidth = interpolate(
+                          frame,
+                          [
+                            source.startFrame + 15 + j * 10,
+                            source.startFrame + 30 + j * 10,
+                          ],
+                          [0, 60 + (j % 3) * 20],
+                          {
+                            extrapolateLeft: "clamp",
+                            extrapolateRight: "clamp",
+                          }
+                        );
+                        return (
+                          <div
+                            key={j}
+                            style={{
+                              height: 3,
+                              width: `${lineWidth}%`,
+                              background: source.color,
+                              opacity: 0.4,
+                              borderRadius: 2,
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: FONT_FAMILY,
+                      fontSize: 24,
+                      fontWeight: 600,
+                      color: source.color,
+                      direction: "rtl",
+                      textShadow: `0 0 15px ${source.color}44`,
+                    }}
+                  >
+                    {source.label}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Arrow + output */}
+          <div
+            style={{
+              opacity: outputArrowOpacity,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 16,
+            }}
+          >
+            <div
               style={{
-                opacity: wrongTextOpacity,
-                transform: `scale(${wrongTextOpacity})`,
-                padding: "20px 32px",
-                textAlign: "center",
+                fontFamily: FONT_FAMILY,
+                fontSize: 40,
+                color: COLORS.textMuted,
+                opacity: 0.6,
+              }}
+            >
+              ↓
+            </div>
+            <div
+              style={{
+                background: "rgba(255,255,255,0.06)",
+                backdropFilter: "blur(16px)",
+                border: "1.5px solid rgba(255,255,255,0.15)",
+                borderRadius: 16,
+                padding: "20px 48px",
+                boxShadow: "0 0 40px rgba(255,255,255,0.05)",
               }}
             >
               <div
@@ -580,237 +544,179 @@ export const Shot3_1: React.FC = () => {
                   fontFamily: FONT_FAMILY,
                   fontSize: 30,
                   fontWeight: 700,
-                  color: COLORS.warning,
+                  color: COLORS.text,
                   direction: "rtl",
-                  textShadow: `0 0 15px ${COLORS.warning}44`,
+                  textAlign: "center",
                 }}
               >
-                לא יודע שהוא טועה
+                סגנון כתיבה{" "}
+                <span style={{ color: COLORS.primary }}>מקצועי</span> ו
+                <span style={{ color: COLORS.secondary }}>משכנע</span>
               </div>
-            </GlassCard>
-
-            {/* Equals sign */}
-            <div
-              style={{
-                fontFamily: FONT_FAMILY,
-                fontSize: 56,
-                fontWeight: 800,
-                color: COLORS.textMuted,
-                transform: `scale(${equalsScale})`,
-                textShadow: "0 0 20px rgba(255,255,255,0.2)",
-              }}
-            >
-              =
-            </div>
-
-            {/* Left side — doesn't know it's right */}
-            <GlassCard
-              borderColor="rgba(34,197,94,0.4)"
-              style={{
-                opacity: rightTextOpacity,
-                transform: `scale(${rightTextOpacity})`,
-                padding: "20px 32px",
-                textAlign: "center",
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: FONT_FAMILY,
-                  fontSize: 30,
-                  fontWeight: 700,
-                  color: "#22c55e",
-                  direction: "rtl",
-                  textShadow: "0 0 15px rgba(34,197,94,0.3)",
-                }}
-              >
-                לא יודע שהוא צודק
-              </div>
-            </GlassCard>
-          </div>
-
-          {/* "Same thing for the model" */}
-          <div
-            style={{
-              fontFamily: FONT_FAMILY,
-              fontSize: 24,
-              color: COLORS.textMuted,
-              direction: "rtl",
-              opacity: rightTextOpacity > 0.8 ? 1 : 0,
-              marginTop: 4,
-            }}
-          >
-            אותו דבר בשבילו
-          </div>
-        </div>
-      )}
-
-      {/* ══════════════ PHASE 3: WRITING STYLES ══════════════ */}
-      {frame >= 570 && frame < 800 && (
-        <div
-          style={{
-            position: "absolute",
-            top: 150,
-            right: 80,
-            left: 80,
-            display: "flex",
-            flexDirection: "column",
-            gap: 28,
-            opacity: phase3Opacity,
-          }}
-        >
-          {/* Three style cards */}
-          <div style={{ display: "flex", gap: 28 }}>
-            <StyleCard
-              icon="📖"
-              title="סגנון אקדמי"
-              example="על פי ממצאים עדכניים בתחום..."
-              borderColor="#3b82f6"
-              scale={card1Scale}
-              opacity={card1Scale}
-            />
-            <StyleCard
-              icon="📰"
-              title="סגנון עיתונאי"
-              example="כפי שדווח לאחרונה..."
-              borderColor="#22c55e"
-              scale={card2Scale}
-              opacity={card2Scale}
-            />
-            <StyleCard
-              icon="📚"
-              title="סגנון אנציקלופדי"
-              example="בהתאם להגדרה המקובלת..."
-              borderColor={COLORS.secondary}
-              scale={card3Scale}
-              opacity={card3Scale}
-            />
-          </div>
-
-          {/* Explanation */}
-          <div
-            style={{
-              direction: "rtl",
-              textAlign: "center",
-              opacity: styleConclusion,
-            }}
-          >
-            <div
-              style={{
-                fontFamily: FONT_FAMILY,
-                fontSize: 32,
-                fontWeight: 600,
-                color: COLORS.text,
-                marginBottom: 10,
-              }}
-            >
-              המודל למד לכתוב ב<span style={{ color: COLORS.primary, fontWeight: 800 }}>סגנון מקצועי</span>
-            </div>
-            <div
-              style={{
-                fontFamily: FONT_FAMILY,
-                fontSize: 26,
-                color: COLORS.textMuted,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 12,
-              }}
-            >
-              <span style={{ color: COLORS.accent, fontSize: 28 }}>←</span>
-              לא בגלל שהוא <span style={{ color: COLORS.warning, fontWeight: 700 }}>יודע</span> — בגלל שהוא <span style={{ color: COLORS.primary, fontWeight: 700 }}>למד את הסגנון</span>
             </div>
           </div>
         </div>
       )}
 
-      {/* ══════════════ PHASE 4: CONCLUSION ══════════════ */}
-      {frame >= 770 && (
+      {/* ══════════════ PHASE 4: PUNCHLINE ══════════════ */}
+      {frame >= 750 && (
         <div
           style={{
             position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
+            inset: 0,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
             opacity: phase4Opacity,
-            gap: 20,
+            gap: 40,
           }}
         >
-          {/* Main conclusion */}
           <div
             style={{
               display: "flex",
+              gap: 50,
               alignItems: "center",
-              justifyContent: "center",
-              gap: 24,
               direction: "rtl",
             }}
           >
+            {/* Card: Inaccurate info (right in RTL) */}
             <div
               style={{
-                fontFamily: FONT_FAMILY,
-                fontSize: 56,
-                fontWeight: 700,
-                color: COLORS.text,
-                transform: `scale(${conclusionScale1})`,
-                textShadow: "0 2px 12px rgba(0,0,0,0.5)",
-                letterSpacing: "-0.5px",
+                transform: `scale(${cardsScale})`,
+                opacity: cardsScale,
+                background: "rgba(255,255,255,0.06)",
+                backdropFilter: "blur(16px)",
+                border: "1.5px solid rgba(255,255,255,0.12)",
+                borderRadius: 20,
+                padding: "32px 40px",
+                width: 380,
+                textAlign: "center",
+                boxShadow: "0 0 40px rgba(255,255,255,0.04)",
               }}
             >
-              ניסוח מקצועי
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 10,
+                  marginBottom: 24,
+                }}
+              >
+                {[95, 70, 85, 60].map((w, j) => (
+                  <div
+                    key={j}
+                    style={{
+                      height: 4,
+                      width: `${w}%`,
+                      background: "rgba(255,255,255,0.15)",
+                      borderRadius: 2,
+                      marginRight: "auto",
+                    }}
+                  />
+                ))}
+              </div>
+              <div
+                style={{
+                  fontFamily: FONT_FAMILY,
+                  fontSize: 28,
+                  fontWeight: 700,
+                  color: COLORS.warning,
+                  direction: "rtl",
+                }}
+              >
+                ✗ מידע לא מדויק
+              </div>
+              <div
+                style={{
+                  fontFamily: FONT_FAMILY,
+                  fontSize: 22,
+                  color: COLORS.textMuted,
+                  marginTop: 8,
+                  direction: "rtl",
+                }}
+              >
+                ניסוח מקצועי ומשכנע
+              </div>
             </div>
+
+            {/* Equals sign */}
             <div
               style={{
                 fontFamily: FONT_FAMILY,
                 fontSize: 72,
                 fontWeight: 800,
                 color: COLORS.warning,
-                transform: `scale(${neqScale})`,
-                textShadow: `0 0 ${30 + glowPulse * 30}px ${COLORS.warning}${Math.round(80 + glowPulse * 80).toString(16).padStart(2, "0")}`,
+                opacity: equalsScale,
+                textShadow: `0 0 30px ${COLORS.warning}66`,
+                transform: `scale(${equalsScale})`,
               }}
             >
-              ≠
+              =
             </div>
+
+            {/* Card: Accurate info (left in RTL) */}
             <div
               style={{
-                fontFamily: FONT_FAMILY,
-                fontSize: 56,
-                fontWeight: 700,
-                color: COLORS.warning,
-                transform: `scale(${conclusionScale2})`,
-                textShadow: `0 0 30px ${COLORS.warning}44, 0 2px 12px rgba(0,0,0,0.5)`,
-                letterSpacing: "-0.5px",
+                transform: `scale(${cardsScale})`,
+                opacity: cardsScale,
+                background: "rgba(255,255,255,0.06)",
+                backdropFilter: "blur(16px)",
+                border: "1.5px solid rgba(255,255,255,0.12)",
+                borderRadius: 20,
+                padding: "32px 40px",
+                width: 380,
+                textAlign: "center",
+                boxShadow: "0 0 40px rgba(255,255,255,0.04)",
               }}
             >
-              מידע מדויק
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 10,
+                  marginBottom: 24,
+                }}
+              >
+                {[95, 70, 85, 60].map((w, j) => (
+                  <div
+                    key={j}
+                    style={{
+                      height: 4,
+                      width: `${w}%`,
+                      background: "rgba(255,255,255,0.15)",
+                      borderRadius: 2,
+                      marginRight: "auto",
+                    }}
+                  />
+                ))}
+              </div>
+              <div
+                style={{
+                  fontFamily: FONT_FAMILY,
+                  fontSize: 28,
+                  fontWeight: 700,
+                  color: "#22c55e",
+                  direction: "rtl",
+                }}
+              >
+                ✓ מידע מדויק
+              </div>
+              <div
+                style={{
+                  fontFamily: FONT_FAMILY,
+                  fontSize: 22,
+                  color: COLORS.textMuted,
+                  marginTop: 8,
+                  direction: "rtl",
+                }}
+              >
+                ניסוח מקצועי ומשכנע
+              </div>
             </div>
-          </div>
-
-          {/* Subtitle */}
-          <div
-            style={{
-              fontFamily: FONT_FAMILY,
-              fontSize: 28,
-              fontWeight: 500,
-              color: COLORS.textMuted,
-              direction: "rtl",
-              textAlign: "center",
-              opacity: interpolate(frame, [845, 860], [0, 1], {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-              }),
-              marginTop: 8,
-            }}
-          >
-            גם מידע לא מדויק יכול להופיע באותו ניסוח מקצועי ומשכנע
           </div>
         </div>
       )}
-
     </AbsoluteFill>
   );
 };

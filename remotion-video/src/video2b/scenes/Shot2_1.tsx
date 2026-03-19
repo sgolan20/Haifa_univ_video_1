@@ -15,8 +15,8 @@ import { FONT_FAMILY } from "../../design/fonts";
 /**
  * Shot 2.1 — "איך מודל שפה מייצר תשובה"
  *
- * Phase 1 (f0-440):   Split screen — search engine vs. language model
- * Phase 2 (f440-1000): Word prediction example with probability bars
+ * Phase 1 (f0-500):   Split screen — search engine vs. language model
+ * Phase 2 (f500-1000): Word prediction example with probability bars
  * Phase 3 (f1000-1200): Good answer vs. statistical guessing
  * Phase 4 (f1200-1363): Conclusion — "sounds correct even without source"
  */
@@ -160,11 +160,11 @@ export const Shot2_1: React.FC = () => {
   const { fps } = useVideoConfig();
 
   /* ── Phase visibility ── */
-  const phase1Opacity = interpolate(frame, [400, 440], [1, 0], {
+  const phase1Opacity = interpolate(frame, [460, 500], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  const phase2Opacity = interpolate(frame, [420, 460, 1160, 1200], [0, 1, 1, 0], {
+  const phase2Opacity = interpolate(frame, [480, 520, 1160, 1200], [0, 1, 1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -217,7 +217,7 @@ export const Shot2_1: React.FC = () => {
   const questionText = "מהם הגורמים המרכזיים למוטיבציה בלמידה?";
   const typewriterProgress = interpolate(
     frame,
-    [460, 600],
+    [520, 660],
     [0, questionText.length],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
   );
@@ -230,18 +230,18 @@ export const Shot2_1: React.FC = () => {
     { label: "אחר", pct: 5, color: COLORS.textMuted },
   ];
 
-  const winnerGlow = interpolate(frame, [780, 810], [0, 1], {
+  const winnerGlow = interpolate(frame, [840, 870], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
   const answerText = "מוטיבציה קשורה לאוטונומיה, תחושת מסוגלות, משמעות בלמידה";
-  const answerOpacity = interpolate(frame, [750, 780], [0, 1], {
+  const answerOpacity = interpolate(frame, [810, 840], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  const successBadge = interpolate(frame, [880, 910], [0, 1], {
+  const successBadge = interpolate(frame, [940, 970], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -330,7 +330,7 @@ export const Shot2_1: React.FC = () => {
       </div>
 
       {/* ══════════════ PHASE 1: SPLIT SCREEN ══════════════ */}
-      {frame < 460 && (
+      {frame < 520 && (
         <div
           style={{
             position: "absolute",
@@ -611,7 +611,7 @@ export const Shot2_1: React.FC = () => {
       )}
 
       {/* ══════════════ PHASE 2: WORD PREDICTION ══════════════ */}
-      {frame >= 420 && frame < 1220 && (
+      {frame >= 480 && frame < 1220 && (
         <div
           style={{
             position: "absolute",
@@ -656,7 +656,7 @@ export const Shot2_1: React.FC = () => {
                 }}
               >
                 {displayedQuestion}
-                {frame < 600 && (
+                {frame < 660 && (
                   <span
                     style={{
                       opacity: Math.sin(frame * 0.15) > 0 ? 1 : 0,
@@ -684,7 +684,7 @@ export const Shot2_1: React.FC = () => {
                   marginBottom: 20,
                   textAlign: "center",
                   direction: "rtl",
-                  opacity: interpolate(frame, [640, 660], [0, 1], {
+                  opacity: interpolate(frame, [700, 720], [0, 1], {
                     extrapolateLeft: "clamp",
                     extrapolateRight: "clamp",
                   }),
@@ -697,7 +697,7 @@ export const Shot2_1: React.FC = () => {
                   display: "flex",
                   gap: 18,
                   alignItems: "flex-end",
-                  opacity: interpolate(frame, [640, 660], [0, 1], {
+                  opacity: interpolate(frame, [700, 720], [0, 1], {
                     extrapolateLeft: "clamp",
                     extrapolateRight: "clamp",
                   }),
@@ -705,7 +705,7 @@ export const Shot2_1: React.FC = () => {
               >
                 {barsData.map((bar, i) => {
                   const staggeredGrowth = spring({
-                    frame: frame - 660 - i * 8,
+                    frame: frame - 720 - i * 8,
                     fps,
                     config: { damping: 18, stiffness: 60, mass: 1 },
                   });
