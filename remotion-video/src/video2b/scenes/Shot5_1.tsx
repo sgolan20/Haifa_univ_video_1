@@ -84,8 +84,8 @@ export const Shot5_1: React.FC = () => {
     config: { damping: 16, stiffness: 80, mass: 0.8 },
   });
 
-  // Final fade out at end of shot
-  const finalFade = interpolate(frame, [470, 510], [1, 0], {
+  // Final fade out at end of shot (extended to 555 frames)
+  const finalFade = interpolate(frame, [510, 555], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -213,7 +213,7 @@ export const Shot5_1: React.FC = () => {
             maxWidth: 1200,
           }}
         >
-          מהי <span style={{ color: COLORS.accent, fontWeight: 800 }}>האחריות</span> של המשתמש בכלי כזה?
+          מהי <span style={{ color: COLORS.accent, fontWeight: 800 }}>האחריות</span> של המשתמש בכלי AI?
         </div>
 
         {/* Question 2 */}
@@ -231,7 +231,7 @@ export const Shot5_1: React.FC = () => {
             maxWidth: 1200,
           }}
         >
-          האם השימוש בהם משנה את האופן שבו אנו חושבים
+          האם השימוש בכלי AI משנה את האופן שבו אנו חושבים
           <br />
           על <span style={{ color: COLORS.accent, fontWeight: 700 }}>אמינות מחקרית</span> וכתיבה אקדמית?
         </div>

@@ -57,10 +57,15 @@ export const Shot3_1: React.FC = () => {
   );
   const interpOpacity = interpolate(
     frame,
-    [525, 548, 600, 618],
+    [525, 548, 730, 750],
     [0, 1, 1, 0],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
   );
+  // Animate from center (top ~400) to top (80) just before Phase 3 enters
+  const interpTop = interpolate(frame, [575, 602], [400, 80], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
   const phase3Opacity = interpolate(
     frame,
     [602, 618, 748, 764],
@@ -335,8 +340,8 @@ export const Shot3_1: React.FC = () => {
           <div
             style={{
               fontFamily: FONT_FAMILY,
-              fontSize: 30,
-              fontWeight: 500,
+              fontSize: 40,
+              fontWeight: 600,
               color: COLORS.textMuted,
               direction: "rtl",
               textAlign: "center",
@@ -356,18 +361,18 @@ export const Shot3_1: React.FC = () => {
         </div>
       )}
 
-      {/* ══════════════ INTERPRETATION TEXT (crossfades with cards) ══════════════ */}
-      {frame >= 525 && frame < 636 && (
+      {/* ══════════════ INTERPRETATION TEXT (center → top, fades before Phase 4) ══════════════ */}
+      {frame >= 525 && frame < 760 && (
         <div
           style={{
             position: "absolute",
-            inset: 0,
+            top: interpTop,
+            width: "100%",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
             opacity: interpOpacity,
-            gap: 16,
+            gap: 12,
           }}
         >
           <div
@@ -406,7 +411,10 @@ export const Shot3_1: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            inset: 0,
+            top: 240,
+            left: 0,
+            right: 0,
+            bottom: 0,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -588,9 +596,9 @@ export const Shot3_1: React.FC = () => {
                 background: "rgba(255,255,255,0.06)",
                 backdropFilter: "blur(16px)",
                 border: "1.5px solid rgba(255,255,255,0.12)",
-                borderRadius: 20,
-                padding: "32px 40px",
-                width: 380,
+                borderRadius: 24,
+                padding: "44px 56px",
+                width: 480,
                 textAlign: "center",
                 boxShadow: "0 0 40px rgba(255,255,255,0.04)",
               }}
@@ -599,15 +607,15 @@ export const Shot3_1: React.FC = () => {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  gap: 10,
-                  marginBottom: 24,
+                  gap: 12,
+                  marginBottom: 28,
                 }}
               >
                 {[95, 70, 85, 60].map((w, j) => (
                   <div
                     key={j}
                     style={{
-                      height: 4,
+                      height: 5,
                       width: `${w}%`,
                       background: "rgba(255,255,255,0.15)",
                       borderRadius: 2,
@@ -619,7 +627,7 @@ export const Shot3_1: React.FC = () => {
               <div
                 style={{
                   fontFamily: FONT_FAMILY,
-                  fontSize: 28,
+                  fontSize: 36,
                   fontWeight: 700,
                   color: COLORS.warning,
                   direction: "rtl",
@@ -630,9 +638,9 @@ export const Shot3_1: React.FC = () => {
               <div
                 style={{
                   fontFamily: FONT_FAMILY,
-                  fontSize: 22,
+                  fontSize: 28,
                   color: COLORS.textMuted,
-                  marginTop: 8,
+                  marginTop: 10,
                   direction: "rtl",
                 }}
               >
@@ -663,9 +671,9 @@ export const Shot3_1: React.FC = () => {
                 background: "rgba(255,255,255,0.06)",
                 backdropFilter: "blur(16px)",
                 border: "1.5px solid rgba(255,255,255,0.12)",
-                borderRadius: 20,
-                padding: "32px 40px",
-                width: 380,
+                borderRadius: 24,
+                padding: "44px 56px",
+                width: 480,
                 textAlign: "center",
                 boxShadow: "0 0 40px rgba(255,255,255,0.04)",
               }}
@@ -674,15 +682,15 @@ export const Shot3_1: React.FC = () => {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  gap: 10,
-                  marginBottom: 24,
+                  gap: 12,
+                  marginBottom: 28,
                 }}
               >
                 {[95, 70, 85, 60].map((w, j) => (
                   <div
                     key={j}
                     style={{
-                      height: 4,
+                      height: 5,
                       width: `${w}%`,
                       background: "rgba(255,255,255,0.15)",
                       borderRadius: 2,
@@ -694,7 +702,7 @@ export const Shot3_1: React.FC = () => {
               <div
                 style={{
                   fontFamily: FONT_FAMILY,
-                  fontSize: 28,
+                  fontSize: 36,
                   fontWeight: 700,
                   color: "#22c55e",
                   direction: "rtl",
@@ -705,9 +713,9 @@ export const Shot3_1: React.FC = () => {
               <div
                 style={{
                   fontFamily: FONT_FAMILY,
-                  fontSize: 22,
+                  fontSize: 28,
                   color: COLORS.textMuted,
-                  marginTop: 8,
+                  marginTop: 10,
                   direction: "rtl",
                 }}
               >

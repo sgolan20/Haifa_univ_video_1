@@ -361,6 +361,33 @@ export const Shot2_1: React.FC = () => {
                 boxShadow: `inset 0 0 60px ${COLORS.warning}08`,
               }}
             >
+              {/* X mark — centered above icon */}
+              <div
+                style={{
+                  width: 80,
+                  height: 80,
+                  borderRadius: "50%",
+                  background: `${COLORS.warning}22`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  opacity: xMarkOpacity,
+                  border: `2.5px solid ${COLORS.warning}55`,
+                  boxShadow: `0 0 24px ${COLORS.warning}33`,
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: FONT_FAMILY,
+                    fontSize: 44,
+                    fontWeight: 800,
+                    color: COLORS.warning,
+                    textShadow: `0 0 20px ${COLORS.warning}66`,
+                  }}
+                >
+                  ✗
+                </span>
+              </div>
               {/* Icon container with glow */}
               <div
                 style={{
@@ -422,43 +449,14 @@ export const Shot2_1: React.FC = () => {
                   </div>
                 ))}
               </div>
-              {/* X mark */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: 20,
-                  left: 20,
-                  width: 56,
-                  height: 56,
-                  borderRadius: "50%",
-                  background: `${COLORS.warning}22`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  opacity: xMarkOpacity,
-                  border: `2px solid ${COLORS.warning}44`,
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: FONT_FAMILY,
-                    fontSize: 36,
-                    fontWeight: 800,
-                    color: COLORS.warning,
-                    textShadow: `0 0 20px ${COLORS.warning}66`,
-                  }}
-                >
-                  ✗
-                </span>
-              </div>
               <div
                 style={{
                   fontFamily: FONT_FAMILY,
-                  fontSize: 26,
-                  fontWeight: 700,
+                  fontSize: 52,
+                  fontWeight: 800,
                   color: COLORS.warning,
                   opacity: xMarkOpacity,
-                  textShadow: `0 0 15px ${COLORS.warning}44`,
+                  textShadow: `0 0 20px ${COLORS.warning}55`,
                 }}
               >
                 ככה זה <span style={{ fontWeight: 800 }}>לא</span> עובד
@@ -483,6 +481,33 @@ export const Shot2_1: React.FC = () => {
                 boxShadow: `inset 0 0 60px ${COLORS.primary}08, 0 0 40px ${COLORS.primary}0a`,
               }}
             >
+              {/* Checkmark — centered above icon */}
+              <div
+                style={{
+                  width: 80,
+                  height: 80,
+                  borderRadius: "50%",
+                  background: "rgba(34,197,94,0.15)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  opacity: checkOpacity,
+                  border: "2.5px solid rgba(34,197,94,0.5)",
+                  boxShadow: "0 0 24px rgba(34,197,94,0.25)",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: FONT_FAMILY,
+                    fontSize: 44,
+                    fontWeight: 800,
+                    color: "#22c55e",
+                    textShadow: "0 0 20px rgba(34,197,94,0.4)",
+                  }}
+                >
+                  ✓
+                </span>
+              </div>
               {/* Icon container with glow */}
               <div
                 style={{
@@ -564,43 +589,14 @@ export const Shot2_1: React.FC = () => {
                   );
                 })}
               </div>
-              {/* Checkmark */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: 20,
-                  left: 20,
-                  width: 56,
-                  height: 56,
-                  borderRadius: "50%",
-                  background: "rgba(34,197,94,0.15)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  opacity: checkOpacity,
-                  border: "2px solid rgba(34,197,94,0.4)",
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: FONT_FAMILY,
-                    fontSize: 36,
-                    fontWeight: 800,
-                    color: "#22c55e",
-                    textShadow: "0 0 20px rgba(34,197,94,0.4)",
-                  }}
-                >
-                  ✓
-                </span>
-              </div>
               <div
                 style={{
                   fontFamily: FONT_FAMILY,
-                  fontSize: 26,
-                  fontWeight: 700,
+                  fontSize: 52,
+                  fontWeight: 800,
                   color: "#22c55e",
                   opacity: checkOpacity,
-                  textShadow: "0 0 15px rgba(34,197,94,0.3)",
+                  textShadow: "0 0 20px rgba(34,197,94,0.4)",
                 }}
               >
                 ככה <span style={{ fontWeight: 800 }}>כן</span> עובד
@@ -952,7 +948,7 @@ export const Shot2_1: React.FC = () => {
               letterSpacing: "-0.5px",
             }}
           >
-            תשובה שנשמעת נכונה
+            יכולה להיווצר תשובה שנשמעת נכונה
           </div>
           <div
             style={{

@@ -88,7 +88,18 @@ export const Shot4_1: React.FC = () => {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  const phase1Opacity = interpolate(frame, [323, 345], [1, 0], {
+  const phase1Opacity = interpolate(frame, [270, 303], [1, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  /* ── "כללים חשובים" section title — visible across all 4 rules ── */
+  const rulesHeaderScale = spring({
+    frame: frame - 303,
+    fps,
+    config: { damping: 16, stiffness: 90, mass: 0.8 },
+  });
+  const rulesHeaderOpacity = interpolate(frame, [303, 326], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -129,7 +140,7 @@ export const Shot4_1: React.FC = () => {
       />
 
       {/* ══════════════ PHASE 1: TITLE + RESPONSIBILITY ══════════════ */}
-      {frame < 340 && (
+      {frame < 310 && (
         <div
           style={{
             position: "absolute",
@@ -191,6 +202,47 @@ export const Shot4_1: React.FC = () => {
               }}
             />
           </div>
+        </div>
+      )}
+
+      {/* ══════════════ RULES SECTION TITLE ══════════════ */}
+      {frame >= 303 && (
+        <div
+          style={{
+            position: "absolute",
+            top: 60,
+            width: "100%",
+            textAlign: "center",
+            opacity: rulesHeaderOpacity,
+            transform: `scale(${rulesHeaderScale})`,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: FONT_FAMILY,
+              fontSize: 54,
+              fontWeight: 800,
+              color: COLORS.primary,
+              direction: "rtl",
+              textShadow: `0 0 40px ${COLORS.primary}55, 0 2px 12px rgba(0,0,0,0.6)`,
+              letterSpacing: "-0.5px",
+            }}
+          >
+            כללים חשובים
+          </div>
+          <div
+            style={{
+              width: interpolate(frame, [303, 356], [0, 300], {
+                extrapolateLeft: "clamp",
+                extrapolateRight: "clamp",
+              }),
+              height: 3,
+              background: `linear-gradient(90deg, transparent, ${COLORS.primary}, transparent)`,
+              borderRadius: 2,
+              margin: "12px auto 0",
+              opacity: 0.7,
+            }}
+          />
         </div>
       )}
 

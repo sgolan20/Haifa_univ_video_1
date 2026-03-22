@@ -39,8 +39,8 @@ export const SHOT_TIMING: Record<string, ShotTiming> = {
   "shot4-1": shot(87.06, 29.09),
 
   // Scene 5 — Questions + Closing
-  "shot5-1": shot(116.15, 17.0),
-  "shot5-2": shot(133.15, 15.48),
+  "shot5-1": shot(116.15, 18.5),
+  "shot5-2": shot(134.65, 13.98),
 };
 
 /** Ordered list of shot IDs for sequencing */

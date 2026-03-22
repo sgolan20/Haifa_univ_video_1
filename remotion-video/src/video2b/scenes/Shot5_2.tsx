@@ -14,16 +14,16 @@ import { FONT_FAMILY } from "../../design/fonts";
 /**
  * Shot 5.2 — Teaser for next video + Goodbye
  *
- * Duration: 464 frames (15.48s)
+ * Duration: 419 frames (13.98s)
  *
- * Narration sync (relative to shot start):
- *   f0:   "בסרטון הבא נדבר על תופעה נוספת במודלי שפה" (0.0s)
- *   f138: "הטיות" (4.6s)
- *   f165: "ועל האופן שבו הנתונים...משפיעים על התשובות" (5.5s)
- *   f336: "להתראות" (11.2s)
+ * Narration sync (relative to shot start, shifted -45 frames from original):
+ *   f0:   narration already 1.5s in — "בסרטון הבא..." already playing
+ *   f93:  "הטיות" (3.1s)
+ *   f120: "ועל האופן שבו הנתונים...משפיעים על התשובות" (4.0s)
+ *   f291: "להתראות" (9.7s)
  *
- * Phase 1 (f0-300):   Cinematic teaser — "הטיות (Biases)"
- * Phase 2 (f300-464): Goodbye + fade out
+ * Phase 1 (f0-255):   Cinematic teaser — "הטיות (Biases)"
+ * Phase 2 (f255-419): Goodbye + fade out
  */
 
 export const Shot5_2: React.FC = () => {
@@ -31,9 +31,17 @@ export const Shot5_2: React.FC = () => {
   const { fps } = useVideoConfig();
 
   // =====================
+  // Entrance fade-in
+  // =====================
+  const entranceFade = interpolate(frame, [0, 30], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  // =====================
   // Background
   // =====================
-  const bgOpacity = interpolate(frame, [0, 40], [0, 0.35], {
+  const bgOpacity = interpolate(frame, [0, 20], [0, 0.35], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -42,32 +50,24 @@ export const Shot5_2: React.FC = () => {
   // Phase 1: Teaser
   // =====================
 
-  // "בסרטון הבא:" subtitle
-  const subtitleScale = spring({
-    frame: frame - 5,
-    fps,
-    config: { damping: 16, stiffness: 90, mass: 0.8 },
-  });
+  // "בסרטון הבא:" subtitle — already visible at shot start
+  const subtitleScale = 1;
+  const subtitleOpacity = 1;
 
-  const subtitleOpacity = interpolate(frame, [5, 25], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
-  // Decorative line grows from center
-  const lineWidth = interpolate(frame, [25, 80], [0, 240], {
+  // Decorative line — finishes growing quickly
+  const lineWidth = interpolate(frame, [0, 35], [0, 240], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
   // "הטיות (Biases)" — dramatic entrance
   const biasesScale = spring({
-    frame: frame - 120,
+    frame: frame - 75,
     fps,
     config: { damping: 12, stiffness: 90, mass: 0.7 },
   });
 
-  const biasesOpacity = interpolate(frame, [120, 140], [0, 1], {
+  const biasesOpacity = interpolate(frame, [75, 95], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -76,17 +76,17 @@ export const Shot5_2: React.FC = () => {
   const glowPulse = 0.6 + Math.sin(frame * 0.06) * 0.25;
 
   // Supporting text
-  const supportOpacity = interpolate(frame, [170, 200], [0, 1], {
+  const supportOpacity = interpolate(frame, [125, 155], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  const supportY = interpolate(frame, [170, 200], [12, 0], {
+  const supportY = interpolate(frame, [125, 155], [12, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  // Teaser content fades out
+  // Teaser content fades out (aligned with logo entrance at f320)
   const teaserFade = interpolate(frame, [290, 320], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -107,13 +107,13 @@ export const Shot5_2: React.FC = () => {
   });
 
   // Final fade out
-  const finalFade = interpolate(frame, [430, 464], [1, 0], {
+  const finalFade = interpolate(frame, [385, 419], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
   return (
-    <AbsoluteFill style={{ opacity: finalFade }}>
+    <AbsoluteFill style={{ opacity: finalFade * entranceFade }}>
       {/* Background image — tilted scale */}
       <Img
         src={staticFile("video2b/images/shot5_2_biases_teaser_bg.png")}
@@ -263,7 +263,7 @@ export const Shot5_2: React.FC = () => {
       )}
 
       {/* ══════════════ PHASE 2: UNIVERSITY LOGO ══════════════ */}
-      {frame >= 300 && (
+      {frame >= 305 && (
         <div
           style={{
             position: "absolute",
