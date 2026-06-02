@@ -56,7 +56,7 @@ export const Shot7_1: React.FC = () => {
             <Pill scale={b3} color={COLORS.primary} label="משכנע" />
           </div>
           <div style={{ transform: `scale(${twist})`, opacity: twist, fontSize: 54, fontWeight: 800, color: COLORS.warning, direction: "rtl", textShadow: `0 0 34px ${COLORS.warning}66` }}>
-            …אבל לא בהכרח נכון עובדתית
+            אבל לא בהכרח נכון עובדתית…
           </div>
         </div>
       )}
