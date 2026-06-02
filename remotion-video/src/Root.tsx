@@ -61,6 +61,10 @@ import { Shot4_1 as V2B_Shot4_1 } from "./video2b/scenes/Shot4_1";
 import { Shot5_1 as V2B_Shot5_1 } from "./video2b/scenes/Shot5_1";
 import { Shot5_2 as V2B_Shot5_2 } from "./video2b/scenes/Shot5_2";
 
+import { FullVideo as FullVideoL2L1 } from "./lesson2-lecture1/FullVideo";
+import { TOTAL_DURATION_FRAMES as L2L1_TOTAL_FRAMES, SHOT_TIMING as L2L1_SHOT_TIMING } from "./lesson2-lecture1/timing";
+import { Shot1_1 as L2L1_Shot1_1 } from "./lesson2-lecture1/scenes/Shot1_1";
+
 const FPS = 30;
 
 export const Root: React.FC = () => {
@@ -411,6 +415,21 @@ export const Root: React.FC = () => {
           <Composition id="v2b-shot4-1" component={V2B_Shot4_1} durationInFrames={V2B_SHOT_TIMING["shot4-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="v2b-shot5-1" component={V2B_Shot5_1} durationInFrames={V2B_SHOT_TIMING["shot5-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="v2b-shot5-2" component={V2B_Shot5_2} durationInFrames={V2B_SHOT_TIMING["shot5-2"].durationInFrames} fps={FPS} width={1920} height={1080} />
+        </Folder>
+      </Folder>
+
+      {/* ---------- Lesson 2 / Lecture 1 — AI vs Search Engines (Part A) ---------- */}
+      <Folder name="Lesson2-Lecture1-AI-vs-Search">
+        <Composition
+          id="full-lesson2-lecture1"
+          component={FullVideoL2L1}
+          durationInFrames={L2L1_TOTAL_FRAMES}
+          fps={FPS}
+          width={1920}
+          height={1080}
+        />
+        <Folder name="Shots">
+          <Composition id="l2l1-shot1-1" component={L2L1_Shot1_1} durationInFrames={L2L1_SHOT_TIMING["shot1-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
         </Folder>
       </Folder>
     </>
