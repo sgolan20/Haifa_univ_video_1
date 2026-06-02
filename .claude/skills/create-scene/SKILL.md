@@ -1,156 +1,92 @@
 ---
 name: create-scene
-description: Create new Remotion video scene shots for the Haifa University lecture. Pass scene number and shot numbers as arguments (e.g., "3 shots 3.1 3.2 3.3 3.4").
-argument-hint: "<scene-number> shots <shot-list>"
+description: Build rich, animated Remotion scene shots for the Haifa University AI-literacy videos. Combines an AI-generated background image, transparent floating icon/elements, and narration-synced text animation into a cinematic shot. Use when the user asks to create/build scenes or shots for any of the videos (video1, video2a, video2b, lesson2-lecture1, …).
+argument-hint: "<video-id> scene <N> (e.g. 'lesson2-lecture1 scene 4')"
+allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
-# Create Remotion Scene
+# Create a Remotion Scene (rich & animated)
 
-You are creating new shots for an educational video lecture about LLMs for University of Haifa.
+Build self-contained, cinematic shots for the Haifa University AI-literacy course videos. Every shot must be **visually interesting from start to finish** — never a static title on a flat background.
 
-## Pre-flight Checks
+## 0. Identify the target video
 
-1. Verify Remotion is installed:
-   ```bash
-   cd D:/DEV/haifa_univ_1/remotion-video && node -e "require('remotion')" 2>&1
-   ```
-   If it fails, run:
-   ```bash
-   npm install
-   ```
+Each video is an independent module under `remotion-video/src/<video-id>/`:
 
-2. Read the storyboard for the requested scene:
-   ```bash
-   # Full storyboard is at:
-   cat "D:/DEV/haifa_univ_1/תסריט remotion.md"
-   ```
+| video-id | topic | storyboard |
+|---|---|---|
+| `video1` | What is an LLM | `docs/תסריט remotion.md` |
+| `video2a` | Hallucinations | `docs/תסריט remotion video2a.md` |
+| `video2b` | Why models err | `docs/תסריט remotion video2b.md` |
+| `lesson2-lecture1` | AI vs search engines (Part A) | `docs/תסריט remotion lesson2-lecture1.md` |
 
-3. Read the design system files:
-   - `src/design/theme.ts` — COLORS constant
-   - `src/design/fonts.ts` — FONT_FAMILY constant
+Paths used below (always absolute on this machine):
+- Source: `remotion-video/src/<video-id>/scenes/Shot{S}_{N}.tsx`
+- Assets: `remotion-video/public/<video-id>/images/`, `…/audio/`
+- Composition IDs (hyphens only, no underscores): full `full-<video-id>` / `full-video-2b`; shots `<prefix>-shot{S}-{N}` (e.g. `l2l1-shot4-1`, `v2b-shot3-1`).
 
-4. Read existing shots for reference (to match style):
-   - Pick 1-2 recent shot files from `src/scenes/` and read them
+## 1. Pre-flight — gather context
 
-## Shot File Template
+1. Read the storyboard section for the requested scene.
+2. Read the design system: `src/design/theme.ts` (COLORS), `src/design/fonts.ts` (FONT_FAMILY).
+3. Read the narration **SRT / word JSON** to get exact timings:
+   `remotion-video/public/<video-id>/audio/full_narration.srt` and `whisper_<video-id>.json`.
+4. Read **1–2 recent shot files** from the same video to match style (e.g. `lesson2-lecture1/scenes/Shot1_1.tsx` and `Shot3_1.tsx` are the reference for the rich style).
 
-Every shot file MUST follow this structure:
+## 2. Derive timing from the narration
 
-```tsx
-import React from "react";
-import {
-  AbsoluteFill,
-  useCurrentFrame,
-  interpolate,
-  spring,
-  useVideoConfig,
-} from "remotion";
-import { COLORS } from "../design/theme";
-import { FONT_FAMILY } from "../design/fonts";
+Find the cues that belong to this scene in the SRT; the shot's `audioStart` = first word's start, `duration` = next scene's start − this start (cut in a silence gap between sentences for a clean boundary). Then update `src/<video-id>/timing.ts`:
+- add `"shotS-N": shot(audioStart, duration)` to `SHOT_TIMING`
+- insert the id into `SHOT_ORDER` (replace/append the `"rest"` placeholder as scenes get built)
 
-/**
- * Shot X.Y — [Title] ([duration] seconds)
- * [Brief description of what happens visually]
- */
+**Phase the animation to the narration:** each visual element should enter exactly when the narrator says it. Use the per-cue timestamps (relative to the shot's `audioStart`, ×30fps) as spring `frame - delay` offsets.
 
-export const ShotX_Y: React.FC = () => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+## 3. Generate imagery (the layered technique)
 
-  // ... animations using spring() and interpolate() ...
+A great shot = **AI background image + transparent floating elements + animated text**. See [reference.md](reference.md) for full command details. Summary:
 
-  return (
-    <AbsoluteFill
-      style={{
-        background: `radial-gradient(ellipse at 50% 50%, ${COLORS.bgSecondary} 0%, ${COLORS.bgPrimary} 70%)`,
-      }}
-    >
-      {/* Scene content — NO Logo component */}
-    </AbsoluteFill>
-  );
-};
-```
+- **Background** (`gen-gpt`, `aspect_ratio: "3:2"`, `background: "opaque"`): an atmospheric scene on deep navy `#0a0e1a`, with a **dark empty center** reserved for text. Save to `public/<video-id>/images/<scene>_bg.png`.
+- **Floating icon/element** (`gen-gpt`, `1:1`): the object glowing on flat navy. Then **remove its background** with `remove-bg-recraft` → `*_nobg.png`, and use the transparent version for any floating overlay.
+  - ⚠️ `mixBlendMode: "screen"` only hides a navy square on a **pure-black** full-bleed layer. On the gradient background or inside a glass card the square stays visible — so **always use the `_nobg.png`** for floating elements (normal blend, no mixBlendMode). Keep the original only for a faint full-bleed layer over pure black.
+- Colors: turquoise `#00d4ff` = search/retrieval/source; purple `#8b5cf6` = AI model; gold `#fbbf24` = key rule; red `#ef4444` = danger/hallucination.
 
-## Animation Rules (CRITICAL)
+## 4. Build the shot — make it alive
 
-### Spring Config — Always Smooth
-```tsx
-spring({
-  frame: frame - delay,
-  fps,
-  config: { damping: 14-18, stiffness: 80-100, mass: 0.8 },
-})
-```
-- **damping: 14-18** (no bounce/overshoot)
-- **stiffness: 80-100** (smooth arrival)
-- **NEVER** use low damping (<12) or high stiffness (>150) — it looks toyish
+Open on a **living background**, not a bare title. Layer (back → front):
 
-### NO Enter/Exit Transitions
-- Each shot starts and ends IN PLACE
-- NO slide-in from edges at start
-- NO slide-out, zoom-out, or fade-out at end
-- Elements within the shot can animate (appear, grow, etc.) but the shot itself stays static
+1. `<Img>` background with **Ken Burns** (slow `scale` 1.04→1.16 + small `translateX` drift) + fade-in.
+2. Readability overlays: a centered radial darken + top/bottom vertical gradient so text stays legible.
+3. **Floating particles** (a handful of glowing dots drifting up with sine-pulsed opacity).
+4. Content in **phases** synced to narration: titles, glass cards, diagrams, transparent icons — each entering with a smooth spring.
 
-### interpolate() for Linear Motion
-```tsx
-const progress = interpolate(frame, [startFrame, endFrame], [0, 1], {
-  extrapolateLeft: "clamp",
-  extrapolateRight: "clamp",
-});
-```
+Reusable patterns (copy from `lesson2-lecture1/scenes/Shot1_1.tsx`):
+- Ken Burns bg, `Particles` component, animated underline under titles.
+- A title that **rises from center to top in one continuous motion** — drive position with a single `translateY(rise * -390)` + `scale(1 - rise*0.42)`; **never** switch `top`/`bottom` mid-animation (that makes it jump).
+- Glass card (`ToolCard`) with a transparent icon that gently floats (`Math.sin(frame*0.06)*7`).
 
-## Visual Style Rules
+### Animation rules (critical)
+- All motion via `useCurrentFrame()` + `spring()`/`interpolate()` — **never** CSS transitions/keyframes.
+- Entrance spring: `{ damping: 14–18, stiffness: 80–100, mass: 0.8 }` — smooth, no bounce.
+- **No enter/exit transitions between shots** — each shot starts and ends in place; elements inside may appear/grow/cross-fade.
+- Keep something moving the whole time (Ken Burns, particles, slow rotation, glow pulses) so no frame feels static.
 
-- **Big readable text**: titles fontSize 60-120, body text 28-40, labels 24-32
-- **Hebrew text**: always `direction: "rtl"`
-- **English text** (LLM, AI, etc.): `direction: "ltr"`
-- **Font**: always use `FONT_FAMILY` constant
-- **Colors**: always use `COLORS.*` constants from theme
-- **Flow charts, diagrams, split screens** — prefer text-driven visualizations
-- **SVG elements**: use inline `<svg>` with absolute positioning for diagrams, arrows, charts
-- **Background**: always the radial gradient from bgSecondary to bgPrimary
+### RTL rules (critical)
+- Block elements with Hebrew: `direction: "rtl"`. English tokens (AI, LLM, Google, ChatGPT): `direction: "ltr"`.
+- **Arrows in an RTL flow must point LEFT** (right→left). The chars `‹ › « »` are *bidi-mirrored* and flip in RTL context — use a geometric triangle `◀`/`◂` (not mirrored) wrapped in `direction:"ltr"; unicodeBidi:"isolate"`.
+- Big readable text: titles 60–120, body 28–40, labels 24–32. Always `FONT_FAMILY` and `COLORS.*`.
 
-## Registration in Root.tsx
+## 5. Register
 
-After creating shot files, update `src/Root.tsx`:
+1. Import the component in `src/<video-id>/FullVideo.tsx` and add to `SHOT_COMPONENTS`.
+2. Add a `<Composition>` in `src/Root.tsx` under the video's `<Folder>` → `Shots`, id `<prefix>-shot{S}-{N}`, `fps=30 width=1920 height=1080`, `durationInFrames={SHOT_TIMING["shotS-N"].durationInFrames}`.
 
-1. Import the new components
-2. Add new `<Composition>` entries with:
-   - `id`: format `shot{scene}-{shot}` using HYPHENS (e.g., `shot3-1`)
-   - `width={1920}` `height={1080}` `fps={30}`
-   - `durationInFrames`: scene duration in seconds × 30
+## 6. Verify (do NOT render MP4)
 
-Example:
-```tsx
-import { Shot3_1 } from "./scenes/Shot3_1";
+1. Type-check: `npx tsc --noEmit -p tsconfig.json` (from `remotion-video/`).
+2. **Render still frames and look at them** at the busiest moments of each phase to catch layout/overlap/RTL/transparent-square issues:
+   `npx remotion still src/index.ts <prefix>-shotS-N /tmp/check.png --frame=<f> --gl=angle`
+3. Fix what you see, then tell the user which compositions to preview in `npm run studio` (`full-<video-id>` and the individual shot).
 
-<Composition
-  id="shot3-1"
-  component={Shot3_1}
-  durationInFrames={270}  // 9 seconds × 30fps
-  fps={30}
-  width={1920}
-  height={1080}
-/>
-```
-
-## Step-by-Step Process
-
-1. **Read the storyboard** section for the requested scene from `תסריט remotion.md`
-2. **Read 1-2 existing shot files** to match the current style
-3. **Create each shot file** at `src/scenes/Shot{S}_{N}.tsx`
-4. **Register in Root.tsx** — add imports and Composition entries
-5. **Type-check**: run `npx tsc --noEmit` to verify no errors
-6. **Do NOT render** to MP4 — user previews in Remotion Studio
-
-## Storyboard Quick Reference
-
-| Scene | Shots | Description |
-|-------|-------|-------------|
-| 3 | 3.1-3.4 | Prediction principle: typewriter, word cards, probability bar chart, word building |
-| 4 | 4.1-4.3 | Why "Large": parameter viz, globe languages, math network |
-| 5 | 5.1-5.3 | LLM vs search: split screen, typewriter AI, hallucination warning |
-| 6 | 6.1-6.2 | Thought question: question marks, philosophical elements |
-| 7 | 7.1-7.7 | Creativity & sampling: probability, tree diagram, Venn, AI bubble, human creativity |
-| 8 | 8.1-8.3 | Summary: animated bullet list, connections, "next lectures" gate |
-| 9 | 9.1 | Closing: thank you, logo fade |
+## Reference & lessons
+- [`reference.md`](reference.md) — exact `gen-gpt` / `remove-bg-recraft` API calls, naming, mixBlendMode notes.
+- The gold-standard reference shots are `lesson2-lecture1` Shot1_1 (living bg + rising title + icon cards) and Shot3_1 (rotating bg element + step flow + tags).

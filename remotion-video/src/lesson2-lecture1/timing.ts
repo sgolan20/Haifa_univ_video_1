@@ -1,12 +1,12 @@
 /**
  * Lesson 2 — Lecture 1 — "AI לעומת מנועי חיפוש (חלק א')" timing map
  *
- * Full narration: ~230.71s (3:50.71) → 6921 frames @ 30fps.
+ * Full narration: ~275.98s (4:35.98) → 8279 frames @ 30fps.
  *
- * NOTE: Shot boundaries below are PLACEHOLDER — a single shot currently spans
- * the whole narration so it can be placed on the timeline for review.
- * Real per-scene boundaries will be derived from Whisper word-level timestamps
- * once the 12 scenes are built (see docs/תסריט remotion lesson2-lecture1.md).
+ * Boundaries derived from ElevenLabs Scribe word timestamps (full_narration.srt).
+ * Scenes 1-3 are built; the remainder (scenes 4-12) is covered by a single
+ * "rest" placeholder so the full narration stays on the timeline until those
+ * scenes are built (see docs/תסריט remotion lesson2-lecture1.md).
  */
 
 export const FPS = 30;
@@ -33,12 +33,18 @@ const shot = (audioStart: number, duration: number): ShotTiming => ({
 export const NARRATION_DURATION_SEC = 275.98;
 
 export const SHOT_TIMING: Record<string, ShotTiming> = {
-  // PLACEHOLDER — single shot covering the entire narration
-  "shot1-1": shot(0, NARRATION_DURATION_SEC),
+  // Scene 1 — Opening + the question (Google vs ChatGPT)
+  "shot1-1": shot(0, 27.3),
+  // Scene 2 — The simplistic answer
+  "shot2-1": shot(27.3, 9.5),
+  // Scene 3 — Search engine = information retrieval
+  "shot3-1": shot(36.8, 27.82),
+  // PLACEHOLDER — scenes 4-12 (not built yet), keeps full narration on the timeline
+  rest: shot(64.62, NARRATION_DURATION_SEC - 64.62),
 };
 
 /** Ordered list of shot IDs for sequencing */
-export const SHOT_ORDER = ["shot1-1"] as const;
+export const SHOT_ORDER = ["shot1-1", "shot2-1", "shot3-1", "rest"] as const;
 
 /** Total video duration in frames */
 export const TOTAL_DURATION_FRAMES = SHOT_ORDER.reduce(

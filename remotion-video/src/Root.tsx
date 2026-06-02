@@ -64,6 +64,8 @@ import { Shot5_2 as V2B_Shot5_2 } from "./video2b/scenes/Shot5_2";
 import { FullVideo as FullVideoL2L1 } from "./lesson2-lecture1/FullVideo";
 import { TOTAL_DURATION_FRAMES as L2L1_TOTAL_FRAMES, SHOT_TIMING as L2L1_SHOT_TIMING } from "./lesson2-lecture1/timing";
 import { Shot1_1 as L2L1_Shot1_1 } from "./lesson2-lecture1/scenes/Shot1_1";
+import { Shot2_1 as L2L1_Shot2_1 } from "./lesson2-lecture1/scenes/Shot2_1";
+import { Shot3_1 as L2L1_Shot3_1 } from "./lesson2-lecture1/scenes/Shot3_1";
 
 const FPS = 30;
 
@@ -430,6 +432,8 @@ export const Root: React.FC = () => {
         />
         <Folder name="Shots">
           <Composition id="l2l1-shot1-1" component={L2L1_Shot1_1} durationInFrames={L2L1_SHOT_TIMING["shot1-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l1-shot2-1" component={L2L1_Shot2_1} durationInFrames={L2L1_SHOT_TIMING["shot2-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l1-shot3-1" component={L2L1_Shot3_1} durationInFrames={L2L1_SHOT_TIMING["shot3-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
         </Folder>
       </Folder>
     </>

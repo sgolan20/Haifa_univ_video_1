@@ -1,13 +1,18 @@
 import React from "react";
 import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
 import { SHOT_TIMING, SHOT_ORDER } from "./timing";
-import { Background } from "../design/Background";
 import { Logo } from "../design/Logo";
 
 import { Shot1_1 } from "./scenes/Shot1_1";
+import { Shot2_1 } from "./scenes/Shot2_1";
+import { Shot3_1 } from "./scenes/Shot3_1";
+import { SceneRest } from "./scenes/SceneRest";
 
 const SHOT_COMPONENTS: Record<string, React.FC> = {
   "shot1-1": Shot1_1,
+  "shot2-1": Shot2_1,
+  "shot3-1": Shot3_1,
+  rest: SceneRest,
 };
 
 /**
@@ -23,8 +28,6 @@ export const FullVideo: React.FC = () => {
 
   return (
     <AbsoluteFill>
-      <Background />
-
       {/* Full narration audio */}
       <Audio src={staticFile("lesson2-lecture1/audio/full_narration.mp3")} volume={1} />
 
