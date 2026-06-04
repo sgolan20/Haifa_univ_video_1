@@ -57,12 +57,15 @@ export const SHOT_TIMING: Record<string, ShotTiming> = {
   "shot11-1": shot(241.14, 20.68),
   // Scene 12 — Summary + teaser for Part B
   "shot12-1": shot(261.82, NARRATION_DURATION_SEC - 261.82),
+  // Scene 13 — University logo closing (after narration ends)
+  "shot13-1": shot(NARRATION_DURATION_SEC, 2.5),
 };
 
 /** Ordered list of shot IDs for sequencing */
 export const SHOT_ORDER = [
   "shot1-1", "shot2-1", "shot3-1", "shot4-1", "shot5-1", "shot6-1",
   "shot7-1", "shot8-1", "shot9-1", "shot10-1", "shot11-1", "shot12-1",
+  "shot13-1",
 ] as const;
 
 /** Total video duration in frames */

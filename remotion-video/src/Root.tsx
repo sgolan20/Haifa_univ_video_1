@@ -75,6 +75,7 @@ import { Shot9_1 as L2L1_Shot9_1 } from "./lesson2-lecture1/scenes/Shot9_1";
 import { Shot10_1 as L2L1_Shot10_1 } from "./lesson2-lecture1/scenes/Shot10_1";
 import { Shot11_1 as L2L1_Shot11_1 } from "./lesson2-lecture1/scenes/Shot11_1";
 import { Shot12_1 as L2L1_Shot12_1 } from "./lesson2-lecture1/scenes/Shot12_1";
+import { Shot13_1 as L2L1_Shot13_1 } from "./lesson2-lecture1/scenes/Shot13_1";
 
 const FPS = 30;
 
@@ -452,6 +453,7 @@ export const Root: React.FC = () => {
           <Composition id="l2l1-shot10-1" component={L2L1_Shot10_1} durationInFrames={L2L1_SHOT_TIMING["shot10-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="l2l1-shot11-1" component={L2L1_Shot11_1} durationInFrames={L2L1_SHOT_TIMING["shot11-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="l2l1-shot12-1" component={L2L1_Shot12_1} durationInFrames={L2L1_SHOT_TIMING["shot12-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l1-shot13-1" component={L2L1_Shot13_1} durationInFrames={L2L1_SHOT_TIMING["shot13-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
         </Folder>
       </Folder>
     </>
