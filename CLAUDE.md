@@ -96,6 +96,19 @@ remotion-video/public/
 
 ## Production Pipeline
 
+### Skill workflow (end-to-end)
+
+Building a video from a narration file to a finished cut is fully covered by skills. Run in order (skip steps already done):
+
+1. **`/narration-pipeline`** — narration `.docx`/`.txt` → `full_narration.mp3` + `.srt` + word JSON.
+2. Derive `timing.ts` shot boundaries from the SRT.
+3. **Per scene:** `/gen-gpt` (or `/gen-nano`) → `/remove-bg-recraft` (transparent floating icons) → `/create-scene` (or `/layered-scene`) to build & register the shot.
+4. **`/add-closing-logo`** — append the 2.5s university-logo outro shot.
+5. **`/add-background-music`** — generate a topic-matched ambient track, mixed under narration at volume `0.09` with fade in/out.
+6. Verify: `npx tsc --noEmit` → preview `full-<id>` in `npm run studio` → render MP4 only when asked.
+
+The numbered sections below document the underlying tooling each skill relies on.
+
 ### 1. Text-to-Speech — ElevenLabs
 - **Model**: `eleven_v3`, **Voice**: Sarah (`EXAVITQu4vr4xnSDxMaL`), **Language**: `he`
 - **API key**: `.env` as `ELEVENLABS_API_KEY`
@@ -111,9 +124,9 @@ remotion-video/public/
 - Still image + MP3 → 720p video (25fps) with lip sync
 - Used only for Video 1 narrator (shot1-1)
 
-### 4. Background Music — Suno AI (Video 1 only)
-- Two copies crossfaded (5s, exp curve), trimmed to 380s, 3s fade out
-- Volume 0.10 (~20dB below narration)
+### 4. Background Music
+- **Video 1 (legacy):** Suno AI — two copies crossfaded (5s, exp curve), trimmed to 380s, 3s fade out, volume 0.10.
+- **Newer videos:** ElevenLabs Music API (`POST /v1/music`, `music_v1`, `force_instrumental`) via **`/add-background-music`** — ambient instrumental track matched to the full video length, mixed under narration at volume `0.09` with fade in/out.
 
 ## Design & Visual Style
 
