@@ -77,6 +77,26 @@ import { Shot11_1 as L2L1_Shot11_1 } from "./lesson2-lecture1/scenes/Shot11_1";
 import { Shot12_1 as L2L1_Shot12_1 } from "./lesson2-lecture1/scenes/Shot12_1";
 import { Shot13_1 as L2L1_Shot13_1 } from "./lesson2-lecture1/scenes/Shot13_1";
 
+import { FullVideo as FullVideoL2L2 } from "./lesson2-lecture2/FullVideo";
+import { TOTAL_DURATION_FRAMES as L2L2_TOTAL_FRAMES, SHOT_TIMING as L2L2_SHOT_TIMING } from "./lesson2-lecture2/timing";
+import { Shot1_1 as L2L2_Shot1_1 } from "./lesson2-lecture2/scenes/Shot1_1";
+import { Shot2_1 as L2L2_Shot2_1 } from "./lesson2-lecture2/scenes/Shot2_1";
+import { Shot3_1 as L2L2_Shot3_1 } from "./lesson2-lecture2/scenes/Shot3_1";
+import { Shot4_1 as L2L2_Shot4_1 } from "./lesson2-lecture2/scenes/Shot4_1";
+import { Shot5_1 as L2L2_Shot5_1 } from "./lesson2-lecture2/scenes/Shot5_1";
+import { Shot6_1 as L2L2_Shot6_1 } from "./lesson2-lecture2/scenes/Shot6_1";
+import { Shot7_1 as L2L2_Shot7_1 } from "./lesson2-lecture2/scenes/Shot7_1";
+import { Shot8_1 as L2L2_Shot8_1 } from "./lesson2-lecture2/scenes/Shot8_1";
+import { Shot9_1 as L2L2_Shot9_1 } from "./lesson2-lecture2/scenes/Shot9_1";
+import { Shot10_1 as L2L2_Shot10_1 } from "./lesson2-lecture2/scenes/Shot10_1";
+import { Shot11_1 as L2L2_Shot11_1 } from "./lesson2-lecture2/scenes/Shot11_1";
+import { Shot12_1 as L2L2_Shot12_1 } from "./lesson2-lecture2/scenes/Shot12_1";
+import { Shot13_1 as L2L2_Shot13_1 } from "./lesson2-lecture2/scenes/Shot13_1";
+import { Shot14_1 as L2L2_Shot14_1 } from "./lesson2-lecture2/scenes/Shot14_1";
+import { Shot15_1 as L2L2_Shot15_1 } from "./lesson2-lecture2/scenes/Shot15_1";
+import { Shot16_1 as L2L2_Shot16_1 } from "./lesson2-lecture2/scenes/Shot16_1";
+import { Shot17_1 as L2L2_Shot17_1 } from "./lesson2-lecture2/scenes/Shot17_1";
+
 const FPS = 30;
 
 export const Root: React.FC = () => {
@@ -454,6 +474,36 @@ export const Root: React.FC = () => {
           <Composition id="l2l1-shot11-1" component={L2L1_Shot11_1} durationInFrames={L2L1_SHOT_TIMING["shot11-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="l2l1-shot12-1" component={L2L1_Shot12_1} durationInFrames={L2L1_SHOT_TIMING["shot12-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="l2l1-shot13-1" component={L2L1_Shot13_1} durationInFrames={L2L1_SHOT_TIMING["shot13-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+        </Folder>
+      </Folder>
+
+      <Folder name="Lesson2-Lecture2-Real-Source">
+        <Composition
+          id="full-lesson2-lecture2"
+          component={FullVideoL2L2}
+          durationInFrames={L2L2_TOTAL_FRAMES}
+          fps={FPS}
+          width={1920}
+          height={1080}
+        />
+        <Folder name="Shots">
+          <Composition id="l2l2-shot1-1" component={L2L2_Shot1_1} durationInFrames={L2L2_SHOT_TIMING["shot1-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l2-shot2-1" component={L2L2_Shot2_1} durationInFrames={L2L2_SHOT_TIMING["shot2-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l2-shot3-1" component={L2L2_Shot3_1} durationInFrames={L2L2_SHOT_TIMING["shot3-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l2-shot4-1" component={L2L2_Shot4_1} durationInFrames={L2L2_SHOT_TIMING["shot4-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l2-shot5-1" component={L2L2_Shot5_1} durationInFrames={L2L2_SHOT_TIMING["shot5-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l2-shot6-1" component={L2L2_Shot6_1} durationInFrames={L2L2_SHOT_TIMING["shot6-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l2-shot7-1" component={L2L2_Shot7_1} durationInFrames={L2L2_SHOT_TIMING["shot7-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l2-shot8-1" component={L2L2_Shot8_1} durationInFrames={L2L2_SHOT_TIMING["shot8-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l2-shot9-1" component={L2L2_Shot9_1} durationInFrames={L2L2_SHOT_TIMING["shot9-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l2-shot10-1" component={L2L2_Shot10_1} durationInFrames={L2L2_SHOT_TIMING["shot10-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l2-shot11-1" component={L2L2_Shot11_1} durationInFrames={L2L2_SHOT_TIMING["shot11-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l2-shot12-1" component={L2L2_Shot12_1} durationInFrames={L2L2_SHOT_TIMING["shot12-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l2-shot13-1" component={L2L2_Shot13_1} durationInFrames={L2L2_SHOT_TIMING["shot13-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l2-shot14-1" component={L2L2_Shot14_1} durationInFrames={L2L2_SHOT_TIMING["shot14-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l2-shot15-1" component={L2L2_Shot15_1} durationInFrames={L2L2_SHOT_TIMING["shot15-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l2-shot16-1" component={L2L2_Shot16_1} durationInFrames={L2L2_SHOT_TIMING["shot16-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l2l2-shot17-1" component={L2L2_Shot17_1} durationInFrames={L2L2_SHOT_TIMING["shot17-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
         </Folder>
       </Folder>
     </>
