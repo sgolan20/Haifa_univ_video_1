@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
+import { AbsoluteFill, Img, staticFile, useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
 import { COLORS } from "../../design/theme";
 import { FONT_FAMILY } from "../../design/fonts";
 import { SceneBg, Particles } from "./_shared";
@@ -14,6 +14,211 @@ import { SceneBg, Particles } from "./_shared";
  * f470:  "מה הכלי הנכון לאותו רגע?" over the two glowing screens
  */
 const DUR = 624;
+const DECISION_VISUAL_START = 300;
+
+const DecisionChoiceVisual: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  const local = frame - DECISION_VISUAL_START;
+  const intro = spring({
+    frame: local,
+    fps,
+    config: { damping: 18, stiffness: 75, mass: 0.9 },
+  });
+  const opacity = interpolate(local, [-10, 18, 145, 170], [0, 1, 1, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const optionReveal = spring({
+    frame: local - 18,
+    fps,
+    config: { damping: 16, stiffness: 100, mass: 0.75 },
+  });
+  const cursorProgress = interpolate(local, [34, 78], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const click = spring({
+    frame: local - 82,
+    fps,
+    config: { damping: 12, stiffness: 180, mass: 0.45 },
+  });
+  const check = spring({
+    frame: local - 92,
+    fps,
+    config: { damping: 13, stiffness: 150, mass: 0.5 },
+  });
+  const pulse = 0.55 + 0.35 * Math.sin(frame * 0.16);
+  const cursorX = 1095 + cursorProgress * 125;
+  const cursorY = 835 - cursorProgress * 180;
+
+  return (
+    <AbsoluteFill
+      style={{
+        opacity,
+        transform: `scale(${1.03 - intro * 0.03})`,
+        transformOrigin: "center center",
+      }}
+    >
+      <Img
+        src={staticFile("lesson2-lecture2/images/decision_choice_bg.png")}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          filter: "saturate(1.08) contrast(1.03)",
+        }}
+      />
+      <AbsoluteFill
+        style={{
+          background: `linear-gradient(180deg, ${COLORS.bgPrimary}c9 0%, ${COLORS.bgPrimary}20 38%, ${COLORS.bgPrimary}66 100%)`,
+        }}
+      />
+
+      <div
+        style={{
+          position: "absolute",
+          left: 733,
+          top: 545,
+          width: 228,
+          height: 275,
+          borderRadius: 18,
+          border: `2px solid ${COLORS.textMuted}77`,
+          background: "rgba(10,14,26,0.18)",
+          opacity: optionReveal * (1 - click * 0.45),
+          transform: `translateY(${(1 - optionReveal) * 16}px)`,
+        }}
+      />
+
+      <div
+        style={{
+          position: "absolute",
+          left: 1018,
+          top: 540,
+          width: 245,
+          height: 285,
+          borderRadius: 20,
+          border: `3px solid ${COLORS.primary}`,
+          background: `${COLORS.primary}18`,
+          boxShadow: `0 0 ${26 + pulse * 28 + click * 35}px ${COLORS.primary}88, inset 0 0 26px ${COLORS.primary}33`,
+          opacity: optionReveal,
+          transform: `translateY(${(1 - optionReveal) * 16}px) scale(${1 + click * 0.025})`,
+        }}
+      />
+
+      <div
+        style={{
+          position: "absolute",
+          left: 760,
+          top: 835,
+          width: 175,
+          padding: "8px 14px",
+          borderRadius: 999,
+          background: "rgba(10,14,26,0.7)",
+          color: COLORS.textMuted,
+          fontSize: 25,
+          fontWeight: 700,
+          textAlign: "center",
+          direction: "rtl",
+          opacity: optionReveal * (1 - click * 0.55),
+        }}
+      >
+        אפשרות א׳
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          left: 1048,
+          top: 835,
+          width: 185,
+          padding: "8px 14px",
+          borderRadius: 999,
+          background: `${COLORS.primary}2b`,
+          border: `1.5px solid ${COLORS.primary}aa`,
+          color: COLORS.text,
+          fontSize: 25,
+          fontWeight: 800,
+          textAlign: "center",
+          direction: "rtl",
+          opacity: optionReveal,
+          boxShadow: `0 0 ${18 + pulse * 14}px ${COLORS.primary}66`,
+        }}
+      >
+        הבחירה הנכונה
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          left: cursorX,
+          top: cursorY,
+          width: 34,
+          height: 48,
+          opacity: interpolate(local, [28, 38, 120, 138], [0, 1, 1, 0], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          }),
+          transform: `rotate(-18deg) scale(${1 - click * 0.16})`,
+          transformOrigin: "top left",
+          filter: "drop-shadow(0 6px 12px rgba(0,0,0,0.55))",
+        }}
+      >
+        <div
+          style={{
+            width: 0,
+            height: 0,
+            borderLeft: "0 solid transparent",
+            borderRight: "31px solid transparent",
+            borderTop: `46px solid ${COLORS.text}`,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            left: 8,
+            top: 12,
+            width: 9,
+            height: 28,
+            background: COLORS.text,
+            transform: "rotate(-24deg)",
+            borderRadius: 3,
+          }}
+        />
+      </div>
+
+      {check > 0 && (
+        <div
+          style={{
+            position: "absolute",
+            left: 1120,
+            top: 610,
+            width: 104,
+            height: 104,
+            borderRadius: "50%",
+            background: `${COLORS.accent}24`,
+            border: `3px solid ${COLORS.accent}`,
+            color: COLORS.accent,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 74,
+            fontWeight: 900,
+            opacity: check,
+            transform: `scale(${check})`,
+            boxShadow: `0 0 ${30 + pulse * 24}px ${COLORS.accent}88`,
+            textShadow: `0 0 16px ${COLORS.accent}88`,
+          }}
+        >
+          ✓
+        </div>
+      )}
+    </AbsoluteFill>
+  );
+};
 
 export const Shot1_1: React.FC = () => {
   const frame = useCurrentFrame();
@@ -46,6 +251,7 @@ export const Shot1_1: React.FC = () => {
     <AbsoluteFill style={{ background: COLORS.bgPrimary, fontFamily: FONT_FAMILY }}>
       <SceneBg img="opening_bg.png" dur={DUR} maxOpacity={0.78} />
       <Particles />
+      {frame >= DECISION_VISUAL_START - 10 && frame < 472 && <DecisionChoiceVisual />}
 
       {/* title (rises to top) */}
       <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", transform: `translateY(${titleY}px) scale(${titleShrink})` }}>
