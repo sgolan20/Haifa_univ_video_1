@@ -1,7 +1,7 @@
 /**
  * Lesson 2 — Lecture 2 — "AI לעומת מנועי חיפוש (חלק ב') — האם זה מקור אמיתי?" timing map
  *
- * Full narration: 255.90s (4:15.90) → 7677 frames @ 30fps.
+ * Full narration: 256.33s (4:16.33) → 7690 frames @ 30fps.
  * Boundaries derived from ElevenLabs Scribe word timestamps (full_narration.srt),
  * cut in silence gaps between sentences.
  */
@@ -27,7 +27,7 @@ const shot = (audioStart: number, duration: number): ShotTiming => ({
 });
 
 /** Total narration duration in seconds (ffprobe). */
-export const NARRATION_DURATION_SEC = 255.9;
+export const NARRATION_DURATION_SEC = 256.33;
 
 export const SHOT_TIMING: Record<string, ShotTiming> = {
   // Scene 1 — Opening + the practical question (which tool, right now?)
@@ -35,7 +35,8 @@ export const SHOT_TIMING: Record<string, ShotTiming> = {
   // Scene 2 — A simple decision model
   "shot2-1": shot(20.79, 6.35),
   // Scene 3 — Use a SEARCH ENGINE when… (specific verifiable facts)
-  "shot3-1": shot(27.14, 26.42),
+  // +0.43s vs raw: the example list was re-synthesized with niqqud (שֵׁם=name), slightly longer.
+  "shot3-1": shot(27.14, 26.853),
   // Scene 4 — Use an AI MODEL when… (thinking partner, not a fact store)
   "shot4-1": shot(53.56, 27.72),
   // Scene 5 — The simple rule: AI for thinking, search for facts
@@ -60,8 +61,8 @@ export const SHOT_TIMING: Record<string, ShotTiming> = {
   "shot14-1": shot(208.1, 24.2),
   // Scene 15 — Triple-check also reveals the plurality of voices
   "shot15-1": shot(232.3, 13.5),
-  // Scene 16 — The final, deepest rule + goodbye
-  "shot16-1": shot(245.8, NARRATION_DURATION_SEC - 245.8),
+  // Scene 16 — The final, deepest rule + goodbye (audioStart shifted +0.43s by the scene-3 re-sync)
+  "shot16-1": shot(246.23, 10.1),
   // Scene 17 — University logo closing (after narration ends)
   "shot17-1": shot(NARRATION_DURATION_SEC, 2.5),
 };

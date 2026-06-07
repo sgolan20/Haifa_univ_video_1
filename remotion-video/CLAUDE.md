@@ -8,7 +8,7 @@ See the **root CLAUDE.md** (`../CLAUDE.md`) for the complete project guide — a
 
 ```bash
 npm run studio                    # Preview (primary workflow)
-npx remotion render src/index.ts full-video-2b out/video2b.mp4 --codec h264 --concurrency=16 --gl=angle
+npx remotion render src/index.ts full-video-2b out/video2b.mp4 --codec h264 --concurrency=8 --gl=angle
 npx remotion render src/index.ts v2b-shot3-1 out/v2b_shot3_1.mp4 --codec h264
 ```
 

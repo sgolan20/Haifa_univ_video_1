@@ -38,8 +38,7 @@ export const Shot14_1: React.FC = () => {
 
       {/* title */}
       <div style={{ position: "absolute", top: 110, left: 0, right: 0, textAlign: "center", transform: `scale(${title})`, opacity: title }}>
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 16, padding: "14px 40px", borderRadius: 999, background: `${R}1a`, border: `2px solid ${R}88`, boxShadow: `0 0 ${30 + glow * 26}px ${R}44` }}>
-          <span style={{ fontSize: 40 }}>⚠</span>
+        <div style={{ display: "inline-flex", alignItems: "center", padding: "14px 44px", borderRadius: 999, background: `${R}1a`, border: `2px solid ${R}88`, boxShadow: `0 0 ${30 + glow * 26}px ${R}44` }}>
           <span style={{ fontSize: 44, fontWeight: 800, color: R, direction: "rtl" }}>הסתייגות עדכנית</span>
         </div>
       </div>

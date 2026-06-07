@@ -6,14 +6,14 @@ import { SceneBg, Particles } from "./_shared";
 
 /**
  * Shot 3.1 — Use a SEARCH ENGINE when… (verifiable facts)
- * Duration: 793 frames (26.42s) · audioStart 27.14s · bg search_bg · turquoise
+ * Duration: 806 frames (26.85s) · audioStart 27.14s · bg search_bg · turquoise
  *
  * f0   header "מנוע חיפוש — לעובדות"
  * f30  rule: specific datum with a clear source + example chips (date/name/stat/ruling/law/study)
- * f342 three condition rows (time-sensitive · primary source to cite · factual accuracy critical)
- * f675 domain tags (medicine · law · policy · science)
+ * f355 three condition rows (time-sensitive · primary source to cite · factual accuracy critical)
+ * f688 domain tags (medicine · law · policy · science)
  */
-const DUR = 793;
+const DUR = 806;
 const P = COLORS.primary;
 
 export const Shot3_1: React.FC = () => {
@@ -22,13 +22,13 @@ export const Shot3_1: React.FC = () => {
 
   const header = spring({ frame: frame - 4, fps, config: { damping: 16, stiffness: 90, mass: 0.8 } });
   const rule = spring({ frame: frame - 30, fps, config: { damping: 16, stiffness: 90, mass: 0.8 } });
-  const blockAFade = interpolate(frame, [320, 348], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const blockAFade = interpolate(frame, [333, 361], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   const chips = ["תאריך", "שם", "סטטיסטיקה", "פסיקה", "חוק", "ממצא ממחקר"];
   const rows = [
-    { t: "מידע תלוי־זמן שעלול להתיישן", d: 342 },
-    { t: "מקור ראשוני שניתן לצטט", d: 477 },
-    { t: "תחום שבו דיוק עובדתי קריטי", d: 570 },
+    { t: "מידע תלוי־זמן שעלול להתיישן", d: 355 },
+    { t: "מקור ראשוני שניתן לצטט", d: 490 },
+    { t: "תחום שבו דיוק עובדתי קריטי", d: 583 },
   ];
   const domains = ["רפואה", "משפט", "נתוני מדיניות", "מדע"];
 
@@ -65,11 +65,11 @@ export const Shot3_1: React.FC = () => {
       )}
 
       {/* Block B — condition rows */}
-      {frame >= 330 && (
+      {frame >= 343 && (
         <div style={{ position: "absolute", top: 280, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 26, direction: "rtl" }}>
           {rows.map((r) => {
             const s = spring({ frame: frame - r.d, fps, config: { damping: 16, stiffness: 90, mass: 0.8 } });
-            const isCritical = r.d === 570;
+            const isCritical = r.d === 583;
             return (
               <div key={r.t} style={{ transform: `translateX(${(1 - s) * -40}px)`, opacity: s, width: 980, padding: "22px 34px", borderRadius: 18, background: `linear-gradient(135deg, ${P}1f 0%, rgba(255,255,255,0.03) 100%)`, backdropFilter: "blur(12px)", border: `1.5px solid ${P}66`, display: "flex", alignItems: "center", gap: 22 }}>
                 <span style={{ fontSize: 34, color: P }}>✓</span>
@@ -77,7 +77,7 @@ export const Shot3_1: React.FC = () => {
                 {isCritical && (
                   <div style={{ marginRight: "auto", display: "flex", gap: 12, direction: "rtl" }}>
                     {domains.map((d, i) => {
-                      const ds = spring({ frame: frame - (675 + i * 22), fps, config: { damping: 14, stiffness: 110, mass: 0.7 } });
+                      const ds = spring({ frame: frame - (688 + i * 22), fps, config: { damping: 14, stiffness: 110, mass: 0.7 } });
                       return (
                         <span key={d} style={{ transform: `scale(${ds})`, opacity: ds, padding: "8px 18px", borderRadius: 999, background: `${COLORS.accent}22`, border: `1px solid ${COLORS.accent}77`, fontSize: 24, fontWeight: 700, color: COLORS.accent, direction: "rtl" }}>{d}</span>
                       );

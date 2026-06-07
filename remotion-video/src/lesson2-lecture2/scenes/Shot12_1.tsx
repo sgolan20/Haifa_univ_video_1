@@ -8,7 +8,7 @@ import { SceneBg, Particles } from "./_shared";
  * Shot 12.1 — 3X (run it at least three times)
  * Duration: 482 frames (16.06s) · audioStart 166.64s · bg factcheck_bg
  *
- * f0   "×3" + heading: every central claim, at least three times
+ * f0   "3X" + heading: every central claim, at least three times
  * f312 most errors surface on the 2nd or 3rd pass — not the first
  */
 const DUR = 482;
@@ -36,7 +36,7 @@ export const Shot12_1: React.FC = () => {
 
       {/* ×3 + heading */}
       <div style={{ position: "absolute", top: 150, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 22 }}>
-        <div style={{ transform: `scale(${big})`, opacity: big, fontSize: 110, fontWeight: 800, color: A, direction: "ltr", textShadow: `0 0 ${50 + glow * 40}px ${A}88` }}>×3</div>
+        <div style={{ transform: `scale(${big})`, opacity: big, fontSize: 110, fontWeight: 800, color: A, direction: "ltr", unicodeBidi: "isolate", textShadow: `0 0 ${50 + glow * 40}px ${A}88` }}>3X</div>
         <div style={{ opacity: head, transform: `translateY(${(1 - head) * 16}px)`, fontSize: 42, fontWeight: 700, color: COLORS.text, direction: "rtl", textAlign: "center", maxWidth: 1200, textShadow: "0 2px 12px rgba(0,0,0,0.7)" }}>
           כל טענה מרכזית — עוברת את התהליך <span style={{ color: A }}>לפחות שלוש פעמים</span>
         </div>

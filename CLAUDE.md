@@ -26,15 +26,17 @@ cd remotion-video
 npm run studio
 
 # Render full video
-npx remotion render src/index.ts full-video-1 out/video1.mp4 --codec h264 --concurrency=16 --gl=angle
-npx remotion render src/index.ts full-video-2a out/video2a.mp4 --codec h264 --concurrency=16 --gl=angle
-npx remotion render src/index.ts full-video-2b out/video2b.mp4 --codec h264 --concurrency=16 --gl=angle
+npx remotion render src/index.ts full-video-1 out/video1.mp4 --codec h264 --concurrency=8 --gl=angle
+npx remotion render src/index.ts full-video-2a out/video2a.mp4 --codec h264 --concurrency=8 --gl=angle
+npx remotion render src/index.ts full-video-2b out/video2b.mp4 --codec h264 --concurrency=8 --gl=angle
 
 # Render single shot (prefix with video ID)
 npx remotion render src/index.ts v1-shot3-2 out/v1_shot3_2.mp4 --codec h264
 npx remotion render src/index.ts v2a-shot1-1 out/v2a_shot1_1.mp4 --codec h264
 npx remotion render src/index.ts v2b-shot2-1 out/v2b_shot2_1.mp4 --codec h264
 ```
+
+> `--concurrency` must be ≤ the machine's CPU core count (this machine has 10 → use `8`). A higher value than available cores aborts the render.
 
 ## Architecture
 
