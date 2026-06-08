@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Audio, Sequence, staticFile, useCurrentFrame, interpolate } from "remotion";
+import { AbsoluteFill, Audio, OffthreadVideo, Sequence, staticFile, useCurrentFrame, interpolate } from "remotion";
 import { SHOT_TIMING, SHOT_ORDER } from "./timing";
 import { Logo } from "../design/Logo";
 
@@ -47,6 +47,31 @@ const LAST_SHOT_START = SHOT_ORDER.slice(0, -1).reduce(
   0
 );
 
+// Intro talking-head clip overlays the opening of shot1-1.
+// It runs from the very start until the narrator finishes "…לבין יצירת מידע"
+// (ends 6.470s) and cuts back to the original shot exactly as she begins the
+// new sentence "השאלה המעשית הבאה…" (starts 6.900s → frame 207). The video's
+// own (narration) audio is muted — the synced full_narration.mp3 is the source.
+const INTRO_END_FRAME = 207; // 6.9s @ 30fps
+
+const IntroOverlay: React.FC = () => {
+  const frame = useCurrentFrame();
+  // Short fade-out over the last 9 frames so it dissolves cleanly into shot1-1
+  const opacity = interpolate(frame, [INTRO_END_FRAME - 9, INTRO_END_FRAME], [1, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  return (
+    <AbsoluteFill style={{ opacity }}>
+      <OffthreadVideo
+        src={staticFile("lesson2-lecture2/video/intro_talking_head.mp4")}
+        muted
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+      />
+    </AbsoluteFill>
+  );
+};
+
 /**
  * FullVideo — Master composition for Lesson 2 / Lecture 2
  * "AI לעומת מנועי חיפוש (חלק ב') — האם זה מקור אמיתי?"
@@ -66,19 +91,6 @@ export const FullVideo: React.FC = () => {
       {/* Full narration audio */}
       <Audio src={staticFile("lesson2-lecture2/audio/full_narration.mp3")} volume={1} />
 
-      {/* Ambient AI background music — subtle, ~20dB under narration. The track is
-          ~253s (slightly shorter than the 258s video), so it fades out by ~f7590,
-          leaving the final rule + closing logo to land cleanly. */}
-      <Audio
-        src={staticFile("lesson2-lecture2/audio/background_music.mp3")}
-        volume={(f) =>
-          interpolate(f, [0, 30, 7500, 7590], [0, 0.09, 0.09, 0], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-          })
-        }
-      />
-
       {/* Sequence all shots */}
       {SHOT_ORDER.map((shotId) => {
         const timing = SHOT_TIMING[shotId];
@@ -97,6 +109,11 @@ export const FullVideo: React.FC = () => {
           </Sequence>
         );
       })}
+
+      {/* Intro talking-head clip overlaying the opening (frames 0–207) */}
+      <Sequence from={0} durationInFrames={INTRO_END_FRAME} name="intro-talking-head">
+        <IntroOverlay />
+      </Sequence>
 
       {/* Corner logo persistent across all shots — fades out before the closing logo shot */}
       {logoOpacity > 0 && <Logo opacity={0.5 * logoOpacity} />}

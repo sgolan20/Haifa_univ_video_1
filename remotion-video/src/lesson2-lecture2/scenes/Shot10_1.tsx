@@ -19,6 +19,8 @@ export const Shot10_1: React.FC = () => (
       letter="T"
       term="Time-Stamp"
       color={COLORS.primary}
+      image="shot10_1_time_stamp.png"
+      imageSide="left"
       heading="ודאו שהמקור עדכני ורלוונטי"
       points={[
         { t: "נתון שהיה נכון לפני 5 שנים עלול להיות מיושן לחלוטין", d: 144 },

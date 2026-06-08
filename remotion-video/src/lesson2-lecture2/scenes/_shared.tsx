@@ -62,8 +62,32 @@ export const FactStepper: React.FC<{ active: number }> = ({ active }) => {
   );
 };
 
+/** Floating illustration shown to one side of the step, glowing in the step's color. */
+export const SideIllustration: React.FC<{ img: string; color: string; side?: "left" | "right" }> = ({ img, color, side = "left" }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const enter = spring({ frame: frame - 14, fps, config: { damping: 15, stiffness: 80, mass: 0.9 } });
+  const float = Math.sin(frame * 0.045) * 12;
+  const pos = side === "left" ? { left: 70 } : { right: 70 };
+  return (
+    <Img
+      src={staticFile(`lesson2-lecture2/images/${img}`)}
+      style={{
+        position: "absolute",
+        top: 360,
+        ...pos,
+        width: 380,
+        height: "auto",
+        opacity: enter,
+        transform: `translateY(${float}px) scale(${0.85 + enter * 0.15})`,
+        filter: `drop-shadow(0 0 34px ${color}77)`,
+      }}
+    />
+  );
+};
+
 /** A single FACT-CHECK step: big glowing letter badge + English term + Hebrew heading + staggered points. */
-export const LetterStep: React.FC<{ letter: string; term: string; color: string; heading: React.ReactNode; points: { t: string; d: number }[] }> = ({ letter, term, color, heading, points }) => {
+export const LetterStep: React.FC<{ letter: string; term: string; color: string; heading: React.ReactNode; points: { t: string; d: number }[]; image?: string; imageSide?: "left" | "right" }> = ({ letter, term, color, heading, points, image, imageSide = "left" }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const badge = spring({ frame: frame - 4, fps, config: { damping: 14, stiffness: 100, mass: 0.7 } });
@@ -71,6 +95,7 @@ export const LetterStep: React.FC<{ letter: string; term: string; color: string;
   const glow = 0.4 + 0.3 * Math.sin(frame * 0.06);
   return (
     <div style={{ fontFamily: FONT_FAMILY }}>
+      {image && <SideIllustration img={image} color={color} side={imageSide} />}
       <div style={{ position: "absolute", top: 190, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 22 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 26, direction: "ltr" }}>
           <div style={{ transform: `scale(${badge})`, opacity: badge, width: 120, height: 120, borderRadius: 26, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 78, fontWeight: 800, color, background: `${color}1f`, border: `3px solid ${color}`, boxShadow: `0 0 ${40 + glow * 30}px ${color}66` }}>{letter}</div>

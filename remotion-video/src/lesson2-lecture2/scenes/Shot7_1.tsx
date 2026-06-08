@@ -19,6 +19,8 @@ export const Shot7_1: React.FC = () => (
       letter="F"
       term="Find the Claim"
       color={COLORS.primary}
+      image="shot7_1_find_claim.png"
+      imageSide="left"
       heading="זהו את הטענה העובדתית המדויקת"
       points={[
         { t: "לא הרעיון הכללי — אלא הנתון הספציפי שניתן לאמת", d: 80 },

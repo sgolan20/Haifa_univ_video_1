@@ -19,6 +19,8 @@ export const Shot9_1: React.FC = () => (
       letter="C"
       term="Cross-Reference"
       color={COLORS.accent}
+      image="shot9_1_cross_reference.png"
+      imageSide="left"
       heading="בדקו את הטענה בשני מקורות בלתי־תלויים לפחות"
       points={[
         { t: "שני מקורות שונים — שאינם מצטטים זה את זה", d: 174 },

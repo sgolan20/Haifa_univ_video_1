@@ -19,6 +19,8 @@ export const Shot8_1: React.FC = () => (
       letter="A"
       term="Anchor to Source"
       color={COLORS.secondary}
+      image="shot8_1_anchor_source.png"
+      imageSide="left"
       heading="חפשו מקור ראשוני שמאשר את הטענה"
       points={[
         { t: "לא אתר שמסכם AI אחר", d: 162 },
