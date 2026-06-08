@@ -117,7 +117,7 @@ export const Shot3_1: React.FC = () => {
         <div style={{ position: "absolute", top: 730, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 24, direction: "rtl" }}>
           <Tag scale={tag1} label="מקור" />
           <Tag scale={tag2} label="אחריות" />
-          <Tag scale={tag3} label="שרשרת לאחור" />
+          <Tag scale={tag3} label="שרשרת מידע" />
         </div>
       )}
     </AbsoluteFill>

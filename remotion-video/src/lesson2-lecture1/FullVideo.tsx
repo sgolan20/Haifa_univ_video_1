@@ -1,6 +1,6 @@
 import React from "react";
-import { AbsoluteFill, Audio, Sequence, staticFile, useCurrentFrame, interpolate } from "remotion";
-import { SHOT_TIMING, SHOT_ORDER, TOTAL_DURATION_FRAMES } from "./timing";
+import { AbsoluteFill, Audio, OffthreadVideo, Sequence, staticFile, useCurrentFrame, interpolate } from "remotion";
+import { SHOT_TIMING, SHOT_ORDER } from "./timing";
 import { Logo } from "../design/Logo";
 
 import { Shot1_1 } from "./scenes/Shot1_1";
@@ -62,20 +62,6 @@ export const FullVideo: React.FC = () => {
       {/* Full narration audio */}
       <Audio src={staticFile("lesson2-lecture1/audio/full_narration.mp3")} volume={1} />
 
-      {/* Ambient AI background music — subtle, ~20dB under narration.
-          Fades in over the first second and out over the closing logo shot. */}
-      <Audio
-        src={staticFile("lesson2-lecture1/audio/background_music.mp3")}
-        volume={(f) =>
-          interpolate(
-            f,
-            [0, 30, TOTAL_DURATION_FRAMES - 75, TOTAL_DURATION_FRAMES],
-            [0, 0.09, 0.09, 0],
-            { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
-          )
-        }
-      />
-
       {/* Sequence all shots */}
       {SHOT_ORDER.map((shotId) => {
         const timing = SHOT_TIMING[shotId];
@@ -94,6 +80,15 @@ export const FullVideo: React.FC = () => {
           </Sequence>
         );
       })}
+
+      {/* Intro overlay video — replaces the first ~8.5s of visuals, narration plays underneath */}
+      <Sequence from={0} durationInFrames={254} name="intro-overlay">
+        <OffthreadVideo
+          src={staticFile("lesson2-lecture1/video/intro_overlay.mp4")}
+          muted
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
+      </Sequence>
 
       {/* Corner logo persistent across all shots — fades out before the closing logo shot */}
       {logoOpacity > 0 && <Logo opacity={0.5 * logoOpacity} />}
