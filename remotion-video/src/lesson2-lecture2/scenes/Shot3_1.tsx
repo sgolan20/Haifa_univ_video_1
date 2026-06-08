@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
+import { AbsoluteFill, Img, staticFile, useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
 import { COLORS } from "../../design/theme";
 import { FONT_FAMILY } from "../../design/fonts";
 import { SceneBg, Particles } from "./_shared";
@@ -26,9 +26,9 @@ export const Shot3_1: React.FC = () => {
 
   const chips = ["תאריך", "שם", "סטטיסטיקה", "פסיקה", "חוק", "ממצא ממחקר"];
   const rows = [
-    { t: "מידע תלוי־זמן שעלול להתיישן", d: 355 },
-    { t: "מקור ראשוני שניתן לצטט", d: 490 },
-    { t: "תחום שבו דיוק עובדתי קריטי", d: 583 },
+    { t: "מידע תלוי־זמן שעלול להתיישן", d: 355, icon: "lesson2-lecture2/images/icons/time_sensitive.png" },
+    { t: "מקור ראשוני שניתן לצטט", d: 490, icon: "lesson2-lecture2/images/icons/primary_source.png" },
+    { t: "תחום שבו דיוק עובדתי קריטי", d: 583, icon: "lesson2-lecture2/images/icons/factual_accuracy.png" },
   ];
   const domains = ["רפואה", "משפט", "נתוני מדיניות", "מדע"];
 
@@ -71,10 +71,21 @@ export const Shot3_1: React.FC = () => {
             const s = spring({ frame: frame - r.d, fps, config: { damping: 16, stiffness: 90, mass: 0.8 } });
             const isCritical = r.d === 583;
             return (
-              <div key={r.t} style={{ transform: `translateX(${(1 - s) * -40}px)`, opacity: s, width: 980, padding: "22px 34px", borderRadius: 18, background: `linear-gradient(135deg, ${P}1f 0%, rgba(255,255,255,0.03) 100%)`, backdropFilter: "blur(12px)", border: `1.5px solid ${P}66`, display: "flex", alignItems: "center", gap: 22 }}>
-                <span style={{ fontSize: 34, color: P }}>✓</span>
-                <span style={{ fontSize: 38, fontWeight: 700, color: COLORS.text, direction: "rtl" }}>{r.t}</span>
-                {isCritical && (
+              <div key={r.t} style={{ transform: `translateX(${(1 - s) * -40}px)`, opacity: s, width: 1180, padding: "18px 30px", borderRadius: 18, background: `linear-gradient(135deg, ${P}1f 0%, rgba(255,255,255,0.03) 100%)`, backdropFilter: "blur(12px)", border: `1.5px solid ${P}66`, display: "flex", alignItems: "center", gap: 22 }}>
+                <div style={{ width: 82, height: 82, flex: "0 0 82px", borderRadius: 18, overflow: "hidden", background: `${P}18`, border: `1.5px solid ${P}88`, boxShadow: `0 0 ${16 + s * 20}px ${P}55` }}>
+                  <Img
+                    src={staticFile(r.icon)}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      transform: `scale(${1.08 - s * 0.03})`,
+                      filter: "saturate(1.08) contrast(1.08)",
+                    }}
+                  />
+                </div>
+                <span style={{ fontSize: 38, fontWeight: 700, color: COLORS.text, direction: "rtl", whiteSpace: "nowrap" }}>{r.t}</span>
+                {isCritical && frame >= 670 && (
                   <div style={{ marginRight: "auto", display: "flex", gap: 12, direction: "rtl" }}>
                     {domains.map((d, i) => {
                       const ds = spring({ frame: frame - (688 + i * 22), fps, config: { damping: 14, stiffness: 110, mass: 0.7 } });
