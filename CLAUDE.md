@@ -106,7 +106,8 @@ Building a video from a narration file to a finished cut is fully covered by ski
 2. Derive `timing.ts` shot boundaries from the SRT.
 3. **Per scene:** `/gen-gpt` (or `/gen-nano`) → `/remove-bg-recraft` (transparent floating icons) → `/create-scene` (or `/layered-scene`) to build & register the shot.
 4. **`/add-closing-logo`** — append the 2.5s university-logo outro shot.
-5. Verify: `npx tsc --noEmit` → preview `full-<id>` in `npm run studio` → render MP4 only when asked.
+5. **`/talking-head-intro`** (optional) — generate the 720p lip-synced opening talking-head clip (fixed character + first sentence of narration) and overlay it on `shot1`.
+6. Verify: `npx tsc --noEmit` → preview `full-<id>` in `npm run studio` → render MP4 only when asked.
 
 The numbered sections below document the underlying tooling each skill relies on.
 
@@ -121,9 +122,10 @@ The numbered sections below document the underlying tooling each skill relies on
 - Output: `whisper_video*.json` files at project root
 - Used to derive `timing.ts` shot boundaries
 
-### 3. Lip Sync — Freepik Fabric 1.0
-- Still image + MP3 → 720p video (25fps) with lip sync
-- Used only for Video 1 narrator (shot1-1)
+### 3. Lip Sync — talking-head intro (VEED Fabric 1.0)
+- Still image + MP3 → lip-synced talking video. Run via the **`/talking-head-intro`** skill (`veed/fabric-1.0` on Replicate, 720p).
+- Used for the opening talking-head clip on the lessons: lip-syncs the fixed character `assets/דמות אוניברסיטת חיפה.jpeg` to the first ~5-10s (first sentence) of the narration, overlaid muted over `shot1` and handing off to the title card at `INTRO_END_FRAME`.
+- Video 1's original narrator (shot1-1) used the older Freepik Fabric 1.0 (25fps).
 
 > **Background music:** discontinued — newer videos ship without a soundtrack. Video 1 retains its legacy Suno track; do not add music to new videos.
 

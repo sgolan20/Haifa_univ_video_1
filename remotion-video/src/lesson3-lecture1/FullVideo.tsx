@@ -57,8 +57,8 @@ const LAST_SHOT_START = SHOT_ORDER.slice(0, -1).reduce(
  * Set HAS_INTRO_TALKING_HEAD = true once the file is placed at
  * public/lesson3-lecture1/video/intro_talking_head.mp4.
  */
-const HAS_INTRO_TALKING_HEAD = false;
-const INTRO_END_FRAME = 165; // 5.5s @ 30fps
+const HAS_INTRO_TALKING_HEAD = true;
+const INTRO_END_FRAME = 157; // 5.24s @ 30fps — matches the fabric-1.0 lip-sync clip length
 
 const IntroOverlay: React.FC = () => {
   const frame = useCurrentFrame();

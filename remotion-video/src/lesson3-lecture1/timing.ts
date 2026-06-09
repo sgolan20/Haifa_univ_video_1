@@ -1,7 +1,7 @@
 /**
  * Lesson 3 — Lecture 1 — "יושרה אקדמית בעידן של AI" timing map
  *
- * Full narration: ~235.08s (3:55.08) → 7053 frames @ 30fps.
+ * Full narration: ~235.23s (3:55.23) → 7057 frames @ 30fps.
  *
  * Boundaries derived from ElevenLabs Scribe word timestamps
  * (full_narration.srt) — each shot starts exactly where its narration cue begins.
@@ -30,7 +30,7 @@ const shot = (audioStart: number, duration: number): ShotTiming => ({
 });
 
 /** Total narration duration in seconds (ffmpeg probe of full_narration.mp3). */
-export const NARRATION_DURATION_SEC = 235.08;
+export const NARRATION_DURATION_SEC = 235.23;
 
 export const SHOT_TIMING: Record<string, ShotTiming> = {
   // Scene 1 — Opening: welcome (talking-head intro) + what we'll cover
@@ -43,26 +43,26 @@ export const SHOT_TIMING: Record<string, ShotTiming> = {
   "shot4-1": shot(47.07, 20.47),
   // Scene 5 — Risk #1: Plagiarism (definition)
   "shot5-1": shot(67.54, 20.98),
-  // Scene 6 — When is it problematic? (example)
-  "shot6-1": shot(88.52, 15.78),
+  // Scene 6 — When is it problematic? (example)  [tail = user-recorded fix1 passage]
+  "shot6-1": shot(88.52, 15.58),
   // Scene 7 — When is it legitimate? (example)
-  "shot7-1": shot(104.3, 15.16),
+  "shot7-1": shot(104.1, 15.5),
   // Scene 8 — The guiding rule
-  "shot8-1": shot(119.46, 6.84),
+  "shot8-1": shot(119.6, 6.84),
   // Scene 9 — Risk #2: Fabricated sources + verify every source
-  "shot9-1": shot(126.3, 22.74),
+  "shot9-1": shot(126.44, 22.72),
   // Scene 10 — Risk #3: Lack of understanding
-  "shot10-1": shot(149.04, 15.86),
+  "shot10-1": shot(149.16, 15.86),
   // Scene 11 — Context-dependent: ask yourself
-  "shot11-1": shot(164.9, 11.1),
+  "shot11-1": shot(165.02, 11.2),
   // Scene 12 — The 5-question checklist
-  "shot12-1": shot(176.0, 21.32),
+  "shot12-1": shot(176.22, 21.26),
   // Scene 13 — If the answer is "no" — stop and check
-  "shot13-1": shot(197.32, 7.94),
+  "shot13-1": shot(197.48, 7.94),
   // Scene 14 — Summary: a powerful tool, but it can't learn for you (ethical use)
-  "shot14-1": shot(205.26, 19.44),
+  "shot14-1": shot(205.42, 19.42),
   // Scene 15 — Teaser for the next units
-  "shot15-1": shot(224.7, NARRATION_DURATION_SEC - 224.7),
+  "shot15-1": shot(224.84, NARRATION_DURATION_SEC - 224.84),
   // Scene 16 — University logo closing (after narration ends)
   "shot16-1": shot(NARRATION_DURATION_SEC, 2.5),
 };

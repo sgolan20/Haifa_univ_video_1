@@ -34,7 +34,7 @@ export const Shot7_1: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ background: COLORS.bgPrimary, fontFamily: FONT_FAMILY }}>
-      <SceneBg img="legit_bg.png" dur={455} maxOpacity={0.5} />
+      <SceneBg img="legit_bg.png" dur={469} maxOpacity={0.5} />
       <Particles accent={GREEN} />
 
       <div style={{ position: "absolute", top: 56, left: 0, right: 0, textAlign: "center", transform: `scale(${title})`, opacity: title }}>
