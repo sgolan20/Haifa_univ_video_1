@@ -106,8 +106,7 @@ Building a video from a narration file to a finished cut is fully covered by ski
 2. Derive `timing.ts` shot boundaries from the SRT.
 3. **Per scene:** `/gen-gpt` (or `/gen-nano`) → `/remove-bg-recraft` (transparent floating icons) → `/create-scene` (or `/layered-scene`) to build & register the shot.
 4. **`/add-closing-logo`** — append the 2.5s university-logo outro shot.
-5. **`/add-background-music`** — generate a topic-matched ambient track, mixed under narration at volume `0.09` with fade in/out.
-6. Verify: `npx tsc --noEmit` → preview `full-<id>` in `npm run studio` → render MP4 only when asked.
+5. Verify: `npx tsc --noEmit` → preview `full-<id>` in `npm run studio` → render MP4 only when asked.
 
 The numbered sections below document the underlying tooling each skill relies on.
 
@@ -126,9 +125,7 @@ The numbered sections below document the underlying tooling each skill relies on
 - Still image + MP3 → 720p video (25fps) with lip sync
 - Used only for Video 1 narrator (shot1-1)
 
-### 4. Background Music
-- **Video 1 (legacy):** Suno AI — two copies crossfaded (5s, exp curve), trimmed to 380s, 3s fade out, volume 0.10.
-- **Newer videos:** ElevenLabs Music API (`POST /v1/music`, `music_v1`, `force_instrumental`) via **`/add-background-music`** — ambient instrumental track matched to the full video length, mixed under narration at volume `0.09` with fade in/out.
+> **Background music:** discontinued — newer videos ship without a soundtrack. Video 1 retains its legacy Suno track; do not add music to new videos.
 
 ## Design & Visual Style
 
