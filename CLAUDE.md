@@ -9,11 +9,10 @@ University course content production for **Haifa University** — educational vi
 | Video | Topic | Duration | Status |
 |-------|-------|----------|--------|
 | **Video 1** | "What is a Language Model (LLM)?" | ~6:20 (380s) | COMPLETE |
-| **Video 2** | Hallucinations (legacy, abandoned) | partial | LEGACY |
 | **Video 2A** | "כשהמודל נשמע משכנע אבל טועה" (Hallucinations) | ~3:03 (183s) | IN PROGRESS |
 | **Video 2B** | "למה מודלי שפה טועים לפעמים?" | ~2:29 (149s) | IN PROGRESS |
 
-Video 2 is a legacy attempt replaced by Video 2A. Do not add scenes to it.
+Video 2 was a legacy attempt, replaced by Video 2A/2B — its `src/video2/` and `public/video2/` folders have been removed.
 
 ## Remotion Commands
 
@@ -57,7 +56,6 @@ remotion-video/src/
     FullVideo.tsx       # Master sequencer (audio tracks + shot sequences)
     timing.ts           # Shot timing map (Whisper-aligned)
     scenes/Shot*.tsx    # 29 shot components
-  video2/               # LEGACY — do not modify
   video2a/              # Video 2A — Hallucinations
     FullVideo.tsx
     timing.ts

@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Audio, Img, Sequence, staticFile, useCurrentFrame, interpolate } from "remotion";
-import { SHOT_TIMING, SHOT_ORDER } from "./timing";
+import { SHOT_TIMING, SHOT_ORDER, TITLE_CARD_FRAMES } from "./timing";
+import { TitleCard } from "../design/TitleCard";
 
 import { Shot1_1 } from "./scenes/Shot1_1";
 import { Shot2_1 } from "./scenes/Shot2_1";
@@ -20,8 +21,8 @@ const SHOT_COMPONENTS: Record<string, React.FC> = {
   "shot6-1": Shot6_1,
 };
 
-// Calculate the frame where the last shot starts
-const LAST_SHOT_START = SHOT_ORDER.slice(0, -1).reduce(
+// Calculate the frame where the last shot starts (offset by title card)
+const LAST_SHOT_START = TITLE_CARD_FRAMES + SHOT_ORDER.slice(0, -1).reduce(
   (sum, id) => sum + SHOT_TIMING[id].durationInFrames,
   0
 );
@@ -42,14 +43,21 @@ export const FullVideo2A: React.FC = () => {
 
   return (
     <AbsoluteFill>
-      {/* Full narration audio */}
-      <Audio src={staticFile("video2a/audio/full_narration.mp3")} volume={1} />
+      {/* Full narration audio — starts after the title card */}
+      <Sequence from={TITLE_CARD_FRAMES}>
+        <Audio src={staticFile("video2a/audio/full_narration.mp3")} volume={1} />
+      </Sequence>
 
-      {/* Sequence all shots */}
+      {/* Opening title card — first 6 seconds (plays its own music) */}
+      <Sequence from={0} durationInFrames={TITLE_CARD_FRAMES} name="title-card">
+        <TitleCard title="Hallucinations — כשהבינה המלאכותית משוכנעת בטעויותיה" />
+      </Sequence>
+
+      {/* Sequence all shots — offset by title card */}
       {SHOT_ORDER.map((shotId) => {
         const timing = SHOT_TIMING[shotId];
         const Component = SHOT_COMPONENTS[shotId];
-        const startFrame = cumulativeFrame;
+        const startFrame = TITLE_CARD_FRAMES + cumulativeFrame;
         cumulativeFrame += timing.durationInFrames;
 
         return (

@@ -103,8 +103,9 @@ export const SHOT_ORDER = [
   "shot9-1", "shot9-2",
 ] as const;
 
-/** Total video duration in frames */
-export const TOTAL_DURATION_FRAMES = SHOT_ORDER.reduce(
+/** Total video duration in frames (includes 90-frame title card at start) */
+export const TITLE_CARD_FRAMES = 180; // 6 seconds at 30fps
+export const TOTAL_DURATION_FRAMES = TITLE_CARD_FRAMES + SHOT_ORDER.reduce(
   (sum, id) => sum + SHOT_TIMING[id].durationInFrames,
   0
 );

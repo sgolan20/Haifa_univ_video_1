@@ -30,19 +30,12 @@ import { Shot8_4 } from "./video1/scenes/Shot8_4";
 import { Shot9_1 } from "./video1/scenes/Shot9_1";
 import { Shot9_2 } from "./video1/scenes/Shot9_2";
 import { FullVideo } from "./video1/FullVideo";
-import { SHOT_TIMING, TOTAL_DURATION_FRAMES } from "./video1/timing";
-// Video 2 (legacy — Hallucinations, full)
-import { FullVideo2 } from "./video2/FullVideo";
-import { TOTAL_DURATION_FRAMES as V2_TOTAL_FRAMES, SHOT_TIMING as V2_SHOT_TIMING } from "./video2/timing";
-import { Shot1_1 as V2_Shot1_1 } from "./video2/scenes/Shot1_1";
-import { Shot1_2 as V2_Shot1_2 } from "./video2/scenes/Shot1_2";
-import { Shot2_1 as V2_Shot2_1 } from "./video2/scenes/Shot2_1";
-import { Shot2_2 as V2_Shot2_2 } from "./video2/scenes/Shot2_2";
-import { Shot2_3 as V2_Shot2_3 } from "./video2/scenes/Shot2_3";
-
+import { SHOT_TIMING, TOTAL_DURATION_FRAMES, TITLE_CARD_FRAMES } from "./video1/timing";
+import { TitleCard as V1TitleCard } from "./video1/scenes/TitleCard";
 // Video 2A
 import { FullVideo2A } from "./video2a/FullVideo";
 import { TOTAL_DURATION_FRAMES as V2A_TOTAL_FRAMES, SHOT_TIMING as V2A_SHOT_TIMING } from "./video2a/timing";
+import { TitleCard as SharedTitleCard, TITLE_CARD_FRAMES as SHARED_TITLE_FRAMES } from "./design/TitleCard";
 import { Shot1_1 as V2A_Shot1_1 } from "./video2a/scenes/Shot1_1";
 import { Shot2_1 as V2A_Shot2_1 } from "./video2a/scenes/Shot2_1";
 import { Shot3_1 as V2A_Shot3_1 } from "./video2a/scenes/Shot3_1";
@@ -132,6 +125,14 @@ export const Root: React.FC = () => {
           height={1080}
         />
         <Folder name="Shots">
+          <Composition
+            id="v1-title-card"
+            component={V1TitleCard}
+            durationInFrames={TITLE_CARD_FRAMES}
+            fps={FPS}
+            width={1920}
+            height={1080}
+          />
           <Composition
             id="v1-shot1-1"
             component={Shot1_1}
@@ -375,59 +376,6 @@ export const Root: React.FC = () => {
         </Folder>
       </Folder>
 
-      {/* ========== VIDEO 2 — Hallucinations ========== */}
-      <Folder name="Video-2-Hallucinations">
-        <Composition
-          id="full-video-2"
-          component={FullVideo2}
-          durationInFrames={V2_TOTAL_FRAMES}
-          fps={FPS}
-          width={1920}
-          height={1080}
-        />
-        <Folder name="Shots">
-          <Composition
-            id="v2-shot1-1"
-            component={V2_Shot1_1}
-            durationInFrames={V2_SHOT_TIMING["shot1-1"].durationInFrames}
-            fps={FPS}
-            width={1920}
-            height={1080}
-          />
-          <Composition
-            id="v2-shot1-2"
-            component={V2_Shot1_2}
-            durationInFrames={V2_SHOT_TIMING["shot1-2"].durationInFrames}
-            fps={FPS}
-            width={1920}
-            height={1080}
-          />
-          <Composition
-            id="v2-shot2-1"
-            component={V2_Shot2_1}
-            durationInFrames={V2_SHOT_TIMING["shot2-1"].durationInFrames}
-            fps={FPS}
-            width={1920}
-            height={1080}
-          />
-          <Composition
-            id="v2-shot2-2"
-            component={V2_Shot2_2}
-            durationInFrames={V2_SHOT_TIMING["shot2-2"].durationInFrames}
-            fps={FPS}
-            width={1920}
-            height={1080}
-          />
-          <Composition
-            id="v2-shot2-3"
-            component={V2_Shot2_3}
-            durationInFrames={V2_SHOT_TIMING["shot2-3"].durationInFrames}
-            fps={FPS}
-            width={1920}
-            height={1080}
-          />
-        </Folder>
-      </Folder>
       {/* ========== VIDEO 2A — Hallucinations (כשהמודל נשמע משכנע אבל טועה) ========== */}
       <Folder name="Video-2A-Hallucinations">
         <Composition
@@ -439,6 +387,15 @@ export const Root: React.FC = () => {
           height={1080}
         />
         <Folder name="Shots">
+          <Composition
+            id="v2a-title-card"
+            component={SharedTitleCard}
+            durationInFrames={SHARED_TITLE_FRAMES}
+            fps={FPS}
+            width={1920}
+            height={1080}
+            defaultProps={{ title: "Hallucinations — כשהבינה המלאכותית משוכנעת בטעויותיה" }}
+          />
           <Composition id="v2a-shot1-1" component={V2A_Shot1_1} durationInFrames={V2A_SHOT_TIMING["shot1-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="v2a-shot2-1" component={V2A_Shot2_1} durationInFrames={V2A_SHOT_TIMING["shot2-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="v2a-shot3-1" component={V2A_Shot3_1} durationInFrames={V2A_SHOT_TIMING["shot3-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
@@ -460,6 +417,15 @@ export const Root: React.FC = () => {
           height={1080}
         />
         <Folder name="Shots">
+          <Composition
+            id="v2b-title-card"
+            component={SharedTitleCard}
+            durationInFrames={SHARED_TITLE_FRAMES}
+            fps={FPS}
+            width={1920}
+            height={1080}
+            defaultProps={{ title: "למה מודלי שפה טועים לפעמים?" }}
+          />
           <Composition id="v2b-shot1-1" component={V2B_Shot1_1} durationInFrames={V2B_SHOT_TIMING["shot1-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="v2b-shot2-1" component={V2B_Shot2_1} durationInFrames={V2B_SHOT_TIMING["shot2-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="v2b-shot3-1" component={V2B_Shot3_1} durationInFrames={V2B_SHOT_TIMING["shot3-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
@@ -480,6 +446,15 @@ export const Root: React.FC = () => {
           height={1080}
         />
         <Folder name="Shots">
+          <Composition
+            id="l2l1-title-card"
+            component={SharedTitleCard}
+            durationInFrames={SHARED_TITLE_FRAMES}
+            fps={FPS}
+            width={1920}
+            height={1080}
+            defaultProps={{ parentTitle: "AI לעומת מנועי חיפוש", title: "חלק א' · ההבדל הבסיסי: מה הכלי עושה בפועל?" }}
+          />
           <Composition id="l2l1-shot1-1" component={L2L1_Shot1_1} durationInFrames={L2L1_SHOT_TIMING["shot1-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="l2l1-shot2-1" component={L2L1_Shot2_1} durationInFrames={L2L1_SHOT_TIMING["shot2-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="l2l1-shot3-1" component={L2L1_Shot3_1} durationInFrames={L2L1_SHOT_TIMING["shot3-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
@@ -506,6 +481,15 @@ export const Root: React.FC = () => {
           height={1080}
         />
         <Folder name="Shots">
+          <Composition
+            id="l2l2-title-card"
+            component={SharedTitleCard}
+            durationInFrames={SHARED_TITLE_FRAMES}
+            fps={FPS}
+            width={1920}
+            height={1080}
+            defaultProps={{ parentTitle: "AI לעומת מנועי חיפוש", title: "חלק ב' · האם זה מקור אמיתי?" }}
+          />
           <Composition id="l2l2-shot1-1" component={L2L2_Shot1_1} durationInFrames={L2L2_SHOT_TIMING["shot1-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="l2l2-shot2-1" component={L2L2_Shot2_1} durationInFrames={L2L2_SHOT_TIMING["shot2-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="l2l2-shot3-1" component={L2L2_Shot3_1} durationInFrames={L2L2_SHOT_TIMING["shot3-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
@@ -536,6 +520,15 @@ export const Root: React.FC = () => {
           height={1080}
         />
         <Folder name="Shots">
+          <Composition
+            id="l3l1-title-card"
+            component={SharedTitleCard}
+            durationInFrames={SHARED_TITLE_FRAMES}
+            fps={FPS}
+            width={1920}
+            height={1080}
+            defaultProps={{ title: "יושרה אקדמית בעידן של AI" }}
+          />
           <Composition id="l3l1-shot1-1" component={L3L1_Shot1_1} durationInFrames={L3L1_SHOT_TIMING["shot1-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="l3l1-shot2-1" component={L3L1_Shot2_1} durationInFrames={L3L1_SHOT_TIMING["shot2-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="l3l1-shot3-1" component={L3L1_Shot3_1} durationInFrames={L3L1_SHOT_TIMING["shot3-1"].durationInFrames} fps={FPS} width={1920} height={1080} />

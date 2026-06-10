@@ -68,8 +68,9 @@ export const SHOT_ORDER = [
   "shot13-1",
 ] as const;
 
-/** Total video duration in frames */
-export const TOTAL_DURATION_FRAMES = SHOT_ORDER.reduce(
+/** Total video duration in frames (includes 6s opening title card) */
+export const TITLE_CARD_FRAMES = 180;
+export const TOTAL_DURATION_FRAMES = TITLE_CARD_FRAMES + SHOT_ORDER.reduce(
   (sum, id) => sum + SHOT_TIMING[id].durationInFrames,
   0
 );

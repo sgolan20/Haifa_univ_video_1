@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Audio, Img, Sequence, staticFile, useCurrentFrame, interpolate } from "remotion";
-import { SHOT_TIMING, SHOT_ORDER } from "./timing";
+import { SHOT_TIMING, SHOT_ORDER, TITLE_CARD_FRAMES } from "./timing";
+import { TitleCard } from "./scenes/TitleCard";
 
 // Import all shot components
 import { Shot1_1 } from "./scenes/Shot1_1";
@@ -71,8 +72,8 @@ const SHOT_COMPONENTS: Record<string, React.FC> = {
  * FullVideo — Master composition that sequences all shots
  * with the full narration audio playing continuously underneath.
  */
-// Calculate the frame where the last shot starts
-const LAST_SHOT_START = SHOT_ORDER.slice(0, -1).reduce(
+// Calculate the frame where the last shot starts (offset by title card)
+const LAST_SHOT_START = TITLE_CARD_FRAMES + SHOT_ORDER.slice(0, -1).reduce(
   (sum, id) => sum + SHOT_TIMING[id].durationInFrames,
   0
 );
@@ -91,17 +92,37 @@ export const FullVideo: React.FC = () => {
 
   return (
     <AbsoluteFill>
-      {/* Full narration audio — plays continuously */}
-      <Audio src={staticFile("video1/audio/full_narration.mp3")} volume={1} />
+      {/* Title card music — plays only during the opening 3s, fades out at end */}
+      <Sequence from={0} durationInFrames={TITLE_CARD_FRAMES}>
+        <Audio
+          src={staticFile("audio/title_card_music.mp3")}
+          volume={(f) => interpolate(f, [TITLE_CARD_FRAMES - 30, TITLE_CARD_FRAMES], [1, 0], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          })}
+        />
+      </Sequence>
 
-      {/* Background music — ~20dB below narration */}
-      <Audio src={staticFile("video1/audio/background_music.mp3")} volume={0.10} />
+      {/* Full narration audio — starts after title card */}
+      <Sequence from={TITLE_CARD_FRAMES}>
+        <Audio src={staticFile("video1/audio/full_narration.mp3")} volume={1} />
+      </Sequence>
 
-      {/* Sequence all shots */}
+      {/* Background music — starts after title card */}
+      <Sequence from={TITLE_CARD_FRAMES}>
+        <Audio src={staticFile("video1/audio/background_music.mp3")} volume={0.10} />
+      </Sequence>
+
+      {/* Title card — first 3 seconds */}
+      <Sequence from={0} durationInFrames={TITLE_CARD_FRAMES} name="title-card">
+        <TitleCard />
+      </Sequence>
+
+      {/* Sequence all shots — offset by title card */}
       {SHOT_ORDER.map((shotId) => {
         const timing = SHOT_TIMING[shotId];
         const Component = SHOT_COMPONENTS[shotId];
-        const startFrame = cumulativeFrame;
+        const startFrame = TITLE_CARD_FRAMES + cumulativeFrame;
         cumulativeFrame += timing.durationInFrames;
 
         return (

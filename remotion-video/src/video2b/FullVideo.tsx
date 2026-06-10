@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
-import { SHOT_TIMING, SHOT_ORDER } from "./timing";
+import { SHOT_TIMING, SHOT_ORDER, TITLE_CARD_FRAMES } from "./timing";
 import { Logo } from "../design/Logo";
+import { TitleCard } from "../design/TitleCard";
 
 import { Shot1_1 } from "./scenes/Shot1_1";
 import { Shot2_1 } from "./scenes/Shot2_1";
@@ -28,14 +29,21 @@ export const FullVideo2B: React.FC = () => {
 
   return (
     <AbsoluteFill>
-      {/* Full narration audio */}
-      <Audio src={staticFile("video2b/audio/full_narration.mp3")} volume={1} />
+      {/* Full narration audio — starts after the title card */}
+      <Sequence from={TITLE_CARD_FRAMES}>
+        <Audio src={staticFile("video2b/audio/full_narration.mp3")} volume={1} />
+      </Sequence>
 
-      {/* Sequence all shots */}
+      {/* Opening title card — first 6 seconds (plays its own music) */}
+      <Sequence from={0} durationInFrames={TITLE_CARD_FRAMES} name="title-card">
+        <TitleCard title="למה מודלי שפה טועים לפעמים?" />
+      </Sequence>
+
+      {/* Sequence all shots — offset by title card */}
       {SHOT_ORDER.map((shotId) => {
         const timing = SHOT_TIMING[shotId];
         const Component = SHOT_COMPONENTS[shotId];
-        const startFrame = cumulativeFrame;
+        const startFrame = TITLE_CARD_FRAMES + cumulativeFrame;
         cumulativeFrame += timing.durationInFrames;
 
         return (
@@ -50,8 +58,10 @@ export const FullVideo2B: React.FC = () => {
         );
       })}
 
-      {/* Logo persistent across all shots — rendered on top */}
-      <Logo />
+      {/* Logo persistent across all shots (not during the title card) — rendered on top */}
+      <Sequence from={TITLE_CARD_FRAMES}>
+        <Logo />
+      </Sequence>
     </AbsoluteFill>
   );
 };

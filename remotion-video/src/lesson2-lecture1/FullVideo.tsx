@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, Audio, OffthreadVideo, Sequence, staticFile, useCurrentFrame, interpolate } from "remotion";
-import { SHOT_TIMING, SHOT_ORDER } from "./timing";
+import { SHOT_TIMING, SHOT_ORDER, TITLE_CARD_FRAMES } from "./timing";
 import { Logo } from "../design/Logo";
+import { TitleCard } from "../design/TitleCard";
 
 import { Shot1_1 } from "./scenes/Shot1_1";
 import { Shot2_1 } from "./scenes/Shot2_1";
@@ -34,7 +35,7 @@ const SHOT_COMPONENTS: Record<string, React.FC> = {
 };
 
 // Frame where the last shot (logo closing) starts — corner logo fades out before it
-const LAST_SHOT_START = SHOT_ORDER.slice(0, -1).reduce(
+const LAST_SHOT_START = TITLE_CARD_FRAMES + SHOT_ORDER.slice(0, -1).reduce(
   (sum, id) => sum + SHOT_TIMING[id].durationInFrames,
   0
 );
@@ -59,14 +60,24 @@ export const FullVideo: React.FC = () => {
 
   return (
     <AbsoluteFill>
-      {/* Full narration audio */}
-      <Audio src={staticFile("lesson2-lecture1/audio/full_narration.mp3")} volume={1} />
+      {/* Full narration audio — starts after the title card */}
+      <Sequence from={TITLE_CARD_FRAMES}>
+        <Audio src={staticFile("lesson2-lecture1/audio/full_narration.mp3")} volume={1} />
+      </Sequence>
 
-      {/* Sequence all shots */}
+      {/* Opening title card — first 6 seconds (plays its own music) */}
+      <Sequence from={0} durationInFrames={TITLE_CARD_FRAMES} name="title-card">
+        <TitleCard
+          parentTitle="AI לעומת מנועי חיפוש"
+          title="חלק א' · ההבדל הבסיסי: מה הכלי עושה בפועל?"
+        />
+      </Sequence>
+
+      {/* Sequence all shots — offset by title card */}
       {SHOT_ORDER.map((shotId) => {
         const timing = SHOT_TIMING[shotId];
         const Component = SHOT_COMPONENTS[shotId];
-        const startFrame = cumulativeFrame;
+        const startFrame = TITLE_CARD_FRAMES + cumulativeFrame;
         cumulativeFrame += timing.durationInFrames;
 
         return (
@@ -82,7 +93,7 @@ export const FullVideo: React.FC = () => {
       })}
 
       {/* Intro overlay video — replaces the first ~8.5s of visuals, narration plays underneath */}
-      <Sequence from={0} durationInFrames={254} name="intro-overlay">
+      <Sequence from={TITLE_CARD_FRAMES} durationInFrames={254} name="intro-overlay">
         <OffthreadVideo
           src={staticFile("lesson2-lecture1/video/intro_overlay.mp4")}
           muted
@@ -90,8 +101,8 @@ export const FullVideo: React.FC = () => {
         />
       </Sequence>
 
-      {/* Corner logo persistent across all shots — fades out before the closing logo shot */}
-      {logoOpacity > 0 && <Logo opacity={0.5 * logoOpacity} />}
+      {/* Corner logo persistent across all shots (not during the title card) — fades out before the closing logo shot */}
+      {frame >= TITLE_CARD_FRAMES && logoOpacity > 0 && <Logo opacity={0.5 * logoOpacity} />}
     </AbsoluteFill>
   );
 };
