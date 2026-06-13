@@ -26,6 +26,8 @@ type TitleCardProps = {
   subtitle?: string;
   /** Set false when the parent plays the music itself (e.g. with a custom fade) */
   withMusic?: boolean;
+  /** Set false when the parent composition owns the visual dissolve. */
+  withVisualFadeOut?: boolean;
 };
 
 export const TitleCard: React.FC<TitleCardProps> = ({
@@ -33,6 +35,7 @@ export const TitleCard: React.FC<TitleCardProps> = ({
   parentTitle,
   subtitle = "קורס אוריינות AI לסטודנטים — אוניברסיטת חיפה",
   withMusic = true,
+  withVisualFadeOut = true,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -44,10 +47,12 @@ export const TitleCard: React.FC<TitleCardProps> = ({
   });
 
   // Fade out at end
-  const fadeOut = interpolate(frame, [TITLE_CARD_FRAMES - 20, TITLE_CARD_FRAMES - 5], [1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+  const fadeOut = withVisualFadeOut
+    ? interpolate(frame, [TITLE_CARD_FRAMES - 20, TITLE_CARD_FRAMES - 5], [1, 0], {
+        extrapolateLeft: "clamp",
+        extrapolateRight: "clamp",
+      })
+    : 1;
 
   const contentOpacity = bgOpacity * fadeOut;
 

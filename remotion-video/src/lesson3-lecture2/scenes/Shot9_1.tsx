@@ -38,50 +38,50 @@ export const Shot9_1: React.FC = () => {
       <Particles accent={COLORS.accent} />
 
       {/* "לסיכום" badge */}
-      <div style={{ position: "absolute", top: 64, left: 0, right: 0, display: "flex", justifyContent: "center", opacity: badge, transform: `scale(${badge})` }}>
-        <span style={{ padding: "9px 30px", borderRadius: 999, background: `${COLORS.primary}1f`, border: `1.5px solid ${COLORS.primary}`, fontSize: 25, fontWeight: 800, color: COLORS.primary, direction: "rtl" }}>
+      <div style={{ position: "absolute", top: 56, left: 0, right: 0, display: "flex", justifyContent: "center", opacity: badge, transform: `scale(${badge})` }}>
+        <span style={{ padding: "10px 34px", borderRadius: 999, background: `${COLORS.primary}1f`, border: `1.5px solid ${COLORS.primary}`, fontSize: 30, fontWeight: 800, color: COLORS.primary, direction: "rtl" }}>
           לסיכום
         </span>
       </div>
 
       {/* headline */}
-      <div style={{ position: "absolute", top: 135, left: 0, right: 0, display: "flex", justifyContent: "center", opacity: headline, transform: `scale(${interpolate(headline, [0, 1], [0.92, 1])})` }}>
-        <div style={{ maxWidth: 1100, textAlign: "center", direction: "rtl", fontSize: 46, fontWeight: 900, color: COLORS.text, lineHeight: 1.3, textShadow: "0 2px 14px rgba(0,0,0,0.8)" }}>
+      <div style={{ position: "absolute", top: 126, left: 0, right: 0, display: "flex", justifyContent: "center", opacity: headline, transform: `scale(${interpolate(headline, [0, 1], [0.92, 1])})` }}>
+        <div style={{ maxWidth: 1320, textAlign: "center", direction: "rtl", fontSize: 56, fontWeight: 900, color: COLORS.text, lineHeight: 1.22, textShadow: "0 2px 14px rgba(0,0,0,0.8)" }}>
           אין רשימת <span style={{ color: "#22c55e" }}>״מותר</span> <span style={{ color: COLORS.warning }}>ואסור״</span> אחת שמתאימה לכל מצב
         </div>
       </div>
 
       {/* judgment line */}
-      <div style={{ position: "absolute", top: 268, left: 0, right: 0, textAlign: "center", opacity: judgment }}>
-        <span style={{ fontSize: 30, fontWeight: 700, color: COLORS.textMuted, direction: "rtl" }}>
-          שימוש אחראי ב-AI דורש <span style={{ color: COLORS.accent, fontWeight: 900 }}>שיקול דעת</span> — להבין:
-        </span>
+      <div style={{ position: "absolute", top: 278, left: 0, right: 0, textAlign: "center", opacity: judgment }}>
+        <div style={{ fontSize: 36, fontWeight: 700, color: COLORS.textMuted, direction: "rtl" }}>
+          שימוש אחראי ב-<span style={{ direction: "ltr", unicodeBidi: "isolate" }}>AI</span> דורש <span style={{ color: COLORS.accent, fontWeight: 900 }}>שיקול דעת</span> — להבין:
+        </div>
       </div>
 
       {/* the three pillars */}
-      <div style={{ position: "absolute", top: 348, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 30, direction: "rtl" }}>
+      <div style={{ position: "absolute", top: 364, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 42, direction: "rtl" }}>
         {PILLARS.map((p, i) => {
           const pop = spring({ frame: frame - p.at, fps, config: { damping: 13, stiffness: 105, mass: 0.7 } });
           const float = Math.sin((frame + i * 45) * 0.05) * 4;
           return (
-            <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, padding: "20px 32px", borderRadius: 18, direction: "rtl", background: `linear-gradient(160deg, ${p.color}16 0%, rgba(255,255,255,0.03) 100%)`, backdropFilter: "blur(12px)", border: `1.5px solid ${p.color}66`, boxShadow: `0 0 30px ${p.color}1c`, opacity: pop, transform: `scale(${pop}) translateY(${float}px)` }}>
-              <span style={{ fontSize: 34 }}>{p.icon}</span>
-              <span style={{ fontSize: 29, fontWeight: 800, color: COLORS.text }}>{p.text}</span>
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: 18, minHeight: 96, padding: "26px 42px", borderRadius: 22, direction: "rtl", background: `linear-gradient(160deg, ${p.color}18 0%, rgba(255,255,255,0.045) 100%)`, backdropFilter: "blur(12px)", border: `2px solid ${p.color}70`, boxShadow: `0 12px 38px rgba(0,0,0,0.36), 0 0 34px ${p.color}24`, opacity: pop, transform: `scale(${pop}) translateY(${float}px)` }}>
+              <span style={{ fontSize: 44 }}>{p.icon}</span>
+              <span style={{ fontSize: 37, fontWeight: 850, color: COLORS.text }}>{p.text}</span>
             </div>
           );
         })}
       </div>
 
       {/* closing message */}
-      <div style={{ position: "absolute", bottom: 92, left: 0, right: 0, display: "flex", justifyContent: "center", opacity: closing, transform: `translateY(${interpolate(closing, [0, 1], [22, 0])}px)` }}>
-        <div style={{ maxWidth: 1150, padding: "22px 44px", borderRadius: 20, textAlign: "center", direction: "rtl", background: "rgba(255,255,255,0.05)", backdropFilter: "blur(14px)", border: `1.5px solid ${COLORS.accent}55`, boxShadow: `0 0 40px ${COLORS.accent}22`, fontSize: 33, fontWeight: 800, color: COLORS.text, lineHeight: 1.4 }}>
+      <div style={{ position: "absolute", bottom: 82, left: 0, right: 0, display: "flex", justifyContent: "center", opacity: closing, transform: `translateY(${interpolate(closing, [0, 1], [22, 0])}px)` }}>
+        <div style={{ maxWidth: 1360, padding: "28px 54px", borderRadius: 24, textAlign: "center", direction: "rtl", background: "rgba(255,255,255,0.06)", backdropFilter: "blur(14px)", border: `2px solid ${COLORS.accent}5f`, boxShadow: `0 0 44px ${COLORS.accent}28`, fontSize: 40, fontWeight: 850, color: COLORS.text, lineHeight: 1.32 }}>
           לא כל שימוש ב-AI הוא <span style={{ color: "#fca5a5" }}>בעייתי</span> — אבל כל שימוש דורש <span style={{ color: COLORS.accent }}>מחשבה</span>
         </div>
       </div>
 
       {/* goodbye */}
       <div style={{ position: "absolute", bottom: 34, left: 0, right: 0, textAlign: "center", opacity: bye }}>
-        <span style={{ fontSize: 24, fontWeight: 600, color: COLORS.textMuted, direction: "rtl" }}>להתראות 👋</span>
+        <span style={{ fontSize: 28, fontWeight: 600, color: COLORS.textMuted, direction: "rtl" }}>להתראות 👋</span>
       </div>
     </AbsoluteFill>
   );

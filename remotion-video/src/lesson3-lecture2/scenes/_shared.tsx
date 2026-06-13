@@ -74,16 +74,16 @@ export const DOMAINS: Record<"lit" | "cs" | "stats" | "writing", DomainSpec> = {
 
 /** Domain badge: "דוגמה N · קורס ב…" with the domain icon. */
 export const DomainBadge: React.FC<{ d: DomainSpec; scale: number; compact?: boolean }> = ({ d, scale, compact }) => (
-  <div style={{ display: "inline-flex", alignItems: "center", gap: 18, transform: `scale(${scale})`, opacity: scale, direction: "rtl" }}>
+  <div style={{ display: "inline-flex", alignItems: "center", gap: compact ? 18 : 24, transform: `scale(${scale})`, opacity: scale, direction: "rtl" }}>
     <Img
       src={staticFile(`lesson3-lecture2/images/${d.icon}`)}
-      style={{ height: compact ? 64 : 84, filter: `drop-shadow(0 0 18px ${d.color}88)` }}
+      style={{ height: compact ? 76 : 108, filter: `drop-shadow(0 0 20px ${d.color}88)` }}
     />
     <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 2 }}>
-      <span style={{ fontSize: compact ? 17 : 20, fontWeight: 700, color: d.color, letterSpacing: "0.5px" }}>
+      <span style={{ fontSize: compact ? 20 : 25, fontWeight: 700, color: d.color, letterSpacing: "0.5px" }}>
         דוגמה {HEB_ORDINALS[d.n]}
       </span>
-      <span style={{ fontSize: compact ? 32 : 42, fontWeight: 800, color: COLORS.text, lineHeight: 1.1, textShadow: `0 0 24px ${d.color}55, 0 2px 12px rgba(0,0,0,0.7)` }}>
+      <span style={{ fontSize: compact ? 38 : 52, fontWeight: 800, color: COLORS.text, lineHeight: 1.08, textShadow: `0 0 24px ${d.color}55, 0 2px 12px rgba(0,0,0,0.7)` }}>
         {d.course}
       </span>
     </div>
@@ -98,15 +98,15 @@ export const StepChip: React.FC<{ text: string; icon: string; color: string; app
     <div
       style={{
         display: "flex", alignItems: "center", gap: 16,
-        padding: "18px 28px", borderRadius: 18, direction: "rtl",
-        background: "rgba(255,255,255,0.05)", backdropFilter: "blur(12px)",
-        border: `1.5px solid ${color}44`, boxShadow: `0 8px 30px rgba(0,0,0,0.35)`,
+        padding: "26px 38px", borderRadius: 22, direction: "rtl",
+        background: "rgba(255,255,255,0.06)", backdropFilter: "blur(12px)",
+        border: `2px solid ${color}55`, boxShadow: `0 12px 38px rgba(0,0,0,0.38)`,
         opacity: appear, transform: `translateY(${interpolate(appear, [0, 1], [26, 0]) + float}px)`,
-        maxWidth: 760,
+        maxWidth: 980,
       }}
     >
-      <div style={{ minWidth: 46, height: 46, borderRadius: 14, background: `${color}22`, border: `1.5px solid ${color}66`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>{icon}</div>
-      <span style={{ fontSize: 28, fontWeight: 600, color: COLORS.text, lineHeight: 1.35 }}>{text}</span>
+      <div style={{ minWidth: 64, height: 64, borderRadius: 18, background: `${color}24`, border: `2px solid ${color}70`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 34 }}>{icon}</div>
+      <span style={{ fontSize: 36, fontWeight: 700, color: COLORS.text, lineHeight: 1.28 }}>{text}</span>
     </div>
   );
 };
@@ -123,10 +123,10 @@ export const LegitQuestion: React.FC<{ at: number }> = ({ at }) => {
       <div
         style={{
           transform: `scale(${pop * pulse})`, opacity: pop,
-          padding: "20px 56px", borderRadius: 999, direction: "rtl",
+          padding: "24px 70px", borderRadius: 999, direction: "rtl",
           background: `linear-gradient(90deg, ${COLORS.accent}26, ${COLORS.accent}10)`,
           border: `2px solid ${COLORS.accent}`, boxShadow: `0 0 44px ${COLORS.accent}44`,
-          fontSize: 42, fontWeight: 900, color: COLORS.text, fontFamily: FONT_FAMILY,
+          fontSize: 52, fontWeight: 900, color: COLORS.text, fontFamily: FONT_FAMILY,
           textShadow: `0 0 26px ${COLORS.accent}88`,
         }}
       >
@@ -148,18 +148,18 @@ const VERDICT_STYLE: Record<VerdictKind, { color: string; soft: string; icon: st
 export const VerdictBanner: React.FC<{ kind: VerdictKind; text: string; scale: number }> = ({ kind, text, scale }) => {
   const v = VERDICT_STYLE[kind];
   return (
-    <div style={{ display: "inline-flex", alignItems: "center", gap: 20, transform: `scale(${scale})`, opacity: scale, direction: "rtl", padding: "16px 40px", borderRadius: 999, background: `${v.color}1f`, border: `2px solid ${v.color}`, boxShadow: `0 0 40px ${v.color}44` }}>
-      <span style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 56, height: 56, borderRadius: "50%", background: v.color, color: "#fff", fontSize: 32, fontWeight: 900, boxShadow: `0 0 22px ${v.color}` }}>{v.icon}</span>
-      <span style={{ fontSize: 44, fontWeight: 900, color: COLORS.text, textShadow: `0 0 24px ${v.color}66` }}>{text}</span>
+    <div style={{ display: "inline-flex", alignItems: "center", gap: 24, transform: `scale(${scale})`, opacity: scale, direction: "rtl", padding: "18px 52px", borderRadius: 999, background: `${v.color}1f`, border: `2px solid ${v.color}`, boxShadow: `0 0 44px ${v.color}44` }}>
+      <span style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 68, height: 68, borderRadius: "50%", background: v.color, color: "#fff", fontSize: 40, fontWeight: 900, boxShadow: `0 0 24px ${v.color}` }}>{v.icon}</span>
+      <span style={{ fontSize: 52, fontWeight: 900, color: COLORS.text, textShadow: `0 0 24px ${v.color}66` }}>{text}</span>
     </div>
   );
 };
 
 /** "לעומת זאת"/"עם זאת" divider between the ruling and the alternative. */
 export const ContrastDivider: React.FC<{ appear: number; label?: string }> = ({ appear, label = "לעומת זאת" }) => (
-  <div style={{ display: "flex", alignItems: "center", gap: 18, width: 820, opacity: appear, direction: "rtl" }}>
+  <div style={{ display: "flex", alignItems: "center", gap: 22, width: 1040, opacity: appear, direction: "rtl" }}>
     <div style={{ flex: 1, height: 1.5, background: `linear-gradient(to left, transparent, ${COLORS.primary}88)` }} />
-    <span style={{ fontSize: 26, fontWeight: 800, color: COLORS.primary, whiteSpace: "nowrap" }}>{label}</span>
+    <span style={{ fontSize: 32, fontWeight: 800, color: COLORS.primary, whiteSpace: "nowrap" }}>{label}</span>
     <div style={{ flex: 1, height: 1.5, background: `linear-gradient(to right, transparent, ${COLORS.primary}88)` }} />
   </div>
 );
@@ -179,11 +179,11 @@ export const CaseLayout: React.FC<{
       <SceneBg img={d.bg} dur={dur} maxOpacity={0.5} />
       <Particles accent={d.color} />
 
-      <div style={{ position: "absolute", top: 64, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
+      <div style={{ position: "absolute", top: 54, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
         <DomainBadge d={d} scale={badge} />
       </div>
 
-      <div style={{ position: "absolute", top: 248, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 22 }}>
+      <div style={{ position: "absolute", top: 252, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 28 }}>
         {steps.map((s, i) => {
           const appear = spring({ frame: frame - s.at, fps, config: { damping: 15, stiffness: 92, mass: 0.8 } });
           return <StepChip key={i} text={s.text} icon={s.icon} color={d.color} appear={appear} idx={i} />;
@@ -223,17 +223,17 @@ export const VerdictLayout: React.FC<{
       <Particles accent={d.color} />
 
       {/* compact domain reminder, top-right */}
-      <div style={{ position: "absolute", top: 44, right: 64 }}>
+      <div style={{ position: "absolute", top: 36, right: 60 }}>
         <DomainBadge d={d} scale={badge} compact />
       </div>
 
       {/* ruling banner */}
-      <div style={{ position: "absolute", top: 150, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
+      <div style={{ position: "absolute", top: 132, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
         <VerdictBanner kind={banner.kind} text={banner.text} scale={bannerS} />
       </div>
 
       {/* explanation + alternative */}
-      <div style={{ position: "absolute", top: 290, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 26 }}>
+      <div style={{ position: "absolute", top: 286, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 30 }}>
         <VerdictPanel tone={first.tone} title={first.title} lines={mk(first.lines)} />
         <ContrastDivider appear={divider} label={dividerLabel} />
         <VerdictPanel tone={second.tone} title={second.title} lines={mk(second.lines)} />
@@ -248,19 +248,19 @@ export const VerdictPanel: React.FC<{
   title?: string;
   lines: { text: string; appear: number }[];
   width?: number;
-}> = ({ tone, title, lines, width = 880 }) => {
+}> = ({ tone, title, lines, width = 1120 }) => {
   const color = tone === "bad" ? COLORS.warning : "#22c55e";
   const anyVisible = lines.some((l) => l.appear > 0.01);
   if (!anyVisible) return null;
   return (
-    <div style={{ width, padding: "24px 34px", borderRadius: 20, direction: "rtl", background: `linear-gradient(160deg, ${color}14 0%, rgba(255,255,255,0.03) 100%)`, backdropFilter: "blur(12px)", border: `1.5px solid ${color}55`, boxShadow: `0 10px 36px rgba(0,0,0,0.35)`, opacity: Math.max(...lines.map((l) => l.appear)) }}>
+    <div style={{ width, padding: "30px 44px", borderRadius: 24, direction: "rtl", background: `linear-gradient(160deg, ${color}16 0%, rgba(255,255,255,0.04) 100%)`, backdropFilter: "blur(12px)", border: `2px solid ${color}5f`, boxShadow: `0 12px 42px rgba(0,0,0,0.38)`, opacity: Math.max(...lines.map((l) => l.appear)) }}>
       {title && (
-        <div style={{ fontSize: 22, fontWeight: 800, color: tone === "bad" ? "#fca5a5" : "#86efac", marginBottom: 12 }}>{title}</div>
+        <div style={{ fontSize: 28, fontWeight: 800, color: tone === "bad" ? "#fca5a5" : "#86efac", marginBottom: 14 }}>{title}</div>
       )}
       {lines.map((l, i) => (
-        <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, opacity: l.appear, transform: `translateY(${interpolate(l.appear, [0, 1], [14, 0])}px)`, marginBottom: i < lines.length - 1 ? 12 : 0 }}>
-          <span style={{ color, fontSize: 24, fontWeight: 900, lineHeight: 1.4 }}>{tone === "bad" ? "✕" : "✓"}</span>
-          <span style={{ fontSize: 27, fontWeight: 600, color: COLORS.text, lineHeight: 1.4 }}>{l.text}</span>
+        <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 16, opacity: l.appear, transform: `translateY(${interpolate(l.appear, [0, 1], [14, 0])}px)`, marginBottom: i < lines.length - 1 ? 14 : 0 }}>
+          <span style={{ color, fontSize: 31, fontWeight: 900, lineHeight: 1.35 }}>{tone === "bad" ? "✕" : "✓"}</span>
+          <span style={{ fontSize: 33, fontWeight: 650, color: COLORS.text, lineHeight: 1.35 }}>{l.text}</span>
         </div>
       ))}
     </div>

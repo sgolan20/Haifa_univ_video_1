@@ -27,29 +27,29 @@ export const Shot3_1: React.FC = () => {
       <Particles accent={COLORS.accent} />
 
       {/* title */}
-      <div style={{ position: "absolute", top: 105, left: 0, right: 0, textAlign: "center", opacity: title, transform: `translateY(${interpolate(title, [0, 1], [-16, 0])}px)` }}>
-        <span style={{ fontSize: 42, fontWeight: 800, color: COLORS.text, direction: "rtl", textShadow: "0 2px 14px rgba(0,0,0,0.8)" }}>
+      <div style={{ position: "absolute", top: 88, left: 0, right: 0, textAlign: "center", opacity: title, transform: `translateY(${interpolate(title, [0, 1], [-16, 0])}px)` }}>
+        <span style={{ fontSize: 54, fontWeight: 800, color: COLORS.text, direction: "rtl", textShadow: "0 2px 14px rgba(0,0,0,0.8)" }}>
           השאלה המרכזית
         </span>
       </div>
 
       {/* "not only WHAT" vs "but WHAT FOR" */}
-      <div style={{ position: "absolute", top: 240, left: 0, right: 0, display: "flex", justifyContent: "center", alignItems: "center", gap: 56, direction: "rtl" }}>
+      <div style={{ position: "absolute", top: 220, left: 0, right: 0, display: "flex", justifyContent: "center", alignItems: "center", gap: 64, direction: "rtl" }}>
         {/* what you did — muted */}
-        <div style={{ width: 430, opacity: what, transform: `scale(${interpolate(what, [0, 1], [0.92, 1])})`, padding: "30px 34px", borderRadius: 22, background: "rgba(255,255,255,0.045)", backdropFilter: "blur(12px)", border: `1.5px solid ${COLORS.textDim}`, direction: "rtl", textAlign: "center" }}>
-          <div style={{ fontSize: 22, fontWeight: 700, color: COLORS.textDim, marginBottom: 10 }}>לא רק</div>
-          <div style={{ fontSize: 36, fontWeight: 800, color: COLORS.textMuted, lineHeight: 1.3 }}>
+        <div style={{ width: 560, opacity: what, transform: `scale(${interpolate(what, [0, 1], [0.92, 1])})`, padding: "42px 46px", borderRadius: 26, background: "rgba(255,255,255,0.05)", backdropFilter: "blur(12px)", border: `1.5px solid ${COLORS.textDim}`, direction: "rtl", textAlign: "center" }}>
+          <div style={{ fontSize: 28, fontWeight: 700, color: COLORS.textDim, marginBottom: 14 }}>לא רק</div>
+          <div style={{ fontSize: 46, fontWeight: 800, color: COLORS.textMuted, lineHeight: 1.26 }}>
             מה עשיתם<br />עם ה-AI?
           </div>
         </div>
 
         {/* arrow */}
-        <div style={{ fontSize: 54, color: COLORS.accent, opacity: whatFor, transform: `translateX(${interpolate(whatFor, [0, 1], [18, 0])}px)` }}>←</div>
+        <div style={{ fontSize: 72, color: COLORS.accent, opacity: whatFor, transform: `translateX(${interpolate(whatFor, [0, 1], [18, 0])}px)` }}>←</div>
 
         {/* what the task is for — highlighted */}
-        <div style={{ width: 470, opacity: whatFor, transform: `scale(${interpolate(whatFor, [0, 1], [0.9, 1.04])})`, padding: "34px 36px", borderRadius: 22, background: `linear-gradient(160deg, ${COLORS.accent}1f 0%, rgba(255,255,255,0.04) 100%)`, backdropFilter: "blur(14px)", border: `2px solid ${COLORS.accent}`, boxShadow: `0 0 48px ${COLORS.accent}33`, direction: "rtl", textAlign: "center" }}>
-          <div style={{ fontSize: 22, fontWeight: 800, color: COLORS.accent, marginBottom: 10 }}>אלא</div>
-          <div style={{ fontSize: 40, fontWeight: 900, color: COLORS.text, lineHeight: 1.3, textShadow: `0 0 26px ${COLORS.accent}55` }}>
+        <div style={{ width: 640, opacity: whatFor, transform: `scale(${interpolate(whatFor, [0, 1], [0.9, 1.04])})`, padding: "46px 50px", borderRadius: 28, background: `linear-gradient(160deg, ${COLORS.accent}22 0%, rgba(255,255,255,0.05) 100%)`, backdropFilter: "blur(14px)", border: `2px solid ${COLORS.accent}`, boxShadow: `0 0 54px ${COLORS.accent}38`, direction: "rtl", textAlign: "center" }}>
+          <div style={{ fontSize: 29, fontWeight: 800, color: COLORS.accent, marginBottom: 14 }}>אלא</div>
+          <div style={{ fontSize: 52, fontWeight: 900, color: COLORS.text, lineHeight: 1.22, textShadow: `0 0 26px ${COLORS.accent}55` }}>
             לשם מה המשימה<br />נועדה מלכתחילה?
           </div>
         </div>
@@ -57,7 +57,7 @@ export const Shot3_1: React.FC = () => {
 
       {/* "בואו נדגים" */}
       <div style={{ position: "absolute", bottom: 70, left: 0, right: 0, display: "flex", justifyContent: "center", opacity: demo, transform: `scale(${demo})` }}>
-        <div style={{ padding: "12px 38px", borderRadius: 999, background: `${COLORS.primary}1f`, border: `1.5px solid ${COLORS.primary}`, fontSize: 30, fontWeight: 800, color: COLORS.text, direction: "rtl", boxShadow: `0 0 30px ${COLORS.primary}33` }}>
+        <div style={{ padding: "14px 46px", borderRadius: 999, background: `${COLORS.primary}1f`, border: `1.5px solid ${COLORS.primary}`, fontSize: 36, fontWeight: 800, color: COLORS.text, direction: "rtl", boxShadow: `0 0 30px ${COLORS.primary}33` }}>
           בואו נדגים 👇
         </div>
       </div>

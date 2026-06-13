@@ -49,6 +49,29 @@ const LAST_SHOT_START = TITLE_CARD_FRAMES + SHOT_ORDER.slice(0, -1).reduce(
  * The clip's own audio is muted — the synced full_narration.mp3 is the source.
  */
 const INTRO_END_FRAME = 324; // 10.8s @ 30fps
+const TITLE_TO_INTRO_DISSOLVE_FRAMES = 15;
+
+const TitleCardDissolve: React.FC = () => {
+  const frame = useCurrentFrame();
+  const opacity = interpolate(
+    frame,
+    [TITLE_CARD_FRAMES, TITLE_CARD_FRAMES + TITLE_TO_INTRO_DISSOLVE_FRAMES],
+    [1, 0],
+    {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+    }
+  );
+
+  return (
+    <AbsoluteFill style={{ opacity }}>
+      <TitleCard
+        title="יושרה אקדמית בהקשר תחומי — לא תמיד יש תשובה אחת"
+        withVisualFadeOut={false}
+      />
+    </AbsoluteFill>
+  );
+};
 
 const IntroOverlay: React.FC = () => {
   const frame = useCurrentFrame();
@@ -89,11 +112,6 @@ export const FullVideo: React.FC = () => {
         <Audio src={staticFile("lesson3-lecture2/audio/full_narration.mp3")} volume={1} />
       </Sequence>
 
-      {/* Opening title card — first 6 seconds (plays its own music) */}
-      <Sequence from={0} durationInFrames={TITLE_CARD_FRAMES} name="title-card">
-        <TitleCard title="יושרה אקדמית בהקשר תחומי — לא תמיד יש תשובה אחת" />
-      </Sequence>
-
       {/* Sequence all shots — offset by title card */}
       {SHOT_ORDER.map((shotId) => {
         const timing = SHOT_TIMING[shotId];
@@ -120,6 +138,15 @@ export const FullVideo: React.FC = () => {
 
       {/* Corner logo persistent across all shots (not during the title card) — fades out before the closing logo shot */}
       {frame >= TITLE_CARD_FRAMES && logoOpacity > 0 && <Logo opacity={0.5 * logoOpacity} />}
+
+      {/* Opening title card — dissolves over the talking-head intro. */}
+      <Sequence
+        from={0}
+        durationInFrames={TITLE_CARD_FRAMES + TITLE_TO_INTRO_DISSOLVE_FRAMES}
+        name="title-card-dissolve"
+      >
+        <TitleCardDissolve />
+      </Sequence>
     </AbsoluteFill>
   );
 };
