@@ -58,6 +58,8 @@ export interface DomainSpec {
   icon: string;
   /** Background file in lesson3-lecture2/images */
   bg: string;
+  /** Illustrative scene image (student-at-computer) shown as a side card on the case shot */
+  scene: string;
   /** Accent color for this domain */
   color: string;
 }
@@ -66,10 +68,10 @@ const HEB_ORDINALS = ["", "ראשונה", "שנייה", "שלישית", "רבי�
 
 /** The four discipline examples of this lecture. */
 export const DOMAINS: Record<"lit" | "cs" | "stats" | "writing", DomainSpec> = {
-  lit: { n: 1, course: "קורס בספרות", icon: "icon_book.png", bg: "bg_literature.png", color: COLORS.accent },
-  cs: { n: 2, course: "קורס במדעי המחשב", icon: "icon_code.png", bg: "bg_cs.png", color: COLORS.primary },
-  stats: { n: 3, course: "קורס בסטטיסטיקה", icon: "icon_chart.png", bg: "bg_stats.png", color: COLORS.secondary },
-  writing: { n: 4, course: "קורס בכתיבה אקדמית באנגלית", icon: "icon_pen.png", bg: "bg_writing.png", color: "#f472b6" },
+  lit: { n: 1, course: "קורס בספרות", icon: "icon_book.png", bg: "bg_literature.png", scene: "shot4_1_literature_scene.png", color: COLORS.accent },
+  cs: { n: 2, course: "קורס במדעי המחשב", icon: "icon_code.png", bg: "bg_cs.png", scene: "shot5_1_cs_scene.png", color: COLORS.primary },
+  stats: { n: 3, course: "קורס בסטטיסטיקה", icon: "icon_chart.png", bg: "bg_stats.png", scene: "shot6_1_stats_scene.png", color: COLORS.secondary },
+  writing: { n: 4, course: "קורס בכתיבה אקדמית באנגלית", icon: "icon_pen.png", bg: "bg_writing.png", scene: "shot7_1_writing_scene.png", color: "#f472b6" },
 };
 
 /** Domain badge: "דוגמה N · קורס ב…" with the domain icon. */
@@ -107,6 +109,34 @@ export const StepChip: React.FC<{ text: string; icon: string; color: string; app
     >
       <div style={{ minWidth: 64, height: 64, borderRadius: 18, background: `${color}24`, border: `2px solid ${color}70`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 34 }}>{icon}</div>
       <span style={{ fontSize: 36, fontWeight: 700, color: COLORS.text, lineHeight: 1.28 }}>{text}</span>
+    </div>
+  );
+};
+
+/** Illustrative scene card (student-at-computer photo) shown beside the scenario chips. */
+export const SceneCard: React.FC<{ img: string; color: string; appear: number; dur: number }> = ({ img, color, appear, dur }) => {
+  const frame = useCurrentFrame();
+  const float = Math.sin(frame * 0.04) * 6;
+  const kb = interpolate(frame, [0, dur], [1.05, 1.13]);
+  if (appear < 0.01) return null;
+  return (
+    <div
+      style={{
+        position: "relative", flexShrink: 0,
+        width: 460, height: 612, borderRadius: 30, overflow: "hidden",
+        border: `2px solid ${color}66`,
+        boxShadow: `0 26px 72px rgba(0,0,0,0.55), 0 0 56px ${color}3a`,
+        opacity: appear,
+        transform: `translateY(${interpolate(appear, [0, 1], [44, 0]) + float}px) scale(${interpolate(appear, [0, 1], [0.9, 1])})`,
+      }}
+    >
+      <Img
+        src={staticFile(`lesson3-lecture2/images/${img}`)}
+        style={{ position: "absolute", width: "100%", height: "100%", objectFit: "cover", transform: `scale(${kb})` }}
+      />
+      {/* accent tint at top + soft vignette at bottom for cohesion */}
+      <div style={{ position: "absolute", inset: 0, background: `linear-gradient(180deg, ${color}26 0%, transparent 28%, transparent 68%, rgba(0,0,0,0.45) 100%)` }} />
+      <div style={{ position: "absolute", inset: 0, borderRadius: 30, boxShadow: `inset 0 0 60px ${color}22`, pointerEvents: "none" }} />
     </div>
   );
 };
@@ -174,20 +204,30 @@ export const CaseLayout: React.FC<{
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const badge = spring({ frame: frame - 14, fps, config: { damping: 15, stiffness: 90, mass: 0.8 } });
+  const card = spring({ frame: frame - 26, fps, config: { damping: 16, stiffness: 80, mass: 0.9 } });
   return (
     <AbsoluteFill style={{ background: COLORS.bgPrimary, fontFamily: FONT_FAMILY }}>
       <SceneBg img={d.bg} dur={dur} maxOpacity={0.5} />
       <Particles accent={d.color} />
 
-      <div style={{ position: "absolute", top: 54, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
+      <div style={{ position: "absolute", top: 48, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
         <DomainBadge d={d} scale={badge} />
       </div>
 
-      <div style={{ position: "absolute", top: 252, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 28 }}>
-        {steps.map((s, i) => {
-          const appear = spring({ frame: frame - s.at, fps, config: { damping: 15, stiffness: 92, mass: 0.8 } });
-          return <StepChip key={i} text={s.text} icon={s.icon} color={d.color} appear={appear} idx={i} />;
-        })}
+      {/* center row: scenario chips (right) + illustrative scene card (left) */}
+      <div
+        style={{
+          position: "absolute", top: 234, left: 70, right: 70, bottom: 196,
+          display: "flex", direction: "rtl", alignItems: "center", justifyContent: "center", gap: 58,
+        }}
+      >
+        <div style={{ display: "flex", flexDirection: "column", gap: 24, width: 880 }}>
+          {steps.map((s, i) => {
+            const appear = spring({ frame: frame - s.at, fps, config: { damping: 15, stiffness: 92, mass: 0.8 } });
+            return <StepChip key={i} text={s.text} icon={s.icon} color={d.color} appear={appear} idx={i} />;
+          })}
+        </div>
+        <SceneCard img={d.scene} color={d.color} appear={card} dur={dur} />
       </div>
 
       <LegitQuestion at={questionAt} />
