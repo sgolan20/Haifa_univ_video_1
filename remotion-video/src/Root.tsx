@@ -126,6 +126,25 @@ import { Shot8_1 as L3L2_Shot8_1 } from "./lesson3-lecture2/scenes/Shot8_1";
 import { Shot9_1 as L3L2_Shot9_1 } from "./lesson3-lecture2/scenes/Shot9_1";
 import { Shot10_1 as L3L2_Shot10_1 } from "./lesson3-lecture2/scenes/Shot10_1";
 
+import { FullVideo as FullVideoL3L3 } from "./lesson3-lecture3/FullVideo";
+import { TOTAL_DURATION_FRAMES as L3L3_TOTAL_FRAMES, SHOT_TIMING as L3L3_SHOT_TIMING } from "./lesson3-lecture3/timing";
+import { Shot1_1 as L3L3_Shot1_1 } from "./lesson3-lecture3/scenes/Shot1_1";
+import { Shot2_1 as L3L3_Shot2_1 } from "./lesson3-lecture3/scenes/Shot2_1";
+import { Shot3_1 as L3L3_Shot3_1 } from "./lesson3-lecture3/scenes/Shot3_1";
+import { Shot4_1 as L3L3_Shot4_1 } from "./lesson3-lecture3/scenes/Shot4_1";
+import { Shot4_2 as L3L3_Shot4_2 } from "./lesson3-lecture3/scenes/Shot4_2";
+import { Shot5_1 as L3L3_Shot5_1 } from "./lesson3-lecture3/scenes/Shot5_1";
+import { Shot6_1 as L3L3_Shot6_1 } from "./lesson3-lecture3/scenes/Shot6_1";
+import { Shot6_2 as L3L3_Shot6_2 } from "./lesson3-lecture3/scenes/Shot6_2";
+import { Shot7_1 as L3L3_Shot7_1 } from "./lesson3-lecture3/scenes/Shot7_1";
+import { Shot7_2 as L3L3_Shot7_2 } from "./lesson3-lecture3/scenes/Shot7_2";
+import { Shot8_1 as L3L3_Shot8_1 } from "./lesson3-lecture3/scenes/Shot8_1";
+import { Shot9_1 as L3L3_Shot9_1 } from "./lesson3-lecture3/scenes/Shot9_1";
+import { Shot10_1 as L3L3_Shot10_1 } from "./lesson3-lecture3/scenes/Shot10_1";
+import { Shot10_2 as L3L3_Shot10_2 } from "./lesson3-lecture3/scenes/Shot10_2";
+import { Shot11_1 as L3L3_Shot11_1 } from "./lesson3-lecture3/scenes/Shot11_1";
+import { Shot12_1 as L3L3_Shot12_1 } from "./lesson3-lecture3/scenes/Shot12_1";
+
 const FPS = 30;
 
 export const Root: React.FC = () => {
@@ -599,6 +618,45 @@ export const Root: React.FC = () => {
           <Composition id="l3l2-shot8-1" component={L3L2_Shot8_1} durationInFrames={L3L2_SHOT_TIMING["shot8-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="l3l2-shot9-1" component={L3L2_Shot9_1} durationInFrames={L3L2_SHOT_TIMING["shot9-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="l3l2-shot10-1" component={L3L2_Shot10_1} durationInFrames={L3L2_SHOT_TIMING["shot10-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+        </Folder>
+      </Folder>
+
+      {/* ========== LESSON 3 — LECTURE 3 — שקיפות ותיעוד · ציטוט AI ויצירת Appendix ========== */}
+      <Folder name="Lesson3-Lecture3-Transparency-And-Documentation">
+        <Composition
+          id="full-lesson3-lecture3"
+          component={FullVideoL3L3}
+          durationInFrames={L3L3_TOTAL_FRAMES}
+          fps={FPS}
+          width={1920}
+          height={1080}
+        />
+        <Folder name="Shots">
+          <Composition
+            id="l3l3-title-card"
+            component={SharedTitleCard}
+            durationInFrames={SHARED_TITLE_FRAMES}
+            fps={FPS}
+            width={1920}
+            height={1080}
+            defaultProps={{ title: "שקיפות ותיעוד — ציטוט AI ויצירת Appendix" }}
+          />
+          <Composition id="l3l3-shot1-1" component={L3L3_Shot1_1} durationInFrames={L3L3_SHOT_TIMING["shot1-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l3l3-shot2-1" component={L3L3_Shot2_1} durationInFrames={L3L3_SHOT_TIMING["shot2-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l3l3-shot3-1" component={L3L3_Shot3_1} durationInFrames={L3L3_SHOT_TIMING["shot3-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l3l3-shot4-1" component={L3L3_Shot4_1} durationInFrames={L3L3_SHOT_TIMING["shot4-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l3l3-shot4-2" component={L3L3_Shot4_2} durationInFrames={L3L3_SHOT_TIMING["shot4-2"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l3l3-shot5-1" component={L3L3_Shot5_1} durationInFrames={L3L3_SHOT_TIMING["shot5-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l3l3-shot6-1" component={L3L3_Shot6_1} durationInFrames={L3L3_SHOT_TIMING["shot6-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l3l3-shot6-2" component={L3L3_Shot6_2} durationInFrames={L3L3_SHOT_TIMING["shot6-2"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l3l3-shot7-1" component={L3L3_Shot7_1} durationInFrames={L3L3_SHOT_TIMING["shot7-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l3l3-shot7-2" component={L3L3_Shot7_2} durationInFrames={L3L3_SHOT_TIMING["shot7-2"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l3l3-shot8-1" component={L3L3_Shot8_1} durationInFrames={L3L3_SHOT_TIMING["shot8-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l3l3-shot9-1" component={L3L3_Shot9_1} durationInFrames={L3L3_SHOT_TIMING["shot9-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l3l3-shot10-1" component={L3L3_Shot10_1} durationInFrames={L3L3_SHOT_TIMING["shot10-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l3l3-shot10-2" component={L3L3_Shot10_2} durationInFrames={L3L3_SHOT_TIMING["shot10-2"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l3l3-shot11-1" component={L3L3_Shot11_1} durationInFrames={L3L3_SHOT_TIMING["shot11-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
+          <Composition id="l3l3-shot12-1" component={L3L3_Shot12_1} durationInFrames={L3L3_SHOT_TIMING["shot12-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
         </Folder>
       </Folder>
     </>
