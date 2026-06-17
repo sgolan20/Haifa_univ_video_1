@@ -150,7 +150,7 @@ export const Shot7_6: React.FC = () => {
               }),
             }}
           >
-            מה הוא יכול ✓
+            ✓ מה הוא יכול
           </div>
 
           {CAN_ITEMS.map((item, i) => {
@@ -260,7 +260,7 @@ export const Shot7_6: React.FC = () => {
               opacity: dividerIn,
             }}
           >
-            מה הוא לא יכול ✗
+            ✗ מה הוא לא יכול
           </div>
 
           {CANNOT_ITEMS.map((item, i) => {
