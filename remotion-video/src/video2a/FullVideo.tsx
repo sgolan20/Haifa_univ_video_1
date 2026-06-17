@@ -50,7 +50,7 @@ export const FullVideo2A: React.FC = () => {
 
       {/* Opening title card — first 6 seconds (plays its own music) */}
       <Sequence from={0} durationInFrames={TITLE_CARD_FRAMES} name="title-card">
-        <TitleCard title="Hallucinations — כשהבינה המלאכותית משוכנעת בטעויותיה" />
+        <TitleCard title="כשהבינה המלאכותית משוכנעת בטעויותיה — Hallucinations" />
       </Sequence>
 
       {/* Sequence all shots — offset by title card */}

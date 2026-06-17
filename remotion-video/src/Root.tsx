@@ -430,7 +430,7 @@ export const Root: React.FC = () => {
             fps={FPS}
             width={1920}
             height={1080}
-            defaultProps={{ title: "Hallucinations — כשהבינה המלאכותית משוכנעת בטעויותיה" }}
+            defaultProps={{ title: "כשהבינה המלאכותית משוכנעת בטעויותיה — Hallucinations" }}
           />
           <Composition id="v2a-shot1-1" component={V2A_Shot1_1} durationInFrames={V2A_SHOT_TIMING["shot1-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
           <Composition id="v2a-shot2-1" component={V2A_Shot2_1} durationInFrames={V2A_SHOT_TIMING["shot2-1"].durationInFrames} fps={FPS} width={1920} height={1080} />
