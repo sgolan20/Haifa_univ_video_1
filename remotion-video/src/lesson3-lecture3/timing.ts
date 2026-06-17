@@ -1,9 +1,13 @@
 /**
  * Lesson 3 — Lecture 3 — "שקיפות ותיעוד — ציטוט AI ויצירת Appendix" timing map
  *
- * Full narration: 181.79s → 5454 frames @ 30fps.
+ * Full narration: 182.05s → 5462 frames @ 30fps.
  * Boundaries derived from ElevenLabs Scribe word timestamps (full_narration.srt),
  * cut in silence gaps between sentences.
+ *
+ * NOTE: two sentences were re-recorded (pronunciation fixes) and spliced in:
+ * the APA "בַּפֶּלֶט" sentence (shot4-1) and the MLA "הַפֶּלֶט" sentence (shot6-2).
+ * All boundaries below reflect the spliced audio (shot4-1 +0.52s, shot6-2 -0.26s).
  *
  * Structure: opening (transparency is a skill) → overview (3 requirements) →
  * APA intro → APA details (+example image) → APA two purposes →
@@ -34,7 +38,7 @@ const shot = (audioStart: number, duration: number): ShotTiming => ({
 });
 
 /** Total narration duration in seconds (ffprobe). */
-export const NARRATION_DURATION_SEC = 181.79;
+export const NARRATION_DURATION_SEC = 182.05;
 
 export const SHOT_TIMING: Record<string, ShotTiming> = {
   // Scene 1 — Opening: integrity is also about reporting; transparency is a skill
@@ -43,30 +47,30 @@ export const SHOT_TIMING: Record<string, ShotTiming> = {
   "shot2-1": shot(15.64, 9.98),
   // Scene 3 — APA intro: most common in social & natural sciences
   "shot3-1": shot(25.62, 5.74),
-  // Scene 4 — APA details: 4 fields + in-text + reference list (USER IMAGE 1)
-  "shot4-1": shot(31.36, 23.2),
+  // Scene 4 — APA details: 4 fields + in-text + reference list (USER IMAGE 1) — spliced "בַּפֶּלֶט" sentence (+0.52s)
+  "shot4-1": shot(31.36, 23.72),
   // Scene 4 — APA: two different purposes both deserve a citation
-  "shot4-2": shot(54.56, 8.66),
+  "shot4-2": shot(55.08, 8.66),
   // Scene 5 — MLA intro: more common in the humanities
-  "shot5-1": shot(63.22, 4.7),
+  "shot5-1": shot(63.74, 4.7),
   // Scene 6 — MLA details: in-text (ChatGPT) + Works Cited fields incl. the prompt (USER IMAGE 2)
-  "shot6-1": shot(67.92, 16.22),
-  // Scene 6 — MLA: why the prompt? the output depends on the question (USER IMAGE 2)
-  "shot6-2": shot(84.14, 8.2),
+  "shot6-1": shot(68.44, 16.22),
+  // Scene 6 — MLA: why the prompt? the output depends on the question (USER IMAGE 2) — spliced "הַפֶּלֶט" sentence (-0.26s)
+  "shot6-2": shot(84.66, 7.94),
   // Scene 7 — Error 1: vague "AI was used" without any detail
-  "shot7-1": shot(92.34, 13.96),
+  "shot7-1": shot(92.6, 13.96),
   // Scene 7 — Error 2: citing AI as a source, as if a scientific article
-  "shot7-2": shot(106.3, 15.44),
+  "shot7-2": shot(106.56, 15.44),
   // Scene 8 — Appendix intro: what an AI-use appendix is
-  "shot8-1": shot(121.74, 14.7),
+  "shot8-1": shot(122.0, 14.7),
   // Scene 9 — Appendix: what you MUST include (4 items)
-  "shot9-1": shot(136.44, 14.65),
+  "shot9-1": shot(136.7, 14.65),
   // Scene 10 — Appendix: what NOT to include
-  "shot10-1": shot(151.09, 9.41),
+  "shot10-1": shot(151.35, 9.41),
   // Scene 10 — A good appendix: concise, clear, no detail overload
-  "shot10-2": shot(160.5, 6.96),
+  "shot10-2": shot(160.76, 6.96),
   // Scene 11 — Summary: transparency is a skill + goodbye
-  "shot11-1": shot(167.46, 14.33),
+  "shot11-1": shot(167.72, 14.33),
   // Scene 12 — University logo closing (after narration ends)
   "shot12-1": shot(NARRATION_DURATION_SEC, 2.5),
 };

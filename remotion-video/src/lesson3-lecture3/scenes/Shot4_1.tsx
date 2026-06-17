@@ -12,17 +12,17 @@ import { SceneBg, Particles, sp, HL, ExampleImageCard } from "./_shared";
  * 16.78  "ובסוף העבודה, ברשימת המקורות, מוסיפים ערך מלא..."
  */
 const FIELDS = [
-  { text: "שם הכלי", at: 157 },
-  { text: "שנת הגרסה", at: 224 },
-  { text: "שם החברה", at: 263 },
-  { text: "כתובת האתר", at: 290 },
+  { text: "שם הכלי", at: 204 },
+  { text: "שנת הגרסה", at: 239 },
+  { text: "שם החברה", at: 285 },
+  { text: "כתובת האתר", at: 317 },
 ];
 
 export const Shot4_1: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const headline = sp(frame, fps, 8, { stiffness: 85, mass: 0.9 });
-  const img = sp(frame, fps, 341, { damping: 16, stiffness: 80, mass: 0.9 });
+  const img = sp(frame, fps, 356, { damping: 16, stiffness: 80, mass: 0.9 });
 
   return (
     <AbsoluteFill style={{ background: COLORS.bgPrimary, fontFamily: FONT_FAMILY }}>
