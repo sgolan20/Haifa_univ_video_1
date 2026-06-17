@@ -151,7 +151,7 @@ export const Root: React.FC = () => {
   return (
     <>
       {/* ========== VIDEO 1 — What is LLM? ========== */}
-      <Folder name="Video-1-LLM">
+      <Folder name="Lesson1-Lecture1-LLM">
         <Composition
           id="full-video-1"
           component={FullVideo}
@@ -413,7 +413,7 @@ export const Root: React.FC = () => {
       </Folder>
 
       {/* ========== VIDEO 2A — Hallucinations (כשהמודל נשמע משכנע אבל טועה) ========== */}
-      <Folder name="Video-2A-Hallucinations">
+      <Folder name="Lesson1-Lecture2-Hallucinations">
         <Composition
           id="full-video-2a"
           component={FullVideo2A}
@@ -443,7 +443,7 @@ export const Root: React.FC = () => {
       </Folder>
 
       {/* ========== VIDEO 2B — למה מודלי שפה טועים לפעמים? ========== */}
-      <Folder name="Video-2B-Why-Models-Err">
+      <Folder name="Lesson1-Lecture3-Why-Models-Err">
         <Composition
           id="full-video-2b"
           component={FullVideo2B}
