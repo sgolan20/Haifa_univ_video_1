@@ -46,7 +46,7 @@ export const Shot14_1: React.FC = () => {
       {/* two warning lines */}
       <div style={{ position: "absolute", top: 280, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 22, direction: "rtl" }}>
         <div style={{ opacity: l1, transform: `translateY(${(1 - l1) * 18}px)`, fontSize: 42, fontWeight: 700, color: COLORS.text, direction: "rtl", textAlign: "center", maxWidth: 1250, textShadow: "0 2px 12px rgba(0,0,0,0.85)" }}>
-          לא כל מקור שקיים ברשת — ניתן <span style={{ color: R }}>לסמוך עליו</span>
+          לא ניתן לסמוך על כל <span style={{ color: R }}>מקור ברשת</span>
         </div>
         {frame > 208 && (
           <div style={{ opacity: l2, transform: `translateY(${(1 - l2) * 18}px)`, fontSize: 40, fontWeight: 600, color: COLORS.textMuted, direction: "rtl", textAlign: "center" }}>

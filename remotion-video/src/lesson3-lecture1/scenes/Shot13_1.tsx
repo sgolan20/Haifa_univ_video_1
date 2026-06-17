@@ -27,7 +27,7 @@ export const Shot13_1: React.FC = () => {
 
       <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 30 }}>
         <div style={{ transform: `scale(${line})`, opacity: line, fontSize: 38, fontWeight: 600, color: COLORS.text, direction: "rtl", textAlign: "center", textShadow: "0 2px 12px rgba(0,0,0,0.7)" }}>
-          ולו שאלה אחת שהתשובה לה{" "}
+          אם אחת מהתשובות שעניתם היא{" "}
           <span style={{ color: "#fca5a5", fontWeight: 800, padding: "2px 16px", borderRadius: 10, background: `${COLORS.warning}26`, border: `1.5px solid ${COLORS.warning}` }}>"לא"</span>
         </div>
 

@@ -27,7 +27,7 @@ export const Shot4_1: React.FC = () => {
   // Phase B — spectrum tool↔replacement (170–360)
   const bIn = spring({ frame: frame - 175, fps, config: { damping: 17, stiffness: 80, mass: 0.9 } });
   const bOut = interpolate(frame, [350, 375], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const marker = interpolate(frame, [200, 320], [18, 82], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const marker = interpolate(frame, [200, 320], [82, 18], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const blur = interpolate(frame, [240, 320], [0, 6], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   // Phase C — the real question (360+)
@@ -58,7 +58,7 @@ export const Shot4_1: React.FC = () => {
           <div style={{ fontSize: 40, fontWeight: 800, color: COLORS.text, direction: "rtl", textShadow: "0 2px 12px rgba(0,0,0,0.7)" }}>
             הגבול מיטשטש
           </div>
-          <div style={{ position: "relative", width: 1000, height: 26, borderRadius: 999, background: `linear-gradient(90deg, ${COLORS.primary} 0%, ${COLORS.accent} 50%, ${COLORS.warning} 100%)`, boxShadow: "0 0 30px rgba(0,0,0,0.5)", filter: `blur(${blur * 0.4}px)` }}>
+          <div style={{ position: "relative", width: 1000, height: 26, borderRadius: 999, background: `linear-gradient(90deg, ${COLORS.warning} 0%, ${COLORS.accent} 50%, ${COLORS.primary} 100%)`, boxShadow: "0 0 30px rgba(0,0,0,0.5)", filter: `blur(${blur * 0.4}px)` }}>
             <div style={{ position: "absolute", top: "50%", left: `${marker}%`, transform: "translate(-50%,-50%)", width: 40, height: 40, borderRadius: "50%", background: "#fff", border: `3px solid ${COLORS.accent}`, boxShadow: `0 0 24px rgba(255,255,255,0.8)`, filter: `blur(${blur}px)` }} />
           </div>
           <div style={{ width: 1000, display: "flex", justifyContent: "space-between", direction: "rtl" }}>

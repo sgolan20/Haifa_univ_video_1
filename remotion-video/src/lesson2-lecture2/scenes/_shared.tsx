@@ -87,7 +87,7 @@ export const SideIllustration: React.FC<{ img: string; color: string; side?: "le
 };
 
 /** A single FACT-CHECK step: big glowing letter badge + English term + Hebrew heading + staggered points. */
-export const LetterStep: React.FC<{ letter: string; term: string; color: string; heading: React.ReactNode; points: { t: string; d: number }[]; image?: string; imageSide?: "left" | "right" }> = ({ letter, term, color, heading, points, image, imageSide = "left" }) => {
+export const LetterStep: React.FC<{ letter: string; term: string; color: string; heading: React.ReactNode; points: { t: string; d: number; sub?: boolean; icon?: string }[]; image?: string; imageSide?: "left" | "right" }> = ({ letter, term, color, heading, points, image, imageSide = "left" }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const badge = spring({ frame: frame - 4, fps, config: { damping: 14, stiffness: 100, mass: 0.7 } });
@@ -106,9 +106,21 @@ export const LetterStep: React.FC<{ letter: string; term: string; color: string;
       <div style={{ position: "absolute", top: 480, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 16, direction: "rtl" }}>
         {points.map((p, i) => {
           const s = spring({ frame: frame - p.d, fps, config: { damping: 16, stiffness: 95, mass: 0.8 } });
+          if (p.sub) {
+            return (
+              <div key={i} style={{ transform: `translateX(${(1 - s) * 20}px)`, opacity: s, width: 960, paddingRight: 30, direction: "rtl" }}>
+                <span style={{ fontSize: 26, fontWeight: 500, color: `${color}cc`, direction: "rtl", letterSpacing: 2 }}>{p.t}</span>
+              </div>
+            );
+          }
+          const iconColor = p.icon === "x" ? COLORS.warning : p.icon === "v" ? COLORS.primary : color;
+          const iconBg = p.icon === "x" ? `${COLORS.warning}1a` : p.icon === "v" ? `${COLORS.primary}1a` : `${color}1a`;
+          const iconBorder = p.icon === "x" ? `${COLORS.warning}44` : p.icon === "v" ? `${COLORS.primary}44` : `${color}44`;
+          const iconChar = p.icon === "x" ? "✗" : p.icon === "v" ? "✓" : p.icon ?? "◆";
+          const iconSize = p.icon ? 28 : 22;
           return (
-            <div key={i} style={{ transform: `translateX(${(1 - s) * 30}px)`, opacity: s, width: 1000, padding: "16px 30px", borderRadius: 14, background: `linear-gradient(135deg, ${color}1a 0%, rgba(255,255,255,0.03) 100%)`, backdropFilter: "blur(10px)", border: `1.5px solid ${color}44`, display: "flex", alignItems: "center", gap: 18 }}>
-              <span style={{ fontSize: 22, color }}>◆</span>
+            <div key={i} style={{ transform: `translateX(${(1 - s) * 30}px)`, opacity: s, width: 1000, padding: "16px 30px", borderRadius: 14, background: `linear-gradient(135deg, ${iconBg} 0%, rgba(255,255,255,0.03) 100%)`, backdropFilter: "blur(10px)", border: `1.5px solid ${iconBorder}`, display: "flex", alignItems: "center", gap: 18 }}>
+              <span style={{ fontSize: iconSize, color: iconColor, fontWeight: 800 }}>{iconChar}</span>
               <span style={{ fontSize: 32, fontWeight: 600, color: COLORS.text, direction: "rtl" }}>{p.t}</span>
             </div>
           );

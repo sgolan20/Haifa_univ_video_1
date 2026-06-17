@@ -22,8 +22,8 @@ export const Shot10_1: React.FC = () => {
   const { fps } = useVideoConfig();
 
   const title = spring({ frame, fps, config: { damping: 16, stiffness: 90, mass: 0.8 } });
-  const left = spring({ frame: frame - 30, fps, config: { damping: 16, stiffness: 85, mass: 0.8 } });
-  const right = spring({ frame: frame - 55, fps, config: { damping: 16, stiffness: 85, mass: 0.8 } });
+  const left = spring({ frame: frame - 55, fps, config: { damping: 16, stiffness: 85, mass: 0.8 } });
+  const right = spring({ frame: frame - 30, fps, config: { damping: 16, stiffness: 85, mass: 0.8 } });
   const note = spring({ frame: frame - 120, fps, config: { damping: 15, stiffness: 95, mass: 0.7 } });
   const cross = spring({ frame: frame - 245, fps, config: { damping: 12, stiffness: 120, mass: 0.7 } });
   const crossPulse = frame > 245 ? 0.7 + 0.3 * Math.sin(frame * 0.15) : 0;

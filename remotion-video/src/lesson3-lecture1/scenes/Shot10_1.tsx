@@ -44,7 +44,8 @@ export const Shot10_1: React.FC = () => {
       <div style={{ position: "absolute", top: 220, left: 0, right: 0, display: "flex", justifyContent: "center", opacity: statement, transform: `translateY(${interpolate(statement, [0, 1], [22, 0])}px)` }}>
         <div style={{ maxWidth: 1000, padding: "30px 44px", borderRadius: 22, background: "rgba(17,24,39,0.72)", backdropFilter: "blur(14px)", border: `2px solid ${COLORS.warning}55`, textAlign: "center", direction: "rtl" }}>
           <div style={{ fontSize: 36, fontWeight: 700, color: COLORS.text, direction: "rtl", lineHeight: 1.45 }}>
-            כש‑AI כותב עבורכם — אתם עלולים להגיש עבודה{" "}
+            כש‑AI כותב עבורכם —<br />
+            אתם עלולים להגיש עבודה{" "}
             <span style={{ color: "#fca5a5", fontWeight: 800 }}>שאינכם מבינים</span>
           </div>
         </div>
