@@ -723,25 +723,21 @@ export const Shot2_1: React.FC = () => {
             <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 20 }}>
               <div style={{ opacity: answerOpacity }}>
                 <GlassCard
-                  borderColor="#22c55e66"
+                  borderColor={`${COLORS.textMuted}44`}
                   style={{
-                    boxShadow: "0 0 30px rgba(34,197,94,0.08)",
+                    boxShadow: "none",
                   }}
                 >
                   <div
                     style={{
                       fontFamily: FONT_FAMILY,
                       fontSize: 24,
-                      color: "#22c55e",
+                      color: COLORS.textMuted,
                       fontWeight: 700,
                       marginBottom: 16,
                       direction: "rtl",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 10,
                     }}
                   >
-                    <span style={{ fontSize: 28 }}>✓</span>
                     תשובת המודל:
                   </div>
                   <div

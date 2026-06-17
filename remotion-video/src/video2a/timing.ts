@@ -1,8 +1,9 @@
 /**
  * Video 2A — "Hallucinations – כשהמודל נשמע משכנע אבל טועה" timing map
  *
- * Aligned to edited narration audio + Whisper word-level timestamps.
- * Full narration: ~177s (2:57)
+ * Re-derived from ElevenLabs Scribe word-level timestamps on the patched
+ * full_narration.mp3 (2026-06-17). Audio duration: 183.13s.
+ * Boundaries set at the midpoint of the silence between shot narrations.
  */
 
 export const FPS = 30;
@@ -26,26 +27,26 @@ const shot = (audioStart: number, duration: number): ShotTiming => ({
 });
 
 export const SHOT_TIMING: Record<string, ShotTiming> = {
-  // Scene 1 — Opening
+  // Scene 1 — Opening  [first word 0.16s / last "מקצועיים." 26.86s]
   "shot1-1": shot(0, 27.0),
 
-  // Scene 2 — What are Hallucinations?
-  "shot2-1": shot(27.0, 32.0),
+  // Scene 2 — What are Hallucinations?  [first "מהן" 27.56s / last "דוגמאות." 58.54s]
+  "shot2-1": shot(27.0, 31.9),
 
-  // Scene 3 — Example 1: Inaccurate research attribution
-  "shot3-1": shot(59.0, 33.5),
+  // Scene 3 — Example 1: Inaccurate research attribution  [first "דוגמה" 59.20s / last "סבירה." 92.44s]
+  "shot3-1": shot(58.9, 33.8),
 
-  // Scene 4 — Example 2: Plausible numerical data
-  "shot4-1": shot(92.5, 29.5),
+  // Scene 4 — Example 2: Plausible numerical data  [first "דוגמה שתיים" 92.96s / last "מאחוריו." 121.80s]
+  "shot4-1": shot(92.7, 29.4),
 
-  // Scene 5 — Example 3: Summary adds info not in source
-  "shot5-1": shot(122.0, 29.0),
+  // Scene 5 — Example 3: Summary adds info not in source  [first "דוגמה שלוש" 122.42s / last "וטכנולוגיה." 150.40s]
+  "shot5-1": shot(122.1, 28.8),
 
-  // Scene 5b — General warning about all 3 examples
-  "shot5-2": shot(151.0, 12.5),
+  // Scene 5b — General warning about all 3 examples  [first "מה שמאתגר" 151.38s / last "אותן." 163.54s]
+  "shot5-2": shot(150.9, 12.9),
 
-  // Scene 6 — Summary (extended to cover full audio duration of ~183s)
-  "shot6-1": shot(163.5, 19.5),
+  // Scene 6 — Summary + teaser  [first "אז אם" 164.12s / "הבא." 177.0s / audio ends 183.13s]
+  "shot6-1": shot(163.8, 19.3),
 };
 
 /** Ordered list of shot IDs for sequencing */

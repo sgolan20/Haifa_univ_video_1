@@ -221,7 +221,7 @@ export const Shot5_1: React.FC = () => {
           style={{
             fontFamily: FONT_FAMILY,
             fontSize: 36,
-            fontWeight: 500,
+            fontWeight: 800,
             color: "rgba(255,255,255,0.9)",
             direction: "rtl",
             textAlign: "center",
