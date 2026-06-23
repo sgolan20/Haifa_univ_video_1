@@ -17,10 +17,41 @@ import { SceneBg, Particles } from "./_shared";
  *  21.5s  "להתראות."
  */
 const PILLARS = [
-  { text: "מטרת המשימה", icon: "🎯", color: COLORS.primary, at: 246 },
-  { text: "ציפיות המרצה", icon: "🎓", color: COLORS.accent, at: 295 },
-  { text: "מקום הכלי בלמידה", icon: "🧩", color: COLORS.secondary, at: 351 },
+  { text: "מטרת המשימה", kind: "target" as const, color: COLORS.primary, at: 246 },
+  { text: "ציפיות המרצה", kind: "cap" as const, color: COLORS.accent, at: 295 },
+  { text: "מקום הכלי בלמידה", kind: "puzzle" as const, color: COLORS.secondary, at: 351 },
 ];
+
+/** Bright vector icons drawn in each pillar's accent color — visible on the dark cards. */
+const PillarIcon: React.FC<{ kind: "target" | "cap" | "puzzle"; color: string }> = ({ kind, color }) => {
+  if (kind === "target") {
+    return (
+      <svg width={44} height={44} viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+        <circle cx={12} cy={12} r={9.5} stroke={color} strokeWidth={2} />
+        <circle cx={12} cy={12} r={5.2} stroke={color} strokeWidth={2} />
+        <circle cx={12} cy={12} r={1.9} fill={color} />
+      </svg>
+    );
+  }
+  if (kind === "cap") {
+    return (
+      <svg width={44} height={44} viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+        <path d="M12 4 L22 9 L12 14 L2 9 Z" fill={color} fillOpacity={0.22} stroke={color} strokeWidth={1.8} strokeLinejoin="round" />
+        <path d="M6 11 V16 C6 17.7 8.7 19 12 19 C15.3 19 18 17.7 18 16 V11" stroke={color} strokeWidth={1.8} strokeLinecap="round" />
+        <path d="M22 9 V15.4" stroke={color} strokeWidth={1.8} strokeLinecap="round" />
+        <circle cx={22} cy={16} r={1.2} fill={color} />
+      </svg>
+    );
+  }
+  return (
+    <svg width={44} height={44} viewBox="0 0 24 24" style={{ flexShrink: 0 }}>
+      <path
+        d="M20.5 11H19V7c0-1.1-.9-2-2-2h-4V3.5C13 2.12 11.88 1 10.5 1S8 2.12 8 3.5V5H4c-1.1 0-1.99.9-1.99 2v3.8H3.5c1.49 0 2.7 1.21 2.7 2.7s-1.21 2.7-2.7 2.7H2V20c0 1.1.9 2 2 2h3.8v-1.5c0-1.49 1.21-2.7 2.7-2.7 1.49 0 2.7 1.21 2.7 2.7V22H17c1.1 0 2-.9 2-2v-4h1.5c1.38 0 2.5-1.12 2.5-2.5S21.88 11 20.5 11z"
+        fill={color} fillOpacity={0.85}
+      />
+    </svg>
+  );
+};
 
 export const Shot9_1: React.FC = () => {
   const frame = useCurrentFrame();
@@ -65,7 +96,7 @@ export const Shot9_1: React.FC = () => {
           const float = Math.sin((frame + i * 45) * 0.05) * 4;
           return (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 18, minHeight: 96, padding: "26px 42px", borderRadius: 22, direction: "rtl", background: `linear-gradient(160deg, ${p.color}18 0%, rgba(255,255,255,0.045) 100%)`, backdropFilter: "blur(12px)", border: `2px solid ${p.color}70`, boxShadow: `0 12px 38px rgba(0,0,0,0.36), 0 0 34px ${p.color}24`, opacity: pop, transform: `scale(${pop}) translateY(${float}px)` }}>
-              <span style={{ fontSize: 44 }}>{p.icon}</span>
+              <PillarIcon kind={p.kind} color={p.color} />
               <span style={{ fontSize: 37, fontWeight: 850, color: COLORS.text }}>{p.text}</span>
             </div>
           );

@@ -26,6 +26,7 @@ export const Shot7_2: React.FC = () => (
     second={{
       tone: "bad",
       title: "אם המטרה — לפתח את יכולת הכתיבה עצמה",
+      titleAt: 264, // enters with "אם המשימה נועדה לפתח" (151.80s)
       lines: [{ text: "שימוש כזה עשוי להיות מוגבל או אסור", at: 365 }],
     }}
   />

@@ -22,7 +22,7 @@ const shot = (audioStart: number, duration: number): ShotTiming => ({
   durationInFrames: Math.round(duration * FPS),
 });
 
-export const NARRATION_DURATION_SEC = 232.28;
+export const NARRATION_DURATION_SEC = 226.31;
 
 export const SHOT_TIMING: Record<string, ShotTiming> = {
   // Opening: course tasks, vague prompt, wrong direction.
@@ -34,15 +34,16 @@ export const SHOT_TIMING: Record<string, ShotTiming> = {
   // Anatomy of a full prompt — upper reference image.
   "shot4-1": shot(63.02, 48.3),
   // Demonstration: vague vs improved prompt — lower reference image.
-  "shot5-1": shot(111.32, 37.06),
+  // (improved-prompt narration re-recorded to match the green panel; block shortened 5.94s)
+  "shot5-1": shot(111.32, 31.12),
   // What changed: the model no longer has to guess.
-  "shot6-1": shot(148.38, 11.02),
+  "shot6-1": shot(142.44, 11.02),
   // Short prompt can be good when the task is simple.
-  "shot7-1": shot(159.4, 19.94),
+  "shot7-1": shot(153.46, 19.94),
   // Complex academic work needs more context and instructions.
-  "shot8-1": shot(179.34, 20.38),
+  "shot8-1": shot(173.4, 20.38),
   // Summary and teaser for iteration.
-  "shot9-1": shot(199.72, 32.56),
+  "shot9-1": shot(193.78, 32.56),
   // University closing logo.
   "shot10-1": shot(NARRATION_DURATION_SEC, 2.5),
 };

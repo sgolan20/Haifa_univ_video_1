@@ -12,11 +12,11 @@ const MISSING = [
 ];
 
 const IMPROVED = [
-  { text: "סטודנט בקורס", at: 496 },
-  { text: "200 מילים", at: 606 },
-  { text: "שאלת מחקר", at: 718 },
-  { text: "עברית ברורה", at: 875 },
-  { text: "שלוש כותרות", at: 970 },
+  { text: "סטודנט תואר שני", at: 518 },
+  { text: "150 מילה", at: 616 },
+  { text: "שפה אקדמית", at: 690 },
+  { text: "שיטת מחקר וממצאים", at: 748 },
+  { text: "ללא מסקנות הכותב", at: 835 },
 ];
 
 export const Shot5_1: React.FC = () => {
@@ -24,7 +24,7 @@ export const Shot5_1: React.FC = () => {
   const { fps } = useVideoConfig();
   const img = sp(frame, fps, 16);
   const red = sp(frame, fps, 72, { stiffness: 100 });
-  const green = sp(frame, fps, 470, { stiffness: 100 });
+  const green = sp(frame, fps, 484, { stiffness: 100 });
 
   return (
     <SceneShell accent={COLORS.accent} variant="flow">
@@ -35,10 +35,10 @@ export const Shot5_1: React.FC = () => {
           <div
             style={{
               position: "absolute",
-              top: "28%",
-              right: "3.5%",
-              width: "46%",
-              height: "58%",
+              top: "22%",
+              right: "1.5%",
+              width: "47%",
+              height: "68%",
               borderRadius: 20,
               border: `5px solid ${COLORS.warning}`,
               boxShadow: `0 0 42px ${COLORS.warning}88`,
@@ -48,10 +48,10 @@ export const Shot5_1: React.FC = () => {
           <div
             style={{
               position: "absolute",
-              top: "28%",
-              left: "3.5%",
-              width: "46%",
-              height: "58%",
+              top: "22%",
+              left: "2.5%",
+              width: "47%",
+              height: "68%",
               borderRadius: 20,
               border: "5px solid #22c55e",
               boxShadow: "0 0 42px rgba(34,197,94,0.62)",

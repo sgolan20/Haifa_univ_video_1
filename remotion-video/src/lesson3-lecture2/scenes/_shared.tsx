@@ -245,10 +245,10 @@ export const VerdictLayout: React.FC<{
   d: DomainSpec;
   dur: number;
   banner: { kind: VerdictKind; text: string; at: number };
-  first: { tone: "bad" | "good"; title?: string; lines: VerdictLine[] };
+  first: { tone: "bad" | "good"; title?: string; titleAt?: number; lines: VerdictLine[] };
   dividerAt: number;
   dividerLabel?: string;
-  second: { tone: "bad" | "good"; title?: string; lines: VerdictLine[] };
+  second: { tone: "bad" | "good"; title?: string; titleAt?: number; lines: VerdictLine[] };
 }> = ({ d, dur, banner, first, dividerAt, dividerLabel, second }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -257,6 +257,10 @@ export const VerdictLayout: React.FC<{
   const divider = spring({ frame: frame - dividerAt, fps, config: { damping: 16, stiffness: 90, mass: 0.8 } });
   const mk = (lines: VerdictLine[]) =>
     lines.map((l) => ({ text: l.text, appear: spring({ frame: frame - l.at, fps, config: { damping: 15, stiffness: 90, mass: 0.8 } }) }));
+  // Optional independent title entrance — lets the panel (and its title) appear
+  // when the *condition* is narrated, before its detail line is spoken.
+  const titleSpring = (at?: number) =>
+    at === undefined ? undefined : spring({ frame: frame - at, fps, config: { damping: 15, stiffness: 90, mass: 0.8 } });
   return (
     <AbsoluteFill style={{ background: COLORS.bgPrimary, fontFamily: FONT_FAMILY }}>
       <SceneBg img={d.bg} dur={dur} maxOpacity={0.4} />
@@ -274,9 +278,9 @@ export const VerdictLayout: React.FC<{
 
       {/* explanation + alternative */}
       <div style={{ position: "absolute", top: 286, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 30 }}>
-        <VerdictPanel tone={first.tone} title={first.title} lines={mk(first.lines)} />
+        <VerdictPanel tone={first.tone} title={first.title} titleAppear={titleSpring(first.titleAt)} lines={mk(first.lines)} />
         <ContrastDivider appear={divider} label={dividerLabel} />
-        <VerdictPanel tone={second.tone} title={second.title} lines={mk(second.lines)} />
+        <VerdictPanel tone={second.tone} title={second.title} titleAppear={titleSpring(second.titleAt)} lines={mk(second.lines)} />
       </div>
     </AbsoluteFill>
   );
@@ -286,16 +290,18 @@ export const VerdictLayout: React.FC<{
 export const VerdictPanel: React.FC<{
   tone: "bad" | "good";
   title?: string;
+  titleAppear?: number;
   lines: { text: string; appear: number }[];
   width?: number;
-}> = ({ tone, title, lines, width = 1120 }) => {
+}> = ({ tone, title, titleAppear, lines, width = 1120 }) => {
   const color = tone === "bad" ? COLORS.warning : "#22c55e";
-  const anyVisible = lines.some((l) => l.appear > 0.01);
+  const appears = [...lines.map((l) => l.appear), ...(titleAppear !== undefined ? [titleAppear] : [])];
+  const anyVisible = appears.some((a) => a > 0.01);
   if (!anyVisible) return null;
   return (
-    <div style={{ width, padding: "30px 44px", borderRadius: 24, direction: "rtl", background: `linear-gradient(160deg, ${color}16 0%, rgba(255,255,255,0.04) 100%)`, backdropFilter: "blur(12px)", border: `2px solid ${color}5f`, boxShadow: `0 12px 42px rgba(0,0,0,0.38)`, opacity: Math.max(...lines.map((l) => l.appear)) }}>
+    <div style={{ width, padding: "30px 44px", borderRadius: 24, direction: "rtl", background: `linear-gradient(160deg, ${color}16 0%, rgba(255,255,255,0.04) 100%)`, backdropFilter: "blur(12px)", border: `2px solid ${color}5f`, boxShadow: `0 12px 42px rgba(0,0,0,0.38)`, opacity: Math.max(...appears) }}>
       {title && (
-        <div style={{ fontSize: 28, fontWeight: 800, color: tone === "bad" ? "#fca5a5" : "#86efac", marginBottom: 14 }}>{title}</div>
+        <div style={{ fontSize: 28, fontWeight: 800, color: tone === "bad" ? "#fca5a5" : "#86efac", marginBottom: 14, opacity: titleAppear ?? 1 }}>{title}</div>
       )}
       {lines.map((l, i) => (
         <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 16, opacity: l.appear, transform: `translateY(${interpolate(l.appear, [0, 1], [14, 0])}px)`, marginBottom: i < lines.length - 1 ? 14 : 0 }}>

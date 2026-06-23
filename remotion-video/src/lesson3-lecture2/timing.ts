@@ -36,8 +36,8 @@ const shot = (audioStart: number, duration: number): ShotTiming => ({
   durationInFrames: Math.round(duration * FPS),
 });
 
-/** Total narration duration in seconds (ffprobe). */
-export const NARRATION_DURATION_SEC = 198.441;
+/** Total narration duration in seconds (ffprobe). Includes a 0.5s pause inserted in shot5-2. */
+export const NARRATION_DURATION_SEC = 198.941;
 
 export const SHOT_TIMING: Record<string, ShotTiming> = {
   // Scene 1 — Opening: academic integrity is NOT uniform across disciplines
@@ -53,20 +53,21 @@ export const SHOT_TIMING: Record<string, ShotTiming> = {
   // Scene 5 — Example 2: Computer Science — the case
   "shot5-1": shot(73.43, 11.28),
   // Scene 5 — Example 2: CS — the verdict (depends on course guidelines)
-  "shot5-2": shot(84.71, 19.56),
-  // Scene 6 — Example 3: Statistics — the case
-  "shot6-1": shot(104.27, 10.82),
+  // (extended +0.5s: a half-second pause inserted before "עם זאת")
+  "shot5-2": shot(84.71, 20.06),
+  // Scene 6 — Example 3: Statistics — the case (+0.5s shift from inserted pause)
+  "shot6-1": shot(104.77, 10.82),
   // Scene 6 — Example 3: Statistics — the verdict
-  "shot6-2": shot(115.09, 16.39),
+  "shot6-2": shot(115.59, 16.39),
   // Scene 7 — Example 4: Academic writing in English — the case
   // (re-recorded with lead-in + stability 0.65 to fix the v3 warm-up accent drift)
-  "shot7-1": shot(131.48, 10.97),
+  "shot7-1": shot(131.98, 10.97),
   // Scene 7 — Example 4: Writing — the verdict (often YES, with a caveat)
-  "shot7-2": shot(142.45, 15.0),
+  "shot7-2": shot(142.95, 15.0),
   // Scene 8 — So how do you know? The three guiding aspects
-  "shot8-1": shot(157.45, 19.05),
+  "shot8-1": shot(157.95, 19.05),
   // Scene 9 — Summary: judgment required + goodbye (closing words re-recorded)
-  "shot9-1": shot(176.5, 21.94),
+  "shot9-1": shot(177.0, 21.94),
   // Scene 10 — University logo closing (after narration ends)
   "shot10-1": shot(NARRATION_DURATION_SEC, 2.5),
 };

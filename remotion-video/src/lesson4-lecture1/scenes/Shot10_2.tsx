@@ -10,8 +10,8 @@ import { SceneBg, Particles, sp, HL } from "./_shared";
  *  2.72 "ומאפשר לקורא להבין את תהליך הכתיבה ללא עומס פרטים."
  */
 const TRAITS = [
-  { text: "תמציתי", icon: "✦", at: 24 },
-  { text: "ברור", icon: "◆", at: 57 },
+  { text: "תמציתי", icon: "✓", at: 24 },
+  { text: "ברור", icon: "✓", at: 57 },
   { text: "ללא עומס פרטים", icon: "✓", at: 90 },
 ];
 const GREEN = "#22c55e";

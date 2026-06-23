@@ -37,8 +37,9 @@ const shot = (audioStart: number, duration: number): ShotTiming => ({
   durationInFrames: Math.round(duration * FPS),
 });
 
-/** Total narration duration in seconds (ffprobe). */
-export const NARRATION_DURATION_SEC = 182.05;
+/** Total narration duration in seconds (ffprobe). Includes a clean 0.5s pause that
+ *  replaced a bad splice/stray "ל" between "ובמדעי הטבע" and "לפי תקן" (net -0.37s). */
+export const NARRATION_DURATION_SEC = 181.65;
 
 export const SHOT_TIMING: Record<string, ShotTiming> = {
   // Scene 1 — Opening: integrity is also about reporting; transparency is a skill
@@ -46,31 +47,32 @@ export const SHOT_TIMING: Record<string, ShotTiming> = {
   // Scene 2 — Overview: three transparency requirements (APA / MLA / Appendix)
   "shot2-1": shot(15.64, 9.98),
   // Scene 3 — APA intro: most common in social & natural sciences
-  "shot3-1": shot(25.62, 5.74),
+  // (shortened 0.37s: removed a stray "ל" + tightened the gap before "לפי תקן")
+  "shot3-1": shot(25.62, 5.37),
   // Scene 4 — APA details: 4 fields + in-text + reference list (USER IMAGE 1) — spliced "בַּפֶּלֶט" sentence (+0.52s)
-  "shot4-1": shot(31.36, 23.72),
+  "shot4-1": shot(30.99, 23.72),
   // Scene 4 — APA: two different purposes both deserve a citation
-  "shot4-2": shot(55.08, 8.66),
+  "shot4-2": shot(54.71, 8.66),
   // Scene 5 — MLA intro: more common in the humanities
-  "shot5-1": shot(63.74, 4.7),
+  "shot5-1": shot(63.37, 4.7),
   // Scene 6 — MLA details: in-text (ChatGPT) + Works Cited fields incl. the prompt (USER IMAGE 2)
-  "shot6-1": shot(68.44, 16.22),
+  "shot6-1": shot(68.07, 16.22),
   // Scene 6 — MLA: why the prompt? the output depends on the question (USER IMAGE 2) — spliced "הַפֶּלֶט" sentence (-0.26s)
-  "shot6-2": shot(84.66, 7.94),
+  "shot6-2": shot(84.29, 7.94),
   // Scene 7 — Error 1: vague "AI was used" without any detail
-  "shot7-1": shot(92.6, 13.96),
+  "shot7-1": shot(92.23, 13.96),
   // Scene 7 — Error 2: citing AI as a source, as if a scientific article
-  "shot7-2": shot(106.56, 15.44),
+  "shot7-2": shot(106.19, 15.44),
   // Scene 8 — Appendix intro: what an AI-use appendix is
-  "shot8-1": shot(122.0, 14.7),
+  "shot8-1": shot(121.63, 14.7),
   // Scene 9 — Appendix: what you MUST include (4 items)
-  "shot9-1": shot(136.7, 14.65),
+  "shot9-1": shot(136.33, 14.65),
   // Scene 10 — Appendix: what NOT to include
-  "shot10-1": shot(151.35, 9.41),
+  "shot10-1": shot(150.98, 9.41),
   // Scene 10 — A good appendix: concise, clear, no detail overload
-  "shot10-2": shot(160.76, 6.96),
+  "shot10-2": shot(160.39, 6.96),
   // Scene 11 — Summary: transparency is a skill + goodbye
-  "shot11-1": shot(167.72, 14.33),
+  "shot11-1": shot(167.35, 14.33),
   // Scene 12 — University logo closing (after narration ends)
   "shot12-1": shot(NARRATION_DURATION_SEC, 2.5),
 };
