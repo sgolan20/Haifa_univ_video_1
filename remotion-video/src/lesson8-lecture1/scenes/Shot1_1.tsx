@@ -12,7 +12,7 @@ export const Shot1_1: React.FC = () => {
   const { fps } = useVideoConfig();
   const aOut = interpolate(frame, [305, 332], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const bIn = sp(frame, fps, 330, { stiffness: 80 });
-  const stamp = sp(frame, fps, 360, { damping: 12, stiffness: 110 });
+  const stamp = sp(frame, fps, 425, { damping: 12, stiffness: 110 });
 
   return (
     <SceneShell accent={COLORS.primary} variant="grid" bg="shot1_bg.png">

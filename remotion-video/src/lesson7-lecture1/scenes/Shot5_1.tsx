@@ -25,7 +25,7 @@ export const Shot5_1: React.FC = () => {
 
   return (
     <SceneShell accent={COLORS.warning} variant="rings" bg="shot5_bg.png">
-      <TopLabel kicker="נתחיל מהטיות" title="ה-AI לא ניטרלי" at={4} accent={COLORS.warning} />
+      <TopLabel kicker="הטיות" title="ה-AI לא ניטרלי" at={4} accent={COLORS.warning} />
 
       <div style={{ position: "absolute", top: 250, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
         <AiNode scale={node} label="AI" color={COLORS.secondary} />

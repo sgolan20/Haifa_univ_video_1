@@ -1,7 +1,7 @@
 import React from "react";
-import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { Img, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { COLORS } from "../../design/theme";
-import { SceneShell, TopLabel, sp } from "./_shared";
+import { SceneShell, TopLabel, IMG, sp } from "./_shared";
 
 /**
  * Shot 3.1 — The risk: "better" but less yours (26.9–46.9s)
@@ -11,27 +11,37 @@ import { SceneShell, TopLabel, sp } from "./_shared";
  *  13s    "דוגמאות נמחקות; חד/ישיר/אישי → חלק מדי"
  */
 const LOST = [
-  { text: "הקול האישי נעלם", at: 230 },
-  { text: "דוגמאות קטנות נמחקות", at: 300 },
-  { text: "חד וישיר → חלק מדי", at: 370 },
+  { text: "הקול האישי נעלם", at: 312 },
+  { text: "דוגמאות קטנות נמחקות", at: 366 },
+  { text: "חד וישיר → חלק מדי", at: 423 },
 ];
 
 export const Shot3_1: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const big = sp(frame, fps, 70, { stiffness: 85 });
+  const big = sp(frame, fps, 110, { stiffness: 85 });
 
   return (
     <SceneShell accent={COLORS.warning} variant="grid" bg="shot3_bg.png">
       <TopLabel kicker="שימוש חזק — אבל יש סיכון" title="" at={4} accent={COLORS.warning} />
 
-      <div style={{ position: "absolute", top: 200, left: 0, right: 0, display: "flex", justifyContent: "center", opacity: big, transform: `scale(${big})` }}>
-        <div style={{ fontSize: 52, fontWeight: 900, color: COLORS.text, direction: "rtl", textAlign: "center" }}>
+      {/* personal-voice-flattening illustration — left side */}
+      {(() => {
+        const a = sp(frame, fps, 10);
+        return (
+          <div style={{ position: "absolute", left: 70, top: 250, width: 420, opacity: a * 0.95, transform: `translateY(${interpolate(a, [0, 1], [24, 0])}px)` }}>
+            <Img src={IMG("shot3_side.png")} style={{ width: "100%", borderRadius: 20 }} />
+          </div>
+        );
+      })()}
+
+      <div style={{ position: "absolute", top: 200, left: 520, right: 60, display: "flex", justifyContent: "center", opacity: big, transform: `scale(${big})` }}>
+        <div style={{ fontSize: 50, fontWeight: 900, color: COLORS.text, direction: "rtl", textAlign: "center" }}>
           הטקסט <span style={{ color: COLORS.primary }}>"טוב" יותר</span> — אבל <span style={{ color: COLORS.warning }}>פחות שלנו</span>
         </div>
       </div>
 
-      <div style={{ position: "absolute", top: 350, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 18 }}>
+      <div style={{ position: "absolute", top: 360, left: 520, right: 60, display: "flex", flexDirection: "column", alignItems: "center", gap: 18 }}>
         {LOST.map((l, i) => {
           const a = sp(frame, fps, l.at, { stiffness: 95 });
           return (

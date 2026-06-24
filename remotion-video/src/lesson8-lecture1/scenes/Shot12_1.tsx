@@ -27,7 +27,7 @@ export const Shot12_1: React.FC = () => {
       <div style={{ position: "absolute", top: 170, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
         <PromptQuote
           color={COLORS.primary}
-          appear={sp(frame, fps, 30)}
+          appear={sp(frame, fps, 90)}
           width={1340}
           text={'"בעריכה של הטקסטים שלי, שמור על סגנון ישיר, משפטים בינוניים, דוגמאות מהקשר לימודי, וטון ביקורתי אך לא תוקפני. שפר בהירות וזרימה — אבל אל תהפוך את הטקסט לרשמי מדי."'}
         />

@@ -18,7 +18,7 @@ export const Shot1_1: React.FC = () => {
 
   return (
     <SceneShell accent={COLORS.primary} variant="grid" bg="shot1_bg.png">
-      <TopLabel kicker="שיעור 7 · חשיבה ביקורתית" title="לא להסתפק במה שרק נראה טוב" at={6} accent={COLORS.primary} />
+      <TopLabel kicker="שיעור 7 · חשיבה ביקורתית" title="" at={6} accent={COLORS.primary} />
 
       {/* Phase A — recap (mostly under the talking head) */}
       {frame < 326 && (
@@ -33,7 +33,7 @@ export const Shot1_1: React.FC = () => {
         <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 30, opacity: bIn }}>
           <div style={{ fontSize: 47, fontWeight: 700, color: COLORS.textMuted, direction: "rtl" }}>בסרטון זה — שלב נוסף, חשוב ביותר</div>
           <div style={{ transform: `scale(${stamp})`, opacity: stamp, padding: "20px 56px", borderRadius: 18, background: `${COLORS.accent}1f`, border: `2.5px solid ${COLORS.accent}`, boxShadow: `0 0 44px ${COLORS.accent}44`, direction: "rtl" }}>
-            <span style={{ fontSize: 54, fontWeight: 900, color: COLORS.text }}>לא להסתפק בתשובה ש<span style={{ color: COLORS.accent }}>רק נראית</span> טובה</span>
+            <span style={{ fontSize: 54, fontWeight: 900, color: COLORS.text }}>לא להסתפק בתשובה ש<span style={{ color: COLORS.accent }}>רק נראית</span> טוב</span>
           </div>
         </div>
       )}

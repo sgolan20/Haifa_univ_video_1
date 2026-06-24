@@ -17,7 +17,7 @@ const STEPS = [
 export const Shot10_1: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const footer = sp(frame, fps, 470, { damping: 12, stiffness: 105 });
+  const footer = sp(frame, fps, 550, { damping: 12, stiffness: 105 });
 
   return (
     <SceneShell accent={COLORS.primary} variant="flow" bg="shot10_bg.png">

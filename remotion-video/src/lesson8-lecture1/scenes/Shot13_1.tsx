@@ -10,8 +10,8 @@ import { SceneShell, TopLabel, sp } from "./_shared";
 const STEPS = [
   { n: 1, icon: "✍️", title: "טיוטה אנושית", sub: "כותבים את הרעיון בעצמנו", color: COLORS.primary, at: 70 },
   { n: 2, icon: "🤖", title: "עריכת AI מוגדרת", sub: "ליטוש · העמקה · ארגון", color: COLORS.secondary, at: 290 },
-  { n: 3, icon: "🔍", title: "בדיקה אנושית", sub: "מה השתפר · מה נעלם", color: COLORS.accent, at: 510 },
-  { n: 4, icon: "🗣️", title: "החזרת קול אישי", sub: "שהטקסט שוב שלנו", color: "#22c55e", at: 720 },
+  { n: 3, icon: "🔍", title: "בדיקה אנושית", sub: "מה השתפר · מה נעלם", color: COLORS.accent, at: 475 },
+  { n: 4, icon: "🗣️", title: "החזרת קול אישי", sub: "שהטקסט שוב שלנו", color: "#22c55e", at: 662 },
 ];
 
 export const Shot13_1: React.FC = () => {

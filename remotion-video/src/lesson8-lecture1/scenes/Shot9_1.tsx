@@ -12,16 +12,16 @@ import { SceneShell, TopLabel, sp } from "./_shared";
  *  26s    "העריכה לא מסתיימת אצל AI — היא חוזרת אלינו"
  */
 const FIXES = [
-  { from: "ניסוח כללי מדי", to: "להחזיר את הניסוח המקורי", at: 240 },
-  { from: "דוגמה קטנה נמחקה", to: "לשלב אותה מחדש", at: 420 },
-  { from: "הפך לרשמי מדי", to: "להחזיר משפט חד יותר", at: 600 },
+  { from: "ניסוח כללי מדי", to: "להחזיר את הניסוח המקורי", at: 262 },
+  { from: "דוגמה קטנה נמחקה", to: "לשלב אותה מחדש", at: 445 },
+  { from: "הפך לרשמי מדי", to: "להחזיר משפט חד יותר", at: 614 },
 ];
 
 export const Shot9_1: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const head = sp(frame, fps, 16);
-  const footer = sp(frame, fps, 770, { damping: 12, stiffness: 105 });
+  const footer = sp(frame, fps, 800, { damping: 12, stiffness: 105 });
 
   return (
     <SceneShell accent={COLORS.primary} variant="grid" bg="shot9_bg.png">
